@@ -9,4 +9,6 @@ public abstract class Kamer {
 	private boolean isAfgerond;
 	private ArrayList<Monster> monsters;
 
+
+	public abstract String getBeschrijving();
 }
