@@ -5,7 +5,7 @@ import org.scrumEscape.classes.Monster;
 import java.util.ArrayList;
 
 public abstract class Kamer {
-	private String kamerId;
+	private int kamerId;
 	private boolean isAfgerond;
 	private ArrayList<Monster> monsters;
 

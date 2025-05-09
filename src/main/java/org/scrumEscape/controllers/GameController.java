@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class GameController {
     private boolean play;
+    int currentRoom;
 
     public GameController() {
         this.play = true;
@@ -17,12 +18,23 @@ public class GameController {
             System.out.print("> ");
             String nextCommand = s.nextLine().toLowerCase();
 
-            if (nextCommand.equals("stop")) {
-                play = false;
-                System.out.println("Stopped!");
-            } else {
-                System.out.println("Next line: " + nextCommand);
+
+            switch (nextCommand) {
+                case "stop":
+                    play = false;
+                    System.out.println("Stopped!");
+                    break;
+                case "switch":
+                    currentRoom = Integer.parseInt(s.nextLine());
+                    switchRooms(currentRoom);
+                    break;
+                default:
+                    System.out.println("Invalid command!");
             }
         }
+    }
+
+    private void switchRooms(int newRoom) {
+        currentRoom = newRoom;
     }
 }
