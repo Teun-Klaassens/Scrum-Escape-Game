@@ -25,8 +25,9 @@ public class GameController {
                     System.out.println("Stopped!");
                     break;
                 case "switch":
-                    currentRoom = Integer.parseInt(s.nextLine());
-                    switchRooms(currentRoom);
+                    System.out.println("Enter new room nr: ");
+                    switchRooms(s.nextInt());
+                    s.nextLine();
                     break;
                 default:
                     System.out.println("Invalid command!");
@@ -36,5 +37,6 @@ public class GameController {
 
     private void switchRooms(int newRoom) {
         currentRoom = newRoom;
+        System.out.println("You are in room " + currentRoom);
     }
 }
