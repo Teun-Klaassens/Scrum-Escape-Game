@@ -1,10 +1,28 @@
 package org.scrumEscape.controllers;
 
-import org.scrumEscape.base.Kamer;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Scanner;
 
 public class GameController {
-    private Map<String, Kamer> kamers = new HashMap<>();
+    private boolean play;
+
+    public GameController() {
+        this.play = true;
+    }
+
+    public void start() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Start!");
+
+        while (play) {
+            System.out.print("> ");
+            String nextCommand = s.nextLine().toLowerCase();
+
+            if (nextCommand.equals("stop")) {
+                play = false;
+                System.out.println("Stopped!");
+            } else {
+                System.out.println("Next line: " + nextCommand);
+            }
+        }
+    }
 }
