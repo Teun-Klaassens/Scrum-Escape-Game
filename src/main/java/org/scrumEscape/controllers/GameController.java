@@ -22,6 +22,7 @@ public class GameController {
         kamersToevoegen();
 
         while (play) {
+            printMenu();
             System.out.print("> ");
             String nextCommand = s.nextLine().toLowerCase();
 
@@ -33,6 +34,7 @@ public class GameController {
                     break;
                 case "switch":
                 case "s":
+                    printRoomNumbers();
                     System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
                     switchRooms(s.nextInt());
                     s.nextLine();
@@ -56,6 +58,7 @@ public class GameController {
         if (newRoom > 0 && newRoom <= kamers.size()) {
             currentRoom = newRoom;
             System.out.println("You are in room " + currentRoom);
+            kamers.get(currentRoom-1).start();
         } else {
             System.out.println("Invalid room number. Please try again.");
         }
@@ -64,7 +67,17 @@ public class GameController {
     private void printRoomNumbers() {
         System.out.println("Available rooms:");
         for (int i = 0; i < kamers.size(); i++) {
-            System.out.println("Room " + i + ": " + kamers.get(i).getClass().getSimpleName());
+            System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
         }
+    }
+
+    private void printMenu() {
+        System.out.println("\n=== Available Commands ===");
+        System.out.println("switch (s) - Switch to another room");
+        System.out.println("stop      - Exit the game");
+        System.out.println("help (h)  - Show this menu");
+        System.out.println("info (i)  - Show current room information");
+        System.out.println("rooms (r) - Show all available rooms");
+        System.out.println("=====================");
     }
 }
