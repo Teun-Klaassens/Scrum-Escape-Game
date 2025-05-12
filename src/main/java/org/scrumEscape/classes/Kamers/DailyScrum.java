@@ -1,11 +1,11 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Player;
+import org.scrumEscape.classes.Speler;
 import java.util.ArrayList;
 
 public class DailyScrum extends Kamer {
-    ArrayList<Player> teamleden = new ArrayList<>();
+    ArrayList<Speler> teamleden = new ArrayList<>();
 
     void roepen(){
         System.out.println("Vertraging");
