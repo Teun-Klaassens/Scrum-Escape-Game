@@ -9,4 +9,8 @@ public class SprintReview extends Kamer {
         return "Je moet feedback van stakeholders interpreteren en de impact ervan inschatten.";
     }
 
+    public void start() {
+
+    }
+
 }

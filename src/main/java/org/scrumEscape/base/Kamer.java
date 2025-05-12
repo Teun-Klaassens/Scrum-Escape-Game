@@ -11,4 +11,5 @@ public abstract class Kamer {
 
 
 	public abstract String getBeschrijving();
+	public abstract void start();
 }

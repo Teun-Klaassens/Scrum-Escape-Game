@@ -15,4 +15,8 @@ public class DailyScrum extends Kamer {
     public String getBeschrijving() {
         return "Je krijgt een lijst teamleden en moet aangeven wie welke status-update zou geven. Een vergeten update roept het monster “Vertraging” op.";
     }
+
+    public void start() {
+
+    }
 }
