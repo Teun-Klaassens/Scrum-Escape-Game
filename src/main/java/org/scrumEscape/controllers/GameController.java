@@ -1,18 +1,16 @@
 package org.scrumEscape.controllers;
 
-import org.scrumEscape.base.Kamer;
-import org.scrumEscape.base.Kamers.*;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameController {
-    private boolean play;
+    private boolean isPlaying;
+    private int currentRoom;
+    private int huidigeSpelerId;
     int currentRoom;
     ArrayList<Kamer> kamers;
 
     public GameController() {
-        this.play = true;
+        this.isPlaying = true;
         this.kamers = new ArrayList<>();
     }
 
@@ -21,7 +19,7 @@ public class GameController {
         System.out.println("Start!");
         kamersToevoegen();
 
-        while (play) {
+        while (isPlaying) {
             printMenu();
             System.out.print("> ");
             String nextCommand = s.nextLine().toLowerCase();
@@ -29,7 +27,7 @@ public class GameController {
 
             switch (nextCommand) {
                 case "stop":
-                    play = false;
+                    isPlaying = false;
                     System.out.println("Stopped!");
                     break;
                 case "switch":
@@ -44,6 +42,12 @@ public class GameController {
             }
         }
     }
+
+    private void initializeSpeler() {
+
+    }
+
+    private void intializeKamers(){}
 
     private void kamersToevoegen() {
         kamers.add(new DailyScrum());

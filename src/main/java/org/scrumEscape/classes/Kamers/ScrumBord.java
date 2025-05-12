@@ -1,7 +1,6 @@
-package org.scrumEscape.base.Kamers;
+package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import java.util.ArrayList;
 
 public class ScrumBord extends Kamer {
 

@@ -1,4 +1,4 @@
-package org.scrumEscape.base.Kamers;
+package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
@@ -49,7 +49,7 @@ public class SprintPlanning extends Kamer {
 
             System.out.println("\nHuidige totaal: " + totalPoints + "/" + MAX_STORY_POINTS + " story points");
             System.out.println("\nKies een taak nummer om toe te voegen (of -1 om te stoppen): ");
-            
+
             int keuze = scanner.nextInt();
             if (keuze == -1) {
                 planningCompleet = true;
@@ -68,7 +68,7 @@ public class SprintPlanning extends Kamer {
         }
 
         boolean missedEssential = beschikbareTaken.stream().anyMatch(Taak::isEssentieel);
-        
+
         if (missedEssential) {
             System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
             System.out.println("Je hebt niet alle essentiële taken ingepland! Dit zal problemen veroorzaken.");
