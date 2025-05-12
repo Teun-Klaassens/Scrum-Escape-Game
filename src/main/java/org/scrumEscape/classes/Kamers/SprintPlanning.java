@@ -1,9 +1,7 @@
-package org.scrumEscape.base.Kamers;
+package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
-
-import java.util.ArrayList;
 
 public class SprintPlanning extends Kamer {
     Monster ScopeCreep = new Monster();
