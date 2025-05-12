@@ -3,25 +3,26 @@ package org.scrumEscape.controllers;
 import java.util.Scanner;
 
 public class GameController {
-    private boolean play;
-    int currentRoom;
+    private boolean isPlaying;
+    private int currentRoom;
+    private int huidigeSpelerId;
 
     public GameController() {
-        this.play = true;
+        this.isPlaying = true;
     }
 
     public void start() {
         Scanner s = new Scanner(System.in);
         System.out.println("Start!");
 
-        while (play) {
+        while (isPlaying) {
             System.out.print("> ");
             String nextCommand = s.nextLine().toLowerCase();
 
 
             switch (nextCommand) {
                 case "stop":
-                    play = false;
+                    isPlaying = false;
                     System.out.println("Stopped!");
                     break;
                 case "switch":
@@ -33,6 +34,14 @@ public class GameController {
             }
         }
     }
+
+    private void initializeSpeler() {
+
+    }
+
+    private void intializeKamers(){}
+
+
 
     private void switchRooms(int newRoom) {
         currentRoom = newRoom;
