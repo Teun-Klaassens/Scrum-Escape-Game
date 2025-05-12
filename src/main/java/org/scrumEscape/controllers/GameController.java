@@ -41,8 +41,6 @@ public class GameController {
 
     private void intializeKamers(){}
 
-
-
     private void switchRooms(int newRoom) {
         currentRoom = newRoom;
     }
