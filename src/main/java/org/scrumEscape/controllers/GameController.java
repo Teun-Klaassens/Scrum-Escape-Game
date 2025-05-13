@@ -1,12 +1,16 @@
 package org.scrumEscape.controllers;
 
+import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Kamers.*;
+
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameController {
     private boolean isPlaying;
     private int currentRoom;
     private int huidigeSpelerId;
-    int currentRoom;
     ArrayList<Kamer> kamers;
 
     public GameController() {
