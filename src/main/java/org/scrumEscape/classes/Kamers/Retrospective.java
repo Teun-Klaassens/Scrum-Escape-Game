@@ -10,4 +10,8 @@ public class Retrospective extends Kamer {
     public String getBeschrijving() {
         return "Je krijgt situaties die zich in een team voordoen en moet aangeven wat het team hiervan kan leren.";
     }
+
+    public void start() {
+
+    }
 }

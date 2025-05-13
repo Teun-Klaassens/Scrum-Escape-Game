@@ -36,5 +36,5 @@ public class Taak {
 	}
 
 	public void sendAntwoord(String antwoord) {
- 	}
+	}
 }
