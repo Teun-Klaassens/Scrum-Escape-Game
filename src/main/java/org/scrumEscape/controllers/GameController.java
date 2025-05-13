@@ -21,42 +21,35 @@ public class GameController {
     public GameController(Scanner scanner) {
         this.s = scanner;
         this.isRunning = true;
-         System.out.println("Welcome to Scrum Escape!");
-    }
+     }
 
     public void start() {
          if(huidigeSpeler == null) {
             System.out.println("Enter your unique player name: ");
-
-            // Add a while loop to avoid empty names
-            while(huidigeSpeler == null) {
+             while(huidigeSpeler == null) {
                 String naam = s.nextLine().trim();
                 if(naam.isEmpty())return;
                 initializeSpeler(naam);
             }
-            System.out.println("Scrum Escape game is starting...");
-            isPlaying  = true;
-            printMenu();
-        }
+             MenuController.gameStarting();
+             isPlaying  = true;
+         }
 
         while (isPlaying) {
             String nextCommand = s.nextLine().toLowerCase().trim(); // Added trim to avoid issue
 
             switch (nextCommand) {
                 case "sc" :
-                    printMenu();
+                   MenuController.printMenu();
                 case "stop":
                     isPlaying = false;
-                    System.out.println("Stopped!");
-                    break;
-                case "switch":
+                     break;
                 case "s":
                     printRoomNumbers();
                     System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
                     switchRooms(s.nextInt());
                     s.nextLine();
                     break;
-
                 default:
                     System.out.println("Invalid command!");
             }
@@ -97,17 +90,5 @@ public class GameController {
         for (int i = 0; i < kamers.size(); i++) {
             System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
         }
-    }
-
-    private void printMenu() {
-        System.out.println("\n=== Available Commands ===");
-        System.out.println("switch (s) - Switch to another room");
-        System.out.println("stop ( )   - Exit the game");
-        System.out.println("help (h)   - Show this menu");
-        System.out.println("info (i)   - Show current room information");
-        System.out.println("rooms (r)  - Show all available rooms");
-        System.out.println("close (x) - Close the application");
-        System.out.println("commands (sc) - how all available commands");
-        System.out.println("=====================");
     }
 }

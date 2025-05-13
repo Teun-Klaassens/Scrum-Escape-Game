@@ -1,6 +1,7 @@
 package org.scrumEscape;
 
 import org.scrumEscape.controllers.GameController;
+import org.scrumEscape.controllers.MenuController;
 
 import java.util.Scanner;
 
@@ -9,7 +10,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        MenuController.printWelcome();
         GameController gameController = new GameController(scanner);
         gameController.start();
-    }
+
+        scanner.close();
+        MenuController.applicationClosing();
+     }
 }
