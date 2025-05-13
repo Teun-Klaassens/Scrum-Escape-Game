@@ -2,7 +2,6 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.classes.Taak;
 import org.scrumEscape.classes.TaakSprintPlanning;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SprintPlanning extends Kamer {
-    private Monster scopeCreep;
+    final private Monster scopeCreep;
     private ArrayList<TaakSprintPlanning> beschikbareTaken;
     private final int MAX_STORY_POINTS = 20;
     private boolean isAfgerond;
