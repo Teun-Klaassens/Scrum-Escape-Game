@@ -35,10 +35,15 @@ public class GameController {
              isPlaying  = true;
          }
 
-        while (isPlaying) {
+        while (isPlaying || isRunning) {
             String nextCommand = s.nextLine().toLowerCase().trim(); // Added trim to avoid issue
 
             switch (nextCommand) {
+                case "x":
+                    isPlaying = false;
+                    isRunning = false;
+                    break;
+                    ///////
                 case "sc" :
                    MenuController.printMenu();
                 case "stop":
