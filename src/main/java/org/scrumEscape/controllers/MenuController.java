@@ -12,6 +12,7 @@ public class MenuController {
 		System.out.println("==================================");
 		System.out.println("Scrum Escape game is starting...");
 		System.out.println("==================================");
+		printMenu();
 	}
 
 	public static void header() {
