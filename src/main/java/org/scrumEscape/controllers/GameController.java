@@ -16,7 +16,7 @@ public class GameController {
 
    // Game properties
     private Speler huidigeSpeler;
-    ArrayList<Kamer> kamers;
+    private ArrayList<Kamer> kamers = new ArrayList<>();
 
     public GameController(Scanner scanner) {
         this.s = scanner;
@@ -66,10 +66,12 @@ public class GameController {
         System.out.println("Player " + naam + " has been created.");
         kamers = new ArrayList<>();
         kamersToevoegen();
-        intializeKamers();
+        initializeKamers();
     }
 
-    private void intializeKamers(){}
+    private void initializeKamers(){
+
+    }
 
     private void kamersToevoegen() {
         kamers.add(new DailyScrum());
