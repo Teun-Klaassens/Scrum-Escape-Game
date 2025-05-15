@@ -1,4 +1,4 @@
-package org.scrumEscape.classes;
+package org.scrumEscape.classes.taak;
 
 public class TaakSprintPlanning {
     private String beschrijving;

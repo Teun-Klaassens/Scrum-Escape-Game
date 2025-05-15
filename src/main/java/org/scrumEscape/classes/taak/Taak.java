@@ -1,4 +1,4 @@
-package org.scrumEscape.classes;
+package org.scrumEscape.classes.taak;
 
 public class Taak {
 	private final String taakId;
