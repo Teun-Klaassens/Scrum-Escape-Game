@@ -3,6 +3,7 @@ package org.scrumEscape.classes.Kamers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
+import org.scrumEscape.classes.taak.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class SprintPlanning extends Kamer {
     final private Monster scopeCreep;
-    private ArrayList<MultiChoice> sprintPlanningVragen;
+    private ArrayList<TaakStrategie> sprintPlanningVragen;
     private final int MINIMUM_CORRECTE_ANTWOORDEN = 3;
     private Scanner scanner;
 
@@ -101,10 +102,38 @@ public class SprintPlanning extends Kamer {
     private int behandelVragen() {
         int correcteAntwoorden = 0;
         
-        for (MultiChoice vraag : sprintPlanningVragen) {
-            if (vraag.behandel()) {
-                correcteAntwoorden++;
+        for (TaakStrategie vraag : sprintPlanningVragen) {
+            vraag.toon();
+            System.out.print("\nJouw antwoord (geef het nummer): ");
+            
+            try {
+                int keuze = scanner.nextInt();
+                scanner.nextLine(); // Clear buffer
+                
+                // Voor MultiChoice, we moeten het nummer naar tekst converteren
+                String antwoordText = "";
+                if (vraag instanceof MultiChoice) {
+                    MultiChoice mcVraag = (MultiChoice) vraag;
+                    if (keuze >= 1 && keuze <= mcVraag.getKeuzes().size()) {
+                        antwoordText = mcVraag.getKeuzes().get(keuze - 1);
+                    }
+                } else {
+                    // Voor andere types zoals gewone Vraag
+                    antwoordText = String.valueOf(keuze);
+                }
+                
+                boolean correct = vraag.valideer(antwoordText);
+                if (correct) {
+                    vraag.geldigAntwoord();
+                    correcteAntwoorden++;
+                } else {
+                    vraag.ongeldigAntwoord();
+                }
+            } catch (Exception e) {
+                System.out.println("Ongeldige invoer. Voer een nummer in.");
+                scanner.nextLine(); // discard invalid input
             }
+            
             toonVoortgang(correcteAntwoorden);
             wachtOpGebruiker();
         }
