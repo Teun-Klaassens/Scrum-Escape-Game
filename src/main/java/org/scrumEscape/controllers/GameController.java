@@ -87,6 +87,7 @@ public class GameController {
             currentRoomIndex = newRoom;
             System.out.println("You are in room " + currentRoomIndex);
             kamers.get(currentRoomIndex -1).start();
+            MenuController.printMenu();
         } else {
             System.out.println("Invalid room number. Please try again.");
         }

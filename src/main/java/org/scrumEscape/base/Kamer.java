@@ -1,7 +1,7 @@
 package org.scrumEscape.base;
 
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.classes.Taak;
+import org.scrumEscape.classes.taak.Taak;
 import org.scrumEscape.interfaces.IKamerState;
 
 import java.util.ArrayList;
