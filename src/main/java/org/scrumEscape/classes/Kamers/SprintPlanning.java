@@ -2,6 +2,7 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.classes.taak.TaakStrategie;
 
@@ -14,6 +15,7 @@ public class SprintPlanning extends Kamer {
     private ArrayList<TaakStrategie> sprintPlanningVragen;
     private final int MINIMUM_CORRECTE_ANTWOORDEN = 3;
     private Scanner scanner;
+    private Speler speler;
 
     public SprintPlanning() {
         this.scopeCreep = new Monster();
@@ -168,6 +170,8 @@ public class SprintPlanning extends Kamer {
     private void toonSuccesBericht() {
         System.out.println("\nGefeliciteerd! Je hebt voldoende kennis van Sprint Planning aangetoond.");
         System.out.println("Je team kan nu een succesvolle Sprint Planning uitvoeren en het Scope Creep Monster blijft op afstand!");
+
+        speler.voegBehaaldeKamerToe(this);//voegt de kamer toe bij afronden.
     }
     
     private void toonMisluktBericht() {

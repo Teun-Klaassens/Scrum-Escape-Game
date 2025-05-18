@@ -31,11 +31,12 @@ public class MenuController {
 		System.out.println("==================================");
 		System.out.println("Commands:");
 		System.out.println("switch (s) - Switch to another room");
-		System.out.println("stop ( )   - Exit the game");
+		System.out.println("Status (stats) - Shows status of the player");
+		System.out.println("stop ( )   - Exit the game");// Is dit niet dubbel?? XX Andre
 		System.out.println("help (h)   - Show this menu");
 		System.out.println("info (i)   - Show current room information");
 		System.out.println("rooms (r)  - Show all available rooms");
-		System.out.println("close (x) - Close the application");
+		System.out.println("close (x) - Close the application");//Like dit werkt maar is die andere niet overbodig?
 		System.out.println("commands (sc) - how all available commands");
 		System.out.println("==================================");
 	}

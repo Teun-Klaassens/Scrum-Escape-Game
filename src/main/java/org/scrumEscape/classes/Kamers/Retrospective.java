@@ -1,12 +1,19 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Speler;
+import org.scrumEscape.interfaces.ISpelerOntvanger;
 
 import java.util.Scanner;
 
-public class Retrospective extends Kamer{
+public class Retrospective extends Kamer implements ISpelerOntvanger {
     private int score = 0;
     private final Scanner scanner = new Scanner(System.in);
+    private Speler speler;
+
+    public void setSpeler(Speler speler) {
+        this.speler = speler;
+    }
 
     @Override
     public String getBeschrijving() {
@@ -23,6 +30,8 @@ public class Retrospective extends Kamer{
         vraag3();
 
         System.out.println("\nJe hebt " + score + " van de 3 vragen correct beantwoord.");
+
+        speler.voegBehaaldeKamerToe(this);//voegt de kamer toe bij afronden.
     }
 
     private void vraag1() {
@@ -104,4 +113,5 @@ public class Retrospective extends Kamer{
         }
         return antwoord;
     }
+
 }

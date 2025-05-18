@@ -3,6 +3,8 @@ package org.scrumEscape.controllers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
+import org.scrumEscape.interfaces.ISpelerOntvanger;
+
 
 
 import java.util.ArrayList;
@@ -55,6 +57,9 @@ public class GameController {
                     switchRooms(s.nextInt());
                     s.nextLine();
                     break;
+                case "stats":
+                    System.out.println(huidigeSpeler.getStatus());
+                    break;
                 default:
                     System.out.println("Invalid command!");
             }
@@ -67,6 +72,11 @@ public class GameController {
         kamers = new ArrayList<>();
         kamersToevoegen();
         initializeKamers();
+        for (Kamer kamer : kamers) {
+            if (kamer instanceof ISpelerOntvanger) {
+                ((ISpelerOntvanger) kamer).setSpeler(huidigeSpeler);
+            }
+        }
     }
 
     private void initializeKamers(){
