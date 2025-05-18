@@ -15,7 +15,12 @@ public class SprintPlanning extends Kamer {
     private boolean isAfgerond;
 
     public SprintPlanning() {
-        this.scopeCreep = new Monster();
+        this.scopeCreep =
+                new Monster(){
+                    public String getNaam() {
+                        return "Scope Creep";
+                    }
+                };
         this.beschikbareTaken = new ArrayList<>();
         initializeTaken();
     }

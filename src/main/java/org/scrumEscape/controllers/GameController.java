@@ -3,8 +3,12 @@ package org.scrumEscape.controllers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
+import org.scrumEscape.classes.SpelerDAO;
 
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +17,8 @@ public class GameController {
     private boolean isRunning;
     private boolean isPlaying;
     private int currentRoomIndex =0 ;
+    private SpelerDAO spelerDAO;
+    private Connection dbConnection;
 
    // Game properties
     private Speler huidigeSpeler;
@@ -21,16 +27,46 @@ public class GameController {
     public GameController(Scanner scanner) {
         this.s = scanner;
         this.isRunning = true;
+        try {
+            dbConnection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/scrumgame", "root", "Olick160977!");
+            spelerDAO = new SpelerDAO(dbConnection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
      }
 
     public void start() {
          if(huidigeSpeler == null) {
-            System.out.println("Enter your unique player name: ");
-             while(huidigeSpeler == null) {
-                String naam = s.nextLine().trim();
-                if(naam.isEmpty())return;
-                initializeSpeler(naam);
-            }
+             System.out.println("Wil jij (1) een nieuw account aanmaken of (2) een bestaand account gebruiken? Typ 1 of 2 in:");
+             String keuze = s.nextLine().trim();
+             if (keuze.equals("2")) {
+                 System.out.println("Typ jouw naam in:");
+                 String naam = s.nextLine().trim();
+                 loadSpeler(naam);
+                 if (huidigeSpeler != null) {
+                     System.out.println("Welkom terug, " + naam + "!");
+                 } else {
+                     System.out.println("Naam niet gevonden. Maak een account aan.");
+                     return;
+                 }
+             } else if (keuze.equals("1")) {
+                 System.out.println("Typ jouw naam in:");
+                 String naam = s.nextLine().trim();
+                 try {
+                     if (spelerDAO.loadSpeler(naam) != null) {
+                         System.out.println("Deze naam is al in gebruik. Kies een andere naam.");
+                         return;
+                     }
+                 } catch (SQLException e) {
+                     throw new RuntimeException(e);
+                 }
+                 initializeSpeler(naam);
+             } else {
+                 System.out.println("Dit is geen optie!");
+                 return;
+             }
+
              MenuController.gameStarting();
              isPlaying  = true;
          }
@@ -40,6 +76,7 @@ public class GameController {
 
             switch (nextCommand) {
                 case "x":
+                    saveCurrentSpeler();
                     isPlaying = false;
                     isRunning = false;
                     break;
@@ -57,6 +94,26 @@ public class GameController {
                     break;
                 default:
                     System.out.println("Invalid command!");
+            }
+        }
+    }
+
+    public void saveCurrentSpeler() {
+        if (huidigeSpeler != null && spelerDAO != null) {
+            try {
+                spelerDAO.saveSpeler(huidigeSpeler);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void loadSpeler(String naam) {
+        if (spelerDAO != null) {
+            try {
+                huidigeSpeler = spelerDAO.loadSpeler(naam);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
