@@ -7,6 +7,7 @@ public class Monster {
             case "sprintplanning":
                 System.out.println("SCOPE CREEP!");
                 System.out.println("Er zijn essentiële taken vergeten. De planning loopt uit de hand.");
+                System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
                 break;
             case "dailyscrum":
                 System.out.println("VERTRAGING!");
