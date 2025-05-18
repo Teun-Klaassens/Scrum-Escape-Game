@@ -54,7 +54,7 @@ public class DailyScrum extends Kamer {
 
         for (String teamlid : teamleden) {
             if (!antwoorden.contains(teamlid)) {
-                System.out.println(teamlid.substring(0, 1).toUpperCase() + teamlid.substring(1) + " heeft geen update gegeven!");
+                System.out.println(teamlid  + " heeft geen update gegeven!");
                 vertraging = true;
             }
         }
