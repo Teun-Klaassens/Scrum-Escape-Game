@@ -76,9 +76,7 @@ public class SprintPlanning extends Kamer {
         boolean missedEssential = beschikbareTaken.stream().anyMatch(TaakSprintPlanning::isEssentieel);
 
         if (missedEssential) {
-            System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
-            System.out.println("Je hebt niet alle essentiële taken ingepland! Dit zal problemen veroorzaken.");
-//            scopeCreep.attack();
+            scopeCreep.attack("SprintPlanning");
         } else {
             System.out.println("\nGoede planning! Alle essentiële taken zijn ingepland.");
             System.out.println("Totaal aantal story points: " + totalPoints);
