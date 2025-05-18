@@ -1,4 +1,4 @@
-package org.scrumEscape.classes.taak;
+package org.scrumEscape.classes.Taak;
 
 import java.util.ArrayList;
 import java.util.Scanner;

@@ -2,8 +2,8 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.classes.taak.MultiChoice;
-import org.scrumEscape.classes.taak.TaakStrategie;
+import org.scrumEscape.classes.Taak.MultiChoice;
+import org.scrumEscape.classes.Taak.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.Arrays;

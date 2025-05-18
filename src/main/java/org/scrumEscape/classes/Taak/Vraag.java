@@ -1,4 +1,4 @@
-package org.scrumEscape.classes.taak;
+package org.scrumEscape.classes.Taak;
 
 public class Vraag implements TaakStrategie{
     final String vraag;

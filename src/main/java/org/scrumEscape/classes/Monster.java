@@ -1,4 +1,5 @@
 package org.scrumEscape.classes;
 
-public class Monster {
+public class Monster
+{
 }
