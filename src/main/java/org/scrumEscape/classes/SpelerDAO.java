@@ -1,6 +1,5 @@
 package org.scrumEscape.classes;
 
-import org.scrumEscape.classes.Speler;
 import java.sql.*;
 
 public class SpelerDAO {
