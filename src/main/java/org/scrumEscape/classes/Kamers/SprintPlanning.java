@@ -3,6 +3,7 @@ package org.scrumEscape.classes.Kamers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
+import org.scrumEscape.classes.taak.TaakSprintPlanning;
 import org.scrumEscape.classes.taak.TaakStrategie;
 
 import java.util.ArrayList;
@@ -12,13 +13,16 @@ import java.util.Scanner;
 public class SprintPlanning extends Kamer {
     final private Monster scopeCreep;
     private ArrayList<TaakStrategie> sprintPlanningVragen;
+    private ArrayList<TaakSprintPlanning> beschikbareTaken;
     private final int MINIMUM_CORRECTE_ANTWOORDEN = 3;
     private Scanner scanner;
 
     public SprintPlanning() {
         this.scopeCreep = new Monster();
         this.sprintPlanningVragen = new ArrayList<>();
+        this.beschikbareTaken = new ArrayList<>();
         initializeVragen();
+        initializeTaken();
     }
 
     private void initializeVragen() {
@@ -83,6 +87,14 @@ public class SprintPlanning extends Kamer {
             "Het team beschermen tegen veranderende eisen tijdens de sprint"
         ));
     }
+    
+    private void initializeTaken() {
+        beschikbareTaken.add(new TaakSprintPlanning("User story's prioriteren", 3, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Capaciteit van het team bepalen", 2, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Sprint Goal opstellen", 2, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Taken opsplitsen in kleinere eenheden", 5, false));
+        beschikbareTaken.add(new TaakSprintPlanning("Acceptatiecriteria bespreken", 3, false));
+    }
 
     public void start() {
         scanner = new Scanner(System.in);
@@ -138,12 +150,16 @@ public class SprintPlanning extends Kamer {
             wachtOpGebruiker();
         }
 
-        boolean missedEssential = beschikbareTaken.stream().anyMatch(TaakSprintPlanning::isEssentieel);
-
-        if (missedEssential) {
-            scopeCreep.attack("SprintPlanning");
-
         return correcteAntwoorden;
+    }
+    
+    private void checkEssentialTasks() {
+        boolean missedEssential = beschikbareTaken.stream().anyMatch(TaakSprintPlanning::isEssentieel);
+        
+        if (missedEssential) {
+            System.out.println("Je hebt essentiële Sprint Planning taken gemist!");
+            scopeCreep.attack("SprintPlanning");
+        }
     }
 
     private void toonVoortgang(int correcteAntwoorden) {
@@ -179,7 +195,7 @@ public class SprintPlanning extends Kamer {
         System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
         System.out.println("Je kennis van Sprint Planning is onvoldoende! Het Scope Creep Monster valt je aan.");
         System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
-        // scopeCreep.attack(); - Uncomment if Monster.attack() is implemented
+        scopeCreep.attack("SprintPlanning");
     }
 
     @Override

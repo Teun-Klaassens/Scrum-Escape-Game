@@ -29,7 +29,7 @@ public class DailyScrum extends Kamer {
 
         // Teamleden
         teamleden.add("teun");
-        teamleden.add("roddy");
+        teamleden.add("roody");
         teamleden.add("kyran");
         teamleden.add("andre");
 
