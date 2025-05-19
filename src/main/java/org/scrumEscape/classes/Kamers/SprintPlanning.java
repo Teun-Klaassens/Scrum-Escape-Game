@@ -3,6 +3,7 @@ package org.scrumEscape.classes.Kamers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
+import org.scrumEscape.classes.taak.TaakSprintPlanning;
 import org.scrumEscape.classes.taak.TaakStrategie;
 
 import java.util.ArrayList;
@@ -12,13 +13,16 @@ import java.util.Scanner;
 public class SprintPlanning extends Kamer {
     final private Monster scopeCreep;
     private ArrayList<TaakStrategie> sprintPlanningVragen;
+    private ArrayList<TaakSprintPlanning> beschikbareTaken;
     private final int MINIMUM_CORRECTE_ANTWOORDEN = 3;
     private Scanner scanner;
 
     public SprintPlanning() {
         this.scopeCreep = new Monster();
         this.sprintPlanningVragen = new ArrayList<>();
+        this.beschikbareTaken = new ArrayList<>();
         initializeVragen();
+        initializeTaken();
     }
 
     private void initializeVragen() {
@@ -30,7 +34,7 @@ public class SprintPlanning extends Kamer {
 
         sprintPlanningVragen.add(new MultiChoice(
             "Wat is het primaire doel van een Sprint Planning?",
-            keuzes1, 
+            keuzes1,
             "De Sprint Goal vaststellen"
         ));
 
@@ -42,7 +46,7 @@ public class SprintPlanning extends Kamer {
         ));
         sprintPlanningVragen.add(new MultiChoice(
             "Wie moet aanwezig zijn bij een Sprint Planning?",
-            keuzes2, 
+            keuzes2,
             "Alle bovenstaande"
         ));
 
@@ -55,7 +59,7 @@ public class SprintPlanning extends Kamer {
         ));
         sprintPlanningVragen.add(new MultiChoice(
             "Welke schattingsmethode wordt vaak gebruikt in Scrum?",
-            keuzes3, 
+            keuzes3,
             "Story Points"
         ));
 
@@ -67,7 +71,7 @@ public class SprintPlanning extends Kamer {
         ));
         sprintPlanningVragen.add(new MultiChoice(
             "Wat is de definitie van 'Velocity' in Scrum?",
-            keuzes4, 
+            keuzes4,
             "De hoeveelheid werk die een team kan voltooien in een sprint"
         ));
 
@@ -79,9 +83,17 @@ public class SprintPlanning extends Kamer {
         ));
         sprintPlanningVragen.add(new MultiChoice(
             "Wat is het doel van het vastleggen van de Sprint Backlog?",
-            keuzes5, 
+            keuzes5,
             "Het team beschermen tegen veranderende eisen tijdens de sprint"
         ));
+    }
+    
+    private void initializeTaken() {
+        beschikbareTaken.add(new TaakSprintPlanning("User story's prioriteren", 3, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Capaciteit van het team bepalen", 2, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Sprint Goal opstellen", 2, true));
+        beschikbareTaken.add(new TaakSprintPlanning("Taken opsplitsen in kleinere eenheden", 5, false));
+        beschikbareTaken.add(new TaakSprintPlanning("Acceptatiecriteria bespreken", 3, false));
     }
 
     public void start() {
@@ -90,7 +102,7 @@ public class SprintPlanning extends Kamer {
         int correcteAntwoorden = behandelVragen();
         toonResultaten(correcteAntwoorden);
     }
-    
+
     private void toonWelkomBericht() {
         System.out.println("\n=== Welkom bij de Sprint Planning ===");
         System.out.println("Je krijgt 5 meerkeuze vragen over Sprint Planning.");
@@ -98,18 +110,18 @@ public class SprintPlanning extends Kamer {
         System.out.println("Druk op ENTER om te beginnen...");
         scanner.nextLine();
     }
-    
+
     private int behandelVragen() {
         int correcteAntwoorden = 0;
-        
+
         for (TaakStrategie vraag : sprintPlanningVragen) {
             vraag.toon();
             System.out.print("\nJouw antwoord (geef het nummer): ");
-            
+
             try {
                 int keuze = scanner.nextInt();
                 scanner.nextLine(); // Clear buffer
-                
+
                 // Voor MultiChoice, we moeten het nummer naar tekst converteren
                 String antwoordText = "";
                 if (vraag instanceof MultiChoice) {
@@ -121,7 +133,7 @@ public class SprintPlanning extends Kamer {
                     // Voor andere types zoals gewone Vraag
                     antwoordText = String.valueOf(keuze);
                 }
-                
+
                 boolean correct = vraag.valideer(antwoordText);
                 if (correct) {
                     vraag.geldigAntwoord();
@@ -133,48 +145,57 @@ public class SprintPlanning extends Kamer {
                 System.out.println("Ongeldige invoer. Voer een nummer in.");
                 scanner.nextLine(); // discard invalid input
             }
-            
+
             toonVoortgang(correcteAntwoorden);
             wachtOpGebruiker();
         }
-        
+
         return correcteAntwoorden;
     }
     
+    private void checkEssentialTasks() {
+        boolean missedEssential = beschikbareTaken.stream().anyMatch(TaakSprintPlanning::isEssentieel);
+        
+        if (missedEssential) {
+            System.out.println("Je hebt essentiële Sprint Planning taken gemist!");
+            scopeCreep.attack("SprintPlanning");
+        }
+    }
+
     private void toonVoortgang(int correcteAntwoorden) {
         System.out.println("\nJe hebt momenteel " + correcteAntwoorden + " van de " + sprintPlanningVragen.size() + " vragen correct beantwoord.");
     }
-    
+
     private void wachtOpGebruiker() {
         System.out.println("Druk op ENTER om door te gaan...");
         scanner.nextLine();
     }
-    
+
     private void toonResultaten(int correcteAntwoorden) {
         System.out.println("\n=== Sprint Planning Resultaten ===");
         System.out.println("Je hebt " + correcteAntwoorden + " van de " + sprintPlanningVragen.size() + " vragen correct beantwoord.");
-        
+
         if (isVoldoendeAntwoorden(correcteAntwoorden)) {
             toonSuccesBericht();
         } else {
             toonMisluktBericht();
         }
     }
-    
+
     private boolean isVoldoendeAntwoorden(int correcteAntwoorden) {
         return correcteAntwoorden >= MINIMUM_CORRECTE_ANTWOORDEN;
     }
-    
+
     private void toonSuccesBericht() {
         System.out.println("\nGefeliciteerd! Je hebt voldoende kennis van Sprint Planning aangetoond.");
         System.out.println("Je team kan nu een succesvolle Sprint Planning uitvoeren en het Scope Creep Monster blijft op afstand!");
     }
-    
+
     private void toonMisluktBericht() {
         System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
         System.out.println("Je kennis van Sprint Planning is onvoldoende! Het Scope Creep Monster valt je aan.");
         System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
-        // scopeCreep.attack(); - Uncomment if Monster.attack() is implemented
+        scopeCreep.attack("SprintPlanning");
     }
 
     @Override
