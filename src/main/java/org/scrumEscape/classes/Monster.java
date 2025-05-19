@@ -11,7 +11,7 @@ public class Monster {
                 break;
             case "dailyscrum":
                 System.out.println("VERTRAGING!");
-                System.out.println("Een teamlid heeft geen update gegeven. Het team struikelt over communicatieproblemen.");
+                System.out.println("Een teamlid heeft geen update gegeven.");
                 break;
             default:
                 System.out.println("ONBEKEND MONSTER!");
