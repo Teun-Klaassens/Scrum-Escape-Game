@@ -1,6 +1,8 @@
 package org.scrumEscape.classes.Taak;
 
-public class Vraag implements TaakStrategie{
+import org.scrumEscape.interfaces.TaakStrategie;
+
+public class Vraag implements TaakStrategie {
     final String vraag;
     final String antwoord;
     boolean behaald;
@@ -12,10 +14,13 @@ public class Vraag implements TaakStrategie{
         this.behaald = behaald;
     }
 
+    @Override
     public void toon(){
         System.out.println(vraag);
+        System.out.println("Geef je antwoord:");
     }
 
+    @Override
     public boolean valideer(String antwoord){
         return this.antwoord.equals(antwoord);
     }

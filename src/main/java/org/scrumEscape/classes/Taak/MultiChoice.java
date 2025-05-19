@@ -1,4 +1,5 @@
 package org.scrumEscape.classes.Taak;
+import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,9 +19,10 @@ public class MultiChoice implements TaakStrategie {
 
     @Override
     public void toon() {
-        System.out.println("\n" + vraag);
+        System.out.println(vraag);
+        System.out.println("\nKies het juiste antwoord:");
         for (int i = 0; i < keuzes.size(); i++) {
-            System.out.println((i + 1) + ": " + keuzes.get(i));
+            System.out.println("(" + (i + 1) + ")" + " : " + keuzes.get(i));
         }
     }
 

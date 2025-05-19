@@ -1,4 +1,5 @@
 package org.scrumEscape.classes.Taak;
+import org.scrumEscape.interfaces.TaakStrategie;
 
 public class Puzzel implements TaakStrategie{
     @Override

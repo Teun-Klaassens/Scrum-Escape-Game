@@ -1,7 +1,9 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.interfaces.TaakStrategie;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Retrospective extends Kamer{
@@ -23,6 +25,26 @@ public class Retrospective extends Kamer{
         vraag3();
 
         System.out.println("\nJe hebt " + score + " van de 3 vragen correct beantwoord.");
+    }
+
+    @Override
+    public void toonBeschrijving() {
+
+    }
+
+    @Override
+    public void toonIntro() {
+
+    }
+
+    @Override
+    public void toonTaak(TaakStrategie taak) {
+
+    }
+
+    @Override
+    protected ArrayList<TaakStrategie> initialiseren(ArrayList<TaakStrategie> taken) {
+        return null;
     }
 
     private void vraag1() {
