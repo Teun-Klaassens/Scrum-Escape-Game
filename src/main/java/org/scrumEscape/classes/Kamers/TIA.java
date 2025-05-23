@@ -1,20 +1,40 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Monster;
+import org.scrumEscape.interfaces.GameObserver;
+import org.scrumEscape.interfaces.TaakStrategie;
+
+import java.util.ArrayList;
 
 public class TIA extends Kamer {
 
-    public TIA() {
+    public TIA(GameObserver gameObserver) {
+        super("TIA", new Monster(), gameObserver);
     }
 
     @Override
-    public String getBeschrijving() {
-        // TIA = Transparency, Inspection, Adaptation.
-        return "In deze kamer het eindspel. Pas als je hier doorheen komt, heb je gewonnen! Zoek uit wat TIA is!";
+    public void toonIntro() {
+
     }
 
+    @Override
+    public void toonBeschrijving() {
 
-    public void start() {
+    }
 
+    @Override
+    protected ArrayList<TaakStrategie> initialiseren() {
+        return null;
+    }
+
+    @Override
+    protected void toonMisluktBericht() {
+        super.toonMisluktBericht();
+    }
+
+    @Override
+    protected void toonSuccesBericht() {
+        super.toonSuccesBericht();
     }
 }

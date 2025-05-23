@@ -18,70 +18,69 @@ public class SprintPlanning extends Kamer {
 
     @Override
     protected ArrayList<TaakStrategie> initialiseren() {
-        ArrayList<TaakStrategie> sprintPlanningVragen = new ArrayList<>();
+        ArrayList<TaakStrategie> opdrachten = new ArrayList<>();
 
+        // Keuzen voor de vragen 1
         ArrayList<String> keuzes1 = new ArrayList<>();
         keuzes1.add("Taken toewijzen aan individuele teamleden");
         keuzes1.add("De Sprint Goal vaststellen");
         keuzes1.add("De snelheid van het team evalueren");
         keuzes1.add("De Sprint Retrospective organiseren");
-
-        sprintPlanningVragen.add(new MultiChoice(
+        opdrachten.add(new MultiChoice(
                 "Wat is het primaire doel van een Sprint Planning?",
-                keuzes1,
-                "De Sprint Goal vaststellen"
+                keuzes1, 2
         ));
 
+        // Keuze voor de vragen 2
         ArrayList<String> keuzes2 = new ArrayList<>(Arrays.asList(
                 "De Product Owner",
                 "De Scrum Master",
                 "Het Development Team",
                 "Alle bovenstaande"
         ));
-        sprintPlanningVragen.add(new MultiChoice(
+        opdrachten.add(new MultiChoice(
                 "Wie moet aanwezig zijn bij een Sprint Planning?",
-                keuzes2,
-                "Alle bovenstaande"
+                keuzes2,4
         ));
 
-        // Vraag 3
+        // Keuze voor de vragen 3
         ArrayList<String> keuzes3 = new ArrayList<>(Arrays.asList(
                 "Story Points",
                 "Uren",
                 "Dagen",
                 "Euro's"
         ));
-        sprintPlanningVragen.add(new MultiChoice(
+        opdrachten.add(new MultiChoice(
                 "Welke schattingsmethode wordt vaak gebruikt in Scrum?",
                 keuzes3,
-                "Story Points"
+                1
         ));
 
+        // Keuze voor de vragen 4
         ArrayList<String> keuzes4 = new ArrayList<>(Arrays.asList(
                 "De hoeveelheid werk die een team kan voltooien in een sprint",
                 "De snelheid waarmee een team werkt gedurende een dag",
                 "Het totaal aantal uren dat beschikbaar is voor een sprint",
                 "De maximale grootte van het team"
         ));
-        sprintPlanningVragen.add(new MultiChoice(
+        opdrachten.add(new MultiChoice(
                 "Wat is de definitie van 'Velocity' in Scrum?",
-                keuzes4,
-                "De hoeveelheid werk die een team kan voltooien in een sprint"
+                keuzes4,1
         ));
 
+        // Keuze voor de vragen 5
         ArrayList<String> keuzes5 = new ArrayList<>(Arrays.asList(
                 "Zorgen dat het team niet overwerkt",
                 "Het team beschermen tegen veranderende eisen tijdens de sprint",
                 "De taken tijdens de sprint verdelen",
                 "De Scrum ceremoniën plannen"
         ));
-        sprintPlanningVragen.add(new MultiChoice(
+        opdrachten.add(new MultiChoice(
                 "Wat is het doel van het vastleggen van de Sprint Backlog?",
-                keuzes5,
-                "Het team beschermen tegen veranderende eisen tijdens de sprint"
+                keuzes5, 2
         ));
 
-        return sprintPlanningVragen;
+        return opdrachten;
     }
 
     @Override

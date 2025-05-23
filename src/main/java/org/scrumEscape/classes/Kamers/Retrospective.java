@@ -1,129 +1,84 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Taak.MultiChoice;
+import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Retrospective extends Kamer{
-    private int score = 0;
-    private final Scanner scanner = new Scanner(System.in);
 
-    @Override
-    public String getBeschrijving() {
-        return "Je krijgt situaties die zich in een team voordoen en moet aangeven wat het team hiervan kan leren.";
-    }
-
-    public void start() {
-        score = 0;
-        System.out.println("Welkom bij de Sprint Retrospective!");
-        System.out.println("Analyseer de volgende situaties en kies het beste antwoord.\n");
-
-        vraag1();
-        vraag2();
-        vraag3();
-
-        System.out.println("\nJe hebt " + score + " van de 3 vragen correct beantwoord.");
+    public Retrospective( GameObserver gameObserver) {
+        super("Retrospective", new Monster(), gameObserver);
     }
 
     @Override
-    public void toonBeschrijving() {
+    protected ArrayList<TaakStrategie> initialiseren() {
+        ArrayList<TaakStrategie> opdrachten = new ArrayList<>();
 
+
+        // Vraag 1
+        ArrayList<String> keuzes1 = new ArrayList<>();
+        keuzes1.add("Wat is de beste les die het team hieruit kan trekken?");
+        keuzes1.add("Voortaan meer overuren maken om de verloren tijd in te halen");
+        keuzes1.add("Aan het begin van de sprint beter kijken naar taak-afhankelijkheden en de planning hierop aanpassen");
+        keuzes1.add("Minder afhankelijke taken oppakken in de volgende sprint");
+        opdrachten.add(new MultiChoice(
+                "Tijdens de laatste sprint heeft het team gemerkt dat er veel tijd verloren ging " +
+                        "doordat teamleden op elkaar moesten wachten met afhankelijke taken.",
+                keuzes1, 3
+        ));
+
+
+        // Vraag 2
+        ArrayList<String> keuzes2 = new ArrayList<>();
+        keuzes2.add("Nieuwe requirements pas in de volgende sprint meenemen en de Sprint Planning strikt volgen");
+        keuzes2.add("Harder werken om zowel de geplande stories als nieuwe requirements af te krijgen");
+        keuzes2.add("De sprint verlengen tot alle nieuwe requirements zijn geïmplementeerd");
+        opdrachten.add(new MultiChoice(
+                "Het team heeft de laatste sprint niet alle user stories kunnen afronden omdat er halverwege nieuwe requirements werden toegevoegd door de stakeholders.\n" +
+                        "Wat is de beste aanpak voor de volgende sprint?",
+                keuzes2,
+                1
+        ));
+
+        // Vraag 3
+        ArrayList<String> keuzes3 = new ArrayList<>();
+        keuzes3.add("De Daily Standup afschaffen en alleen communiceren via chat");
+        keuzes3.add("De Daily Standup inkorten tot 5 minuten waarin iedereen alleen zegt of ze geblokkeerd zijn");
+        keuzes3.add("Technische discussies parkeren voor een apart overleg na de Daily Standup");
+        opdrachten.add(new MultiChoice(
+                "Tijdens de Daily Standups merkt het team dat deze vaak uitlopen omdat teamleden in detail technische problemen gaan bespreken.\n" +
+                        "Wat is de beste oplossing voor dit probleem?",
+                keuzes3,
+                3
+        ));
+
+        return opdrachten;
     }
 
     @Override
     public void toonIntro() {
-
+        System.out.println("=== Welkom bij de Sprint Retrospective! ===");
+        System.out.println("Analyseer de volgende situaties en kies het beste antwoord.\n");
     }
 
     @Override
-    public void toonTaak(TaakStrategie taak) {
-
+    public void toonBeschrijving() {
+        System.out.println("Je krijgt situaties die zich in een team voordoen en moet aangeven wat het team hiervan kan leren.");
     }
 
     @Override
-    protected ArrayList<TaakStrategie> initialiseren(ArrayList<TaakStrategie> taken) {
-        return null;
+    protected void toonMisluktBericht() {
+        super.toonMisluktBericht();
     }
 
-    private void vraag1() {
-        System.out.println("\nSituatie 1:");
-        System.out.println("Tijdens de laatste sprint heeft het team gemerkt dat er veel tijd verloren ging " +
-                "doordat teamleden op elkaar moesten wachten met afhankelijke taken.");
-        System.out.println("\nWat is de beste les die het team hieruit kan trekken?");
-        System.out.println("1) Voortaan meer overuren maken om de verloren tijd in te halen");
-        System.out.println("2) Aan het begin van de sprint beter kijken naar taak-afhankelijkheden en de planning hierop aanpassen");
-        System.out.println("3) Minder afhankelijke taken oppakken in de volgende sprint");
-
-        int antwoord = getAntwoord(3);
-        if (antwoord == 2) {
-            System.out.println("Correct! Door vooraf beter te plannen en rekening te houden met afhankelijkheden " +
-                    "kan het team efficiënter werken.");
-            score++;
-        } else {
-            System.out.println("Dat is niet het beste antwoord. Het is belangrijk om vooraf goed te plannen en " +
-                    "rekening te houden met afhankelijkheden tussen taken.");
-        }
+    @Override
+    protected void toonSuccesBericht() {
+        super.toonSuccesBericht();
     }
 
-    private void vraag2() {
-        System.out.println("\nSituatie 2:");
-        System.out.println("Het team heeft de laatste sprint niet alle user stories kunnen afronden omdat " +
-                "er halverwege nieuwe requirements werden toegevoegd door de stakeholders.");
-        System.out.println("\nWat is de beste aanpak voor de volgende sprint?");
-        System.out.println("1) Nieuwe requirements pas in de volgende sprint meenemen en de Sprint Planning strikt volgen");
-        System.out.println("2) Harder werken om zowel de geplande stories als nieuwe requirements af te krijgen");
-        System.out.println("3) De sprint verlengen tot alle nieuwe requirements zijn geïmplementeerd");
-
-        int antwoord = getAntwoord(3);
-        if (antwoord == 1) {
-            System.out.println("Correct! Een sprint heeft een vaste scope. Nieuwe requirements kunnen worden " +
-                    "opgepakt in de volgende sprint.");
-            score++;
-        } else {
-            System.out.println("Dat is niet het beste antwoord. In Scrum heeft een sprint een vaste scope om " +
-                    "focus en voorspelbaarheid te behouden.");
-        }
-    }
-
-    private void vraag3() {
-        System.out.println("\nSituatie 3:");
-        System.out.println("Tijdens de Daily Standups merkt het team dat deze vaak uitlopen omdat teamleden " +
-                "in detail technische problemen gaan bespreken.");
-        System.out.println("\nWat is de beste oplossing voor dit probleem?");
-        System.out.println("1) De Daily Standup afschaffen en alleen communiceren via chat");
-        System.out.println("2) De Daily Standup inkorten tot 5 minuten waarin iedereen alleen zegt of ze geblokkeerd zijn");
-        System.out.println("3) Technische discussies parkeren voor een apart overleg na de Daily Standup");
-
-        int antwoord = getAntwoord(3);
-        if (antwoord == 3) {
-            System.out.println("Correct! De Daily Standup moet kort en effectief blijven. Technische discussies " +
-                    "kunnen beter in een apart overleg worden besproken.");
-            score++;
-        } else {
-            System.out.println("Dat is niet het beste antwoord. De Daily Standup moet focussen op voortgang en " +
-                    "blokkades. Technische details kunnen beter apart worden besproken.");
-        }
-    }
-
-    private int getAntwoord(int maxOpties) {
-        int antwoord = 0;
-        boolean geldigAntwoord = false;
-
-        while (!geldigAntwoord) {
-            System.out.print("\nJouw antwoord (1-" + maxOpties + "): ");
-            try {
-                antwoord = Integer.parseInt(scanner.nextLine());
-                if (antwoord >= 1 && antwoord <= maxOpties) {
-                    geldigAntwoord = true;
-                } else {
-                    System.out.println("Voer een nummer in tussen 1 en " + maxOpties);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Voer een geldig nummer in");
-            }
-        }
-        return antwoord;
-    }
 }

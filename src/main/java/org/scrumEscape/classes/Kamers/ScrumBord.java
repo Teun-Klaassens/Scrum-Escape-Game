@@ -2,10 +2,12 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ScrumBord extends Kamer {
 
@@ -15,7 +17,21 @@ public class ScrumBord extends Kamer {
 
     @Override
     protected ArrayList<TaakStrategie> initialiseren() {
-        return null;
+        ArrayList<TaakStrategie> opdrachten = new ArrayList<>();
+
+        // Maak puzzel opdracht
+        Puzzel puzzel1 = new Puzzel(
+                "Verbind de teamleden bij de juiste taken",
+                Map.ofEntries(
+            Map.entry("Teun:Scrum Master", "Ik heb een probleem met het opstarten"),
+                Map.entry("Roody:Developer", "Ik heb gisteren een taak afgerond"),
+                Map.entry("Kyran:Developer", "Ik heb een andere taak afgerond"),
+                 Map.entry("Andre:Product Owner", "Ik heb het afsluiten gemaakt")
+        ));
+
+        opdrachten.add(puzzel1);
+
+        return opdrachten;
     }
 
     @Override
@@ -38,5 +54,4 @@ public class ScrumBord extends Kamer {
     protected void toonSuccesBericht() {
         super.toonSuccesBericht();
     }
-
 }

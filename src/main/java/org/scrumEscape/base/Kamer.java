@@ -115,4 +115,5 @@ public abstract class Kamer {
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
 	}
+
 }

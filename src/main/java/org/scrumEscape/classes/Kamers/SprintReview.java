@@ -15,13 +15,13 @@ public class SprintReview extends Kamer {
 
     @Override
     protected ArrayList<TaakStrategie> initialiseren() {
-        ArrayList<TaakStrategie> strategies = new ArrayList<>();
+        ArrayList<TaakStrategie> opdrachten = new ArrayList<>();
 
         // Implements your methods here
         // ...............................
         // ...............................
 
-        return  strategies;
+        return  opdrachten;
     }
     
     @Override
@@ -33,7 +33,7 @@ public class SprintReview extends Kamer {
 
     @Override
     public void toonBeschrijving() {
-
+        System.out.println("Je moet feedback van stakeholders interpreteren en de impact ervan inschatten.");
     }
 
 }
