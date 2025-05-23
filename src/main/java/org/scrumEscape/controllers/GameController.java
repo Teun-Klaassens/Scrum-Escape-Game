@@ -6,6 +6,7 @@ import org.scrumEscape.classes.Speler;
 import org.scrumEscape.interfaces.GameObserver;
 
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,6 +24,30 @@ public class GameController {
     public GameController(Scanner scanner) {
         this.scanner = scanner;
         this.isRunning = true;
+        this.isPlaying = false;
+
+        this.gameObserver = new GameObserver() {
+            @Override
+            public void onPlayerUpdate() {
+                System.out.println("Player score updated: " + huidigeSpeler);
+            }
+
+            @Override
+            public void onKamerBehaald() {
+                MenuController.kamerBehaald(kamers.get(currentRoomIndex));
+            }
+
+            @Override
+            public void nextKamer() {
+                currentRoomIndex++;
+                MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+            }
+
+            @Override
+            public Scanner getScanner() {
+                return scanner;
+            }
+        };
      }
 
     public void start() {
@@ -39,7 +64,6 @@ public class GameController {
 
         while (isPlaying || isRunning) {
             String nextCommand = scanner.nextLine().toLowerCase().trim(); // Added trim to avoid issue
-
             switch (nextCommand) {
                 case "x":
                     isPlaying = false;
@@ -67,15 +91,10 @@ public class GameController {
         huidigeSpeler = new Speler( naam);
         System.out.println("Player " + naam + " has been created.");
         kamers = new ArrayList<>();
-        kamersToevoegen();
-        initializeKamers();
+         initializeKamers();
     }
 
     private void initializeKamers(){
-
-    }
-
-    private void kamersToevoegen() {
         kamers.add(new DailyScrum(gameObserver));
         kamers.add(new Retrospective(gameObserver));
         kamers.add(new ScrumBord(gameObserver));

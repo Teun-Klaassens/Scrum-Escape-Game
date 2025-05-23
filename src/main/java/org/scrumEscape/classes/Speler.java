@@ -1,6 +1,6 @@
 package org.scrumEscape.classes;
 
-public class Speler implements ISpelerControls {
+public class Speler   {
  	private final String naam;
 	private int huidgeKamerInt = 0;
 
@@ -8,18 +8,4 @@ public class Speler implements ISpelerControls {
  		this.naam = naam;
 	}
 
-	@Override
-	public void getStatus() {
-
-	}
-
-	@Override
-	public void switchKamer(int kamerInt) {
-
-	}
-
-	@Override
-	public void stopGame() {
-
-	}
 }

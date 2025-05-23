@@ -58,4 +58,9 @@ public class MenuController {
 		System.out.println("Congratulations! You have completed the " + kamer.getClass().getSimpleName() + " room.");
 		System.out.println("==================================");
 	}
+
+	public static void MovingToRoom(Kamer kamer) {
+		System.out.println("==================================");
+		System.out.println("Moving to " + kamer.getClass().getSimpleName() + " room...");
+	}
 }

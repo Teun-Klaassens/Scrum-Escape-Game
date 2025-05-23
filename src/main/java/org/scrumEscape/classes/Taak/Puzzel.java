@@ -1,22 +1,30 @@
 package org.scrumEscape.classes.Taak;
 import org.scrumEscape.interfaces.TaakStrategie;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Puzzel implements TaakStrategie{
-  final String taak;
-   final Map<String, String> mapStukken = new HashMap<>();
+   final String taak;
+   private Map<String, String> mapStukken = new HashMap<>();
    private int huidigeStuk= 0;
    private int overigeStukken;
    private boolean behaald;
 
     public Puzzel(String taak,Map<String, String> stukken) {
         this.taak = taak;
-        this.mapStukken.putAll(stukken);
         this.overigeStukken = stukken.size() * 2;
         this.behaald = false;
+        //this.mapStukken.putAll(stukken);
+        // Shuffle the map entries
+        List<Map.Entry<String, String>> entries = new ArrayList<>(stukken.entrySet());
+        Collections.shuffle(entries);
+
+        // Re-insert into a LinkedHashMap to preserve shuffled order
+        this.mapStukken = new LinkedHashMap<>();
+        for (Map.Entry<String, String> entry : entries) {
+            this.mapStukken.put(entry.getKey(), entry.getValue());
+        }
+
     }
 
     @Override
@@ -44,6 +52,7 @@ public class Puzzel implements TaakStrategie{
     public void toonHuidigeStuk() {
         String text = mapStukken.values().stream().toList().get(huidigeStuk).trim();
         System.out.printf("\nSituatie %d: %s \nVul je antwoord in:", huidigeStuk + 1, text);
+        System.out.println("");
     }
 
     @Override
@@ -66,6 +75,7 @@ public class Puzzel implements TaakStrategie{
     @Override
     public void ongeldigAntwoord() {
         System.out.println("Antwoord is fout.");
+        toonHuidigeStuk();
     }
 
     @Override
@@ -82,7 +92,7 @@ public class Puzzel implements TaakStrategie{
             System.out.println("Je hebt de puzzel behaald.");
 
     }
-    
+
     @Override
     public boolean isBehaald() {
         return behaald;

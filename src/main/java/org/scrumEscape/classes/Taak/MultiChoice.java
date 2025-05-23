@@ -42,6 +42,7 @@ public class MultiChoice implements TaakStrategie {
     @Override
     public void ongeldigAntwoord() {
         System.out.println("Helaas, dat is niet juist. Het juiste antwoord was: " + antwoord);
+        toon();
     }
 
     @Override

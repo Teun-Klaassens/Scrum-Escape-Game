@@ -7,7 +7,6 @@ public class Vraag implements TaakStrategie {
     final String antwoord;
     boolean behaald;
 
-
     public Vraag(String vraag, String antwoord, boolean behaald) {
         this.vraag = vraag;
         this.antwoord = antwoord;
@@ -28,13 +27,14 @@ public class Vraag implements TaakStrategie {
     @Override
     public void ongeldigAntwoord() {
         System.out.println("Dat is niet het juiste antwoord. Het correcte antwoord is: " + this.antwoord);
+        toon();
     }
 
     @Override
     public void geldigAntwoord() {
         System.out.println("Dat is het juiste antwoord!");
      }
-     
+
     @Override
     public boolean isBehaald() {
         return behaald;

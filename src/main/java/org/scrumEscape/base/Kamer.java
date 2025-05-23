@@ -43,6 +43,7 @@ public abstract class Kamer {
 		System.out.println("=================================================");
 	}
 	public final void valideerAntwoord(String text) {
+		if(text == null) return;
 		TaakStrategie taak = taken.get(this.huidigeTaak);
 		boolean correct = taak.valideer(text);
 
@@ -50,14 +51,11 @@ public abstract class Kamer {
 		if ((taak instanceof Puzzel)) {
  			if (correct) {
 				 Puzzel puzzel = (Puzzel) taak;
- 				 if(puzzel.isBehaald())
-					this.huidigeTaak++;
+ 				 if(puzzel.isBehaald()) this.huidigeTaak++;
 			}
 		}
  		else{
-			if (correct) {
- 				this.huidigeTaak++;
-			}
+			if (correct) this.huidigeTaak++;
 		}
 
 		 // After validating the answer
@@ -89,6 +87,8 @@ public abstract class Kamer {
 
 		// Loop until the task is completed
   		while(!this.behaald) {
+		    if(!gameObserver.getScanner().hasNext()) continue;
+
 			if(taak instanceof MultiChoice) {
 				// Handle multi-choice question
 				int choice = gameObserver.getScanner().nextInt();
@@ -105,8 +105,10 @@ public abstract class Kamer {
 				String choice = gameObserver.getScanner().nextLine();
 				valideerAntwoord(String.valueOf(choice));
 			}
-		}
 
+		    // Clear the scanner buffer
+		    gameObserver.getScanner().nextLine();
+		}
 	}
 	protected final int totalAantalTaken() {
 		return this.taken.size();
@@ -120,10 +122,10 @@ public abstract class Kamer {
 	protected abstract ArrayList<TaakStrategie> initialiseren();
 
 	protected void toonMisluktBericht(){
-		System.out.println("Je hebt de vraag niet correct beantwoord.");
+		// System.out.println("Je hebt de vraag niet correct beantwoord.");
 	}
 	protected void toonSuccesBericht(){
-		System.out.println("Je hebt de vraag correct beantwoord.");
+		// System.out.println("Je hebt de vraag correct beantwoord.");
 	}
 
 	private void toonMonster() {
@@ -132,5 +134,4 @@ public abstract class Kamer {
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
 	}
-
 }
