@@ -3,24 +3,25 @@ package org.scrumEscape.controllers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
+import org.scrumEscape.interfaces.GameObserver;
 
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameController {
-    private Scanner s;
+    private Scanner scanner;
     private boolean isRunning;
     private boolean isPlaying;
     private int currentRoomIndex =0 ;
 
-   // Game properties
+   // Game propertie
+    private GameObserver gameObserver;
     private Speler huidigeSpeler;
     private ArrayList<Kamer> kamers = new ArrayList<>();
 
     public GameController(Scanner scanner) {
-        this.s = scanner;
+        this.scanner = scanner;
         this.isRunning = true;
      }
 
@@ -28,7 +29,7 @@ public class GameController {
          if(huidigeSpeler == null) {
             System.out.println("Enter your unique player name: ");
              while(huidigeSpeler == null) {
-                String naam = s.nextLine().trim();
+                String naam = scanner.nextLine().trim();
                 if(naam.isEmpty())return;
                 initializeSpeler(naam);
             }
@@ -37,7 +38,7 @@ public class GameController {
          }
 
         while (isPlaying || isRunning) {
-            String nextCommand = s.nextLine().toLowerCase().trim(); // Added trim to avoid issue
+            String nextCommand = scanner.nextLine().toLowerCase().trim(); // Added trim to avoid issue
 
             switch (nextCommand) {
                 case "x":
@@ -53,8 +54,8 @@ public class GameController {
                 case "s":
                     MenuController.printAvailableRooms(kamers);
                     System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
-                    switchRooms(s.nextInt());
-                    s.nextLine();
+                    switchRooms(scanner.nextInt());
+                    scanner.nextLine();
                     break;
                 default:
                     System.out.println("Invalid command!");
@@ -75,12 +76,12 @@ public class GameController {
     }
 
     private void kamersToevoegen() {
-        kamers.add(new DailyScrum());
-        kamers.add(new Retrospective());
-        kamers.add(new ScrumBord());
-        kamers.add(new SprintPlanning());
-        kamers.add(new SprintReview());
-        kamers.add(new TIA());
+        kamers.add(new DailyScrum(gameObserver));
+        kamers.add(new Retrospective(gameObserver));
+        kamers.add(new ScrumBord(gameObserver));
+        kamers.add(new SprintPlanning(gameObserver));
+        kamers.add(new SprintReview(gameObserver));
+        kamers.add(new TIA(gameObserver));
     }
 
     private void switchRooms(int newRoom) {

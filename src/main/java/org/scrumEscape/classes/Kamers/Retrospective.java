@@ -7,7 +7,6 @@ import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Retrospective extends Kamer{
 

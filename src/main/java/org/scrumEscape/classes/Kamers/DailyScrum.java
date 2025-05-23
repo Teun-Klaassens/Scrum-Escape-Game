@@ -2,7 +2,6 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.Taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
