@@ -49,4 +49,8 @@ public class MultiChoice implements TaakStrategie {
         System.out.println("Correct! Goed gedaan.");
     }
 
+    @Override
+    public boolean isBehaald() {
+        return behaald;
+    }
 }

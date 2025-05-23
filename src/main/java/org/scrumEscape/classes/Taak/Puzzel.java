@@ -3,7 +3,6 @@ import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Puzzel implements TaakStrategie{
@@ -39,26 +38,53 @@ public class Puzzel implements TaakStrategie{
         }
 
         // Print de eerste stuk
-       /* String text;
-        ArrayList<String> situaties = new ArrayList<>(mapStukken.values());
-        while (overigeStukken >0) {
-            System.out.printf("\nSituatie %d: %s \nVul je antwoord in:",huidigeStuk + 1 ,situaties.get(huidigeStuk));
-            huidigeStuk++;
-        }*/
-      }
+        toonHuidigeStuk();
+    }
+
+    public void toonHuidigeStuk() {
+        String text = mapStukken.values().stream().toList().get(huidigeStuk).trim();
+        System.out.printf("\nSituatie %d: %s \nVul je antwoord in:", huidigeStuk + 1, text);
+    }
 
     @Override
     public boolean valideer(String text) {
-        return true;
+        String key = mapStukken.keySet().stream().toList().get(huidigeStuk).trim();
+         if (text.equalsIgnoreCase(key.trim())) {
+            geldigAntwoord();
+            huidigeStuk++;
+            overigeStukken--;
+            if (overigeStukken == 0) {
+                behaald = true;
+            }
+            return true;
+        } else {
+             ongeldigAntwoord();
+            return false;
+        }
     }
 
     @Override
     public void ongeldigAntwoord() {
-
+        System.out.println("Antwoord is fout.");
     }
 
     @Override
     public void geldigAntwoord() {
+        System.out.println("Antwoord is correct.");
+        System.out.println("Je hebt de situatie " + (huidigeStuk + 1) + " van de " + mapStukken.size() + " behaald.");
 
+        if(overigeStukken > 0) {
+            System.out.println("Je hebt nog " + overigeStukken + " situatie(s) te gaan.");
+            System.out.println(" ");
+            toonHuidigeStuk();
+        }
+        else
+            System.out.println("Je hebt de puzzel behaald.");
+
+    }
+    
+    @Override
+    public boolean isBehaald() {
+        return behaald;
     }
 }

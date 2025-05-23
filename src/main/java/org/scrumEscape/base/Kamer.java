@@ -2,6 +2,7 @@ package org.scrumEscape.base;
 
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.Taak.MultiChoice;
+import org.scrumEscape.classes.Taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
@@ -42,48 +43,64 @@ public abstract class Kamer {
 		System.out.println("=================================================");
 	}
 	public final void valideerAntwoord(String text) {
-		TaakStrategie huidigeTaak = taken.get(this.huidigeTaak);
-        if (huidigeTaak.valideer(text)) {
-			System.out.println("Antwoord is correct.");
-			if(monster.isActive()) {
+		TaakStrategie taak = taken.get(this.huidigeTaak);
+		boolean correct = taak.valideer(text);
+
+		// Check if the task is a puzzle and if it is completed
+		if ((taak instanceof Puzzel)) {
+ 			if (correct) {
+				 Puzzel puzzel = (Puzzel) taak;
+ 				 if(puzzel.isBehaald())
+					this.huidigeTaak++;
+			}
+		}
+ 		else{
+			if (correct) {
+ 				this.huidigeTaak++;
+			}
+		}
+
+		 // After validating the answer
+		if(!correct) {
+			toonMisluktBericht();
+			toonMonster();
+		}else{
+			if (monster.isActive()) {
 				System.out.println("Je hebt de monster verslagen.");
-				monster.toonImpediment();
+				monster.oplossen();
 			}
 			updateSpeler();
-			this.huidigeTaak++;
 			if (this.huidigeTaak >= taken.size()) {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
 				behaald = true;
 				gameObserver.onKamerBehaald();
 				gameObserver.nextKamer();
-			}
-			else {
+			} else {
 				toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak);
 			}
-        }
-		else {
-			toonMisluktBericht();
- 			toonMonster();
-        }
+		}
 	}
 
 	protected final void toonTaak(TaakStrategie taak,int positie){
 		System.out.println("=================================================");
 		System.out.println("Opdracht " + (positie+1) + ":");
 		taak.toon();
-		System.out.println("Vul hier je antwoord in:");
 
-		// Check if the task is a multi-choice question
-		boolean isMultiChoice = taak instanceof MultiChoice;
-		while(!this.behaald) {
-			if(isMultiChoice) {
+		// Loop until the task is completed
+  		while(!this.behaald) {
+			if(taak instanceof MultiChoice) {
 				// Handle multi-choice question
 				int choice = gameObserver.getScanner().nextInt();
 				gameObserver.getScanner().nextLine(); // Clear buffer
 				valideerAntwoord(String.valueOf(choice));
-
-			}else {
+			}
+			else if (taak instanceof Puzzel) {
+				// Handle puzzle question
+				String choice = gameObserver.getScanner().nextLine();
+				valideerAntwoord(choice);
+			}
+			else {
 				// Handle multi-choice question
 				String choice = gameObserver.getScanner().nextLine();
 				valideerAntwoord(String.valueOf(choice));
@@ -102,10 +119,10 @@ public abstract class Kamer {
 	public abstract void toonBeschrijving();
 	protected abstract ArrayList<TaakStrategie> initialiseren();
 
-	protected   void toonMisluktBericht(){
+	protected void toonMisluktBericht(){
 		System.out.println("Je hebt de vraag niet correct beantwoord.");
 	}
-	protected   void toonSuccesBericht(){
+	protected void toonSuccesBericht(){
 		System.out.println("Je hebt de vraag correct beantwoord.");
 	}
 

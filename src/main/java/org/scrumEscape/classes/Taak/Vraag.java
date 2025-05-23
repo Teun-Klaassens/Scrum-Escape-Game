@@ -32,6 +32,11 @@ public class Vraag implements TaakStrategie {
 
     @Override
     public void geldigAntwoord() {
-
+        System.out.println("Dat is het juiste antwoord!");
+     }
+     
+    @Override
+    public boolean isBehaald() {
+        return behaald;
     }
 }

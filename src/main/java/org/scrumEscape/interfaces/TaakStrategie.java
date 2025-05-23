@@ -5,4 +5,5 @@ public interface TaakStrategie {
 	public boolean valideer (String text);
 	public void ongeldigAntwoord();
 	public void geldigAntwoord();
+	public boolean isBehaald();
 }

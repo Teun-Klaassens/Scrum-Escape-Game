@@ -8,4 +8,8 @@ public class Monster
 	public boolean  isActive(){
 		return false;
 	}
+
+	public void oplossen(){
+		System.out.println("Monster is opgelost.");
+	}
 }
