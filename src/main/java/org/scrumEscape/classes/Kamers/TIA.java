@@ -44,9 +44,7 @@ public class TIA extends Kamer {
     
     private void showIntroduction() {
         System.out.println("\n==== WELKOM BIJ DE FINALE KAMER: TIA ====");
-        System.out.println("Dit is de laatste uitdaging. Toon je kennis van de grondbeginselen van Scrum!");
-        System.out.println("Wat betekent TIA in Scrum? Ontdek het door de vragen te beantwoorden.");
-        System.out.println("\nEmpiricisme is de basis van Scrum. Dit betekent werken op basis van feiten, ervaring en bewijs.");
+        System.out.println("Dit is de laatste uitdaging. Toon je kennis van de onderdelen van Scrum");
         System.out.println("Je moet minimaal " + PASSING_SCORE + " van de " + TOTAL_QUESTIONS + " vragen goed beantwoorden om deze kamer te voltooien.");
         System.out.println("\nDruk op ENTER om te beginnen...");
         scanner.nextLine();
@@ -58,24 +56,21 @@ public class TIA extends Kamer {
         System.out.println("\nVraag 1: Waar staat 'TIA' voor in de context van Scrum?");
         System.out.println("1) Technical Implementation Analysis");
         System.out.println("2) Transparency, Inspection, Adaptation");
-        System.out.println("3) Testing, Integration, Automation");
-        System.out.println("4) Team, Individual, Achievement");
         
-        int antwoord = getNumberInput(4);
+        int antwoord = getNumberInput(2);
         if (antwoord == 2) {
-            System.out.println("Correct! TIA staat voor Transparency (Transparantie), Inspection (Inspectie) en Adaptation (Aanpassing).");
+            System.out.println("Correct! TIA staat voor Transparency, Inspection en Adaptation.");
             score++;
         } else {
-            System.out.println("Dat is niet correct. TIA staat voor Transparency, Inspection, Adaptation - de drie pijlers van empiricisme in Scrum.");
+            System.out.println("Dat is niet correct. TIA staat voor Transparency, Inspection, Adaptation.");
         }
 
-        System.out.println("\nVraag 2: Wat betekent 'Transparency' (Transparantie) in Scrum?");
-        System.out.println("1) Alle teamleden hebben dezelfde werkplek");
+        System.out.println("\nVraag 2: Wat betekent 'Transparency' in Scrum?");
+        System.out.println("1) Alle teamleden hebben dezelfde fysieke werkplek");
         System.out.println("2) Het presenteren van feiten zoals ze zijn, waarbij iedereen dezelfde definitie van 'klaar' gebruikt");
         System.out.println("3) Alle code moet open source zijn");
-        System.out.println("4) Wekelijkse presentaties aan de klant");
         
-        antwoord = getNumberInput(4);
+        antwoord = getNumberInput(3);
         if (antwoord == 2) {
             System.out.println("Correct! Transparantie betekent dat feiten eerlijk worden gepresenteerd en dat iedereen dezelfde definitie heeft van belangrijke begrippen.");
             score++;
@@ -84,15 +79,14 @@ public class TIA extends Kamer {
         }
 
 
-        System.out.println("\nVraag 3: Wie is verantwoordelijk voor 'Inspection' (Inspectie) in Scrum?");
+        System.out.println("\nVraag 3: Wie is verantwoordelijk voor 'Inspection' in Scrum?");
         System.out.println("1) Alleen de Scrum Master");
         System.out.println("2) Externe auditors");
         System.out.println("3) Iedereen in het Scrum Team");
-        System.out.println("4) Alleen de Product Owner");
         
-        antwoord = getNumberInput(4);
+        antwoord = getNumberInput(3);
         if (antwoord == 3) {
-            System.out.println("Correct! Inspectie wordt uitgevoerd door iedereen in het Scrum Team, niet alleen door inspecteurs of auditors.");
+            System.out.println("Correct! Inspectie wordt uitgevoerd door iedereen in het Scrum Team. ");
             score++;
         } else {
             System.out.println("Dat is niet correct. Inspectie is een verantwoordelijkheid van iedereen in het Scrum Team.");
