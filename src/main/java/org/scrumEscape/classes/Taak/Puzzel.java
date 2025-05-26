@@ -81,23 +81,20 @@ public class Puzzel implements TaakStrategie{
     @Override
     public void ongeldigAntwoord() {
         System.out.println("Antwoord is fout.");
-        // toonHuidigeStuk();
-    }
+     }
 
     @Override
     public void geldigAntwoord() {
         System.out.println("Antwoord is correct.");
         System.out.println(" ");
 
+        System.out.println("==================================================");
         System.out.println("Je hebt de situatie " + (huidigeStuk + 1) + " van de " + mapStukken.size() + " behaald.");
-        if(overigeStukken > 0) {
+        if(overigeStukken > 0)
             System.out.println("Je hebt nog " + overigeStukken + " situatie(s) te gaan.");
-            System.out.println(" ");
-            // toonHuidigeStuk();
-        }
         else
             System.out.println("Je hebt de puzzel behaald.");
-
+        System.out.println("==================================================");
     }
 
     @Override
