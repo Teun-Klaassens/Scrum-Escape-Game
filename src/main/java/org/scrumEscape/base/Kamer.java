@@ -35,7 +35,7 @@ public abstract class Kamer {
  		toonIntro();
 		toonBeschrijving();
 		toonVoortgang();
-		toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak);
+		toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, true);
 	}
 	public final void toonVoortgang(){
 		System.out.println("=================================================");
@@ -43,7 +43,8 @@ public abstract class Kamer {
 		System.out.println("=================================================");
 	}
 	public final void valideerAntwoord(String text) {
-		if(text == null) return;
+		if(text == null || text.isBlank()) return;
+		int previousTaak = this.huidigeTaak;
 		TaakStrategie taak = taken.get(this.huidigeTaak);
 		boolean correct = taak.valideer(text);
 
@@ -60,14 +61,15 @@ public abstract class Kamer {
 
 		 // After validating the answer
 		if(!correct) {
-			toonMisluktBericht();
 			toonMonster();
-		}else{
+			toonMisluktBericht();
+			if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
+ 		}else{
 			if (monster.isActive()) {
 				System.out.println("Je hebt de monster verslagen.");
 				monster.oplossen();
 			}
-			updateSpeler();
+			// updateSpeler();
 			if (this.huidigeTaak >= taken.size()) {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
@@ -75,14 +77,16 @@ public abstract class Kamer {
 				gameObserver.onKamerBehaald();
 				gameObserver.nextKamer();
 			} else {
-				toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak);
+				toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, previousTaak != this.huidigeTaak);
 			}
 		}
 	}
 
-	protected final void toonTaak(TaakStrategie taak,int positie){
-		System.out.println("=================================================");
-		System.out.println("Opdracht " + (positie+1) + ":");
+	protected final void toonTaak(TaakStrategie taak,int positie, boolean toonOpdrachtHeader){
+		if(toonOpdrachtHeader){
+			System.out.println("=================================================");
+			System.out.println("Opdracht " + (positie+1) + ":");
+ 		}
 		taak.toon();
 
 		// Loop until the task is completed
@@ -107,7 +111,7 @@ public abstract class Kamer {
 			}
 
 		    // Clear the scanner buffer
-		    gameObserver.getScanner().nextLine();
+		   //  gameObserver.getScanner().nextLine();
 		}
 	}
 	protected final int totalAantalTaken() {
@@ -129,6 +133,7 @@ public abstract class Kamer {
 	}
 
 	private void toonMonster() {
+		System.out.println("Monster is actief");
 		monster.toonImpediment();
 	}
 	private void updateSpeler() {

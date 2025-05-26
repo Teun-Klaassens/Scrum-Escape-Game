@@ -9,10 +9,11 @@ public class Puzzel implements TaakStrategie{
    private int huidigeStuk= 0;
    private int overigeStukken;
    private boolean behaald;
+   private boolean started = false;
 
     public Puzzel(String taak,Map<String, String> stukken) {
         this.taak = taak;
-        this.overigeStukken = stukken.size() * 2;
+        this.overigeStukken = stukken.size() ;
         this.behaald = false;
         //this.mapStukken.putAll(stukken);
         // Shuffle the map entries
@@ -29,23 +30,27 @@ public class Puzzel implements TaakStrategie{
 
     @Override
     public void toon() {
-        // Hier print je de puzzelstukjes values
-        System.out.println("\nVerbind de volgende situaties bij de juiste ding:");
-        ArrayList<String> values = new ArrayList<>(mapStukken.values());
-        java.util.Collections.shuffle(values);
-        for (String value : values) {
-            System.out.println(value);
+        if(!started) {
+            // Hier print je de puzzelstukjes values
+            System.out.println("\nVerbind de volgende situaties bij de juiste ding:");
+            ArrayList<String> values = new ArrayList<>(mapStukken.values());
+            java.util.Collections.shuffle(values);
+            for (String value : values) {
+                System.out.println(value);
+            }
+
+            // Hier print je de puzzelstukjes keys
+            System.out.println("\nOverige situatie:");
+            ArrayList<String> keys = new ArrayList<>(mapStukken.keySet());
+            java.util.Collections.shuffle(keys);
+            for (String key : keys) {
+                System.out.println(key);
+            }
+
+            started = true;
         }
 
-        // Hier print je de puzzelstukjes keys
-        System.out.println("\nOverige situatie:");
-        ArrayList<String> keys = new ArrayList<>(mapStukken.keySet());
-        java.util.Collections.shuffle(keys);
-        for (String key : keys) {
-            System.out.println(key);
-        }
-
-        // Print de eerste stuk
+        // Print de huidige situatie
         toonHuidigeStuk();
     }
 
@@ -57,6 +62,7 @@ public class Puzzel implements TaakStrategie{
 
     @Override
     public boolean valideer(String text) {
+        System.out.println("Je hebt het volgende antwoord gegeven: " + text);
         String key = mapStukken.keySet().stream().toList().get(huidigeStuk).trim();
          if (text.equalsIgnoreCase(key.trim())) {
             geldigAntwoord();
@@ -75,18 +81,19 @@ public class Puzzel implements TaakStrategie{
     @Override
     public void ongeldigAntwoord() {
         System.out.println("Antwoord is fout.");
-        toonHuidigeStuk();
+        // toonHuidigeStuk();
     }
 
     @Override
     public void geldigAntwoord() {
         System.out.println("Antwoord is correct.");
-        System.out.println("Je hebt de situatie " + (huidigeStuk + 1) + " van de " + mapStukken.size() + " behaald.");
+        System.out.println(" ");
 
+        System.out.println("Je hebt de situatie " + (huidigeStuk + 1) + " van de " + mapStukken.size() + " behaald.");
         if(overigeStukken > 0) {
             System.out.println("Je hebt nog " + overigeStukken + " situatie(s) te gaan.");
             System.out.println(" ");
-            toonHuidigeStuk();
+            // toonHuidigeStuk();
         }
         else
             System.out.println("Je hebt de puzzel behaald.");
