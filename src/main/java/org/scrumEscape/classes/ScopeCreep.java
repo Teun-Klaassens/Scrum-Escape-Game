@@ -5,9 +5,7 @@ package org.scrumEscape.classes;
 
      @Override
      public void toonImpediment() {
-         System.out.println("SCOPE CREEP!");
-         System.out.println("Er zijn essentiële taken vergeten. De planning loopt uit de hand.");
-         System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
+         System.out.println("SCOPE CREEP is verschenen!");
      }
         public void oplossen() {
             System.out.println("Je hebt de scope creep verslagen!");
