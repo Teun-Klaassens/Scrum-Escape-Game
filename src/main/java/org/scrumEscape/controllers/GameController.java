@@ -52,7 +52,13 @@ public class GameController {
                 case "s":
                     printRoomNumbers();
                     System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
-                    switchRooms(s.nextInt());
+                    String input = s.nextLine();
+                    try {
+                        int roomNumber = Integer.parseInt(input);
+                        switchRooms(roomNumber);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ongeldige invoer. Voer een nummer in.");
+                    }
                     s.nextLine();
                     break;
                 default:
@@ -83,10 +89,10 @@ public class GameController {
     }
 
     private void switchRooms(int newRoom) {
-        if (newRoom > 0 && newRoom <= kamers.size()) {
-            currentRoomIndex = newRoom;
-            System.out.println("You are in room " + currentRoomIndex);
-            kamers.get(currentRoomIndex -1).start();
+            if (newRoom >= 0 && newRoom < kamers.size()) {
+                currentRoomIndex = newRoom;
+                System.out.println("You are in room " + currentRoomIndex);
+                kamers.get(currentRoomIndex-1).start();
             MenuController.printMenu();
         } else {
             System.out.println("Invalid room number. Please try again.");
