@@ -69,7 +69,7 @@ public abstract class Kamer {
 				System.out.println("Je hebt de monster verslagen.");
 				monster.oplossen();
 			}
-			// updateSpeler();
+			 updateSpeler();
 			if (this.huidigeTaak >= taken.size()) {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
