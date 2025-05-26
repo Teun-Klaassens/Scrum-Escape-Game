@@ -1,10 +1,11 @@
 package org.scrumEscape.base;
 
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.classes.Taak;
+import org.scrumEscape.classes.hints.HintFactory;
 import org.scrumEscape.interfaces.IKamerState;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class Kamer {
 	// Kamer objecten
@@ -19,7 +20,6 @@ public abstract class Kamer {
 	// Kamer objecten
 	private Monster monster;
 	private ArrayList<Monster> monsters;
-	private ArrayList<Taak> taken;
 
 	// Kamer functie's
 	public void enterKamer() {
@@ -35,12 +35,32 @@ public abstract class Kamer {
 	}
 
 	// Taken functie's
-	public ArrayList<Taak> getTaken() {
-		return taken;
-	}
 	public boolean geefAntwoord() {
 		// Antwoord geven
 		return true;
+	}
+	
+	/**
+	 * Vraagt of de speler een hint wil en toont deze indien gewenst
+	 * @param scanner De scanner voor gebruikersinvoer
+	 */
+	public void biedHintAan(Scanner scanner) {
+		System.out.println("Wil je een hint? (j/n)");
+		String antwoord = scanner.nextLine().trim().toLowerCase();
+		
+		if (antwoord.equals("j") || antwoord.equals("ja")) {
+			String hint = HintFactory.getHintText(this.getClass().getSimpleName());
+			System.out.println("\n" + hint + "\n");
+		}
+	}
+	
+	/**
+	 * Wordt aangeroepen wanneer een speler een fout antwoord geeft
+	 * @param scanner De scanner voor gebruikersinvoer
+	 */
+	public void ongeldigAntwoordGegeven(Scanner scanner) {
+		System.out.println("Dat is helaas niet het juiste antwoord.");
+		biedHintAan(scanner);
 	}
 
 	public IKamerState getKamerState() {
