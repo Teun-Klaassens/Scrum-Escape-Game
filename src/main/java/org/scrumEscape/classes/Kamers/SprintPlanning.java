@@ -140,6 +140,8 @@ public class SprintPlanning extends Kamer {
                     correcteAntwoorden++;
                 } else {
                     vraag.ongeldigAntwoord();
+                    // Bied een hint aan bij een fout antwoord
+                    ongeldigAntwoordGegeven(scanner);
                 }
             } catch (Exception e) {
                 System.out.println("Ongeldige invoer. Voer een nummer in.");
@@ -195,6 +197,10 @@ public class SprintPlanning extends Kamer {
         System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
         System.out.println("Je kennis van Sprint Planning is onvoldoende! Het Scope Creep Monster valt je aan.");
         System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
+        
+        // Bied een hint aan voordat het monster aanvalt
+        ongeldigAntwoordGegeven(scanner);
+        
         scopeCreep.attack("SprintPlanning");
     }
 

@@ -42,6 +42,8 @@ public class Retrospective extends Kamer{
         } else {
             System.out.println("Dat is niet het beste antwoord. Het is belangrijk om vooraf goed te plannen en " +
                     "rekening te houden met afhankelijkheden tussen taken.");
+            // Bied een hint aan
+            ongeldigAntwoordGegeven(scanner);
         }
     }
 
