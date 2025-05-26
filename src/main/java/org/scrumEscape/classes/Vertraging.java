@@ -5,8 +5,7 @@ public class Vertraging extends Monster {
 
     @Override
     public void toonImpediment() {
-        System.out.println("VERTRAGING!");
-        System.out.println("Een teamlid heeft geen update gegeven.");
+        System.out.println("VERTRAGING monster is verschenen!");
     }
     public void oplossen() {
         System.out.println("Je hebt het vertraging monster verslagen!");
