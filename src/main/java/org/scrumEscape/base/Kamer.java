@@ -76,7 +76,7 @@ public abstract class Kamer {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
 				behaald = true;
-				gameObserver.onKamerBehaald();
+				gameObserver.onKamerBehaald(this);
 				gameObserver.nextKamer();
 			} else {
 				toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, previousTaak != this.huidigeTaak);

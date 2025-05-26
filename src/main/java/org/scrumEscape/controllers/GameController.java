@@ -33,8 +33,8 @@ public class GameController {
             }
 
             @Override
-            public void onKamerBehaald() {
-                MenuController.kamerBehaald(kamers.get(currentRoomIndex));
+            public void onKamerBehaald(Kamer kamer) {
+                MenuController.kamerBehaald(kamer);
             }
 
             @Override
