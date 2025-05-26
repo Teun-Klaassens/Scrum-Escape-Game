@@ -13,6 +13,11 @@ public class Monster {
                 System.out.println("VERTRAGING!");
                 System.out.println("Een teamlid heeft geen update gegeven.");
                 break;
+            case "tia":
+                System.out.println("EMPIRISCH FALEN!");
+                System.out.println("Zonder begrip van Transparency, Inspection en Adaptation, valt het team terug in oude gewoonten.");
+                System.out.println("Het team raakt verstrikt in lange planningssessies, onduidelijke communicatie en weerstand tegen verandering!");
+                break;
             default:
                 System.out.println("ONBEKEND MONSTER!");
                 System.out.println("Er is iets misgegaan... het monster weet niet wat te doen.");
