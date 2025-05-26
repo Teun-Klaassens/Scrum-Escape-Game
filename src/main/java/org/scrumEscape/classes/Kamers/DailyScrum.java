@@ -5,10 +5,8 @@ import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.Taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
-
 import java.util.ArrayList;
 import java.util.Map;
-
 public class DailyScrum extends Kamer {
 
 	public DailyScrum( GameObserver gameObserver) {

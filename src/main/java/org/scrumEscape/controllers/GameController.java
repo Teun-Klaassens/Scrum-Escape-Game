@@ -114,4 +114,10 @@ public class GameController {
         }
     }
 
+    private void printRoomNumbers() {
+        System.out.println("Available rooms:");
+        for (int i = 0; i < kamers.size(); i++) {
+            System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
+        }
+    }
 }
