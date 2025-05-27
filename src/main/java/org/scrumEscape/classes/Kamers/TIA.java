@@ -2,9 +2,7 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 
-import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
-import org.scrumEscape.controllers.MenuController;
 
 import java.util.Scanner;
 
@@ -13,8 +11,8 @@ public class TIA extends Kamer {
     private final Monster empiricismMonster;
     private int score = 0;
     private boolean gameCompleted = false;
-    private final int PASSING_SCORE = 5;
-    private final int TOTAL_QUESTIONS = 7;
+    private final int PASSING_SCORE = 3;
+    private final int TOTAL_QUESTIONS = 5;
 
     public TIA() {
         this.empiricismMonster = new Monster();
@@ -59,10 +57,10 @@ public class TIA extends Kamer {
         
         int antwoord = getNumberInput(2);
         if (antwoord == 2) {
-            System.out.println("Correct! TIA staat voor Transparency, Inspection en Adaptation.");
+            System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("Dat is niet correct. TIA staat voor Transparency, Inspection, Adaptation.");
+            System.out.println("Dat is niet correct.");
         }
 
         System.out.println("\nVraag 2: Wat betekent 'Transparency' in Scrum?");
@@ -72,10 +70,10 @@ public class TIA extends Kamer {
         
         antwoord = getNumberInput(3);
         if (antwoord == 2) {
-            System.out.println("Correct! Transparantie betekent dat feiten eerlijk worden gepresenteerd en dat iedereen dezelfde definitie heeft van belangrijke begrippen.");
+            System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("Dat is niet correct. Transparantie gaat over het eerlijk presenteren van feiten en het delen van een gemeenschappelijk begrip.");
+            System.out.println("Dat is niet correct.");
         }
 
 
@@ -86,24 +84,23 @@ public class TIA extends Kamer {
         
         antwoord = getNumberInput(3);
         if (antwoord == 3) {
-            System.out.println("Correct! Inspectie wordt uitgevoerd door iedereen in het Scrum Team. ");
+            System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("Dat is niet correct. Inspectie is een verantwoordelijkheid van iedereen in het Scrum Team.");
+            System.out.println("Dat is niet correct.");
         }
 
-        System.out.println("\nVraag 4: Wat is het doel van 'Adaptation' (Aanpassing) in Scrum?");
+        System.out.println("\nVraag 4: Wat is het doel van 'Adaptation' in Scrum?");
         System.out.println("1) Het aanpassen van het proces om beter te worden dan gisteren");
         System.out.println("2) Het aanpassen van de planning zodat alles altijd af komt");
         System.out.println("3) Het aanpassen van de requirements aan de wensen van het team");
-        System.out.println("4) Het aanpassen van de werkuren naar een 4-daagse werkweek");
         
         antwoord = getNumberInput(4);
         if (antwoord == 1) {
-            System.out.println("Correct! Aanpassing gaat over continue verbetering en het vermogen om te veranderen op basis van inspectie.");
+            System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("Dat is niet correct. Aanpassing gaat over continue verbetering gebaseerd op wat we leren uit inspectie.");
+            System.out.println("Dat is niet correct.");
         }
 
 
@@ -115,43 +112,12 @@ public class TIA extends Kamer {
         
         antwoord = getNumberInput(4);
         if (antwoord == 2) {
-            System.out.println("Correct! Empiricisme betekent werken op basis van feiten, ervaring en bewijs.");
+            System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("Dat is niet correct. Empiricisme betekent werken op basis van feiten, ervaring en bewijs in plaats van fictieve plannen.");
+            System.out.println("Dat is niet correct.");
         }
 
-
-        System.out.println("\nVraag 6: Welke Scrum ceremonie is een goed voorbeeld van 'Inspection' in de praktijk?");
-        System.out.println("1) Daily Scrum");
-        System.out.println("2) Sprint Planning");
-        System.out.println("3) Sprint Review");
-        System.out.println("4) Alle bovenstaande");
-        
-        antwoord = getNumberInput(4);
-        if (antwoord == 4) {
-            System.out.println("Correct! Alle Scrum ceremonies bevatten een element van inspectie, maar op verschillende niveaus.");
-            score++;
-        } else {
-            System.out.println("Dat is niet helemaal correct. Alle Scrum ceremonies bevatten elementen van inspectie, maar op verschillende niveaus.");
-            System.out.println("Ongeldig antwoord gegeven.");
-        }
-
-
-        System.out.println("\nVraag 7: Welke Scrum ceremonie is het meest direct gericht op 'Adaptation'?");
-        System.out.println("1) Sprint Planning");
-        System.out.println("2) Sprint Retrospective");
-        System.out.println("3) Sprint Review");
-        System.out.println("4) Daily Scrum");
-        
-        antwoord = getNumberInput(4);
-        if (antwoord == 2) {
-            System.out.println("Correct! De Sprint Retrospective is specifiek gericht op het verbeteren van processen en samenwerking.");
-            score++;
-        } else {
-            System.out.println("Dat is niet correct. De Sprint Retrospective is de ceremonie die specifiek gericht is op aanpassing en verbetering.");
-            System.out.println("Ongeldig antwoord gegeven.");
-        }
         
         return score;
     }
@@ -159,11 +125,7 @@ public class TIA extends Kamer {
     private void showSuccessResult() {
         System.out.println("\n==== GEFELICITEERD! ====");
         System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord!");
-        System.out.println("Je begrijpt de drie pijlers van empiricisme in Scrum:");
-        System.out.println("- Transparency: Het presenteren van de feiten zoals ze zijn, zonder verborgen agenda's");
-        System.out.println("- Inspection: Regelmatig controleren van het product en proces door het hele team");
-        System.out.println("- Adaptation: Continu verbeteren op basis van wat we leren van inspectie");
-        System.out.println("\nJe hebt alle kamers doorlopen en het spel uitgespeeld! Je bent nu een Scrum Master!");
+        System.out.println("Je begrijpt de drie pijlers van empiricisme in Scrum");
         System.out.println("============================");
     }
     
@@ -171,9 +133,9 @@ public class TIA extends Kamer {
         System.out.println("\n==== HELAAS ====");
         System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord, maar je had er minstens " + PASSING_SCORE + " nodig.");
         System.out.println("Het begrip van de drie pijlers van empiricisme is essentieel voor Scrum:");
-        System.out.println("- Transparency (Transparantie)");
-        System.out.println("- Inspection (Inspectie)");
-        System.out.println("- Adaptation (Aanpassing)");
+        System.out.println("- Transparency");
+        System.out.println("- Inspection");
+        System.out.println("- Adaptation ");
         System.out.println("\nHet empiricisme-monster verschijnt! Je team verliest zich in chaos zonder deze fundamentele principes!");
         empiricismMonster.attack("TIA");
         System.out.println("\nProbeer het nog eens, en onthoud TIA: Transparency, Inspection, Adaptation!");
@@ -198,7 +160,7 @@ public class TIA extends Kamer {
         }
         return answer;
     }
-    
+
     public boolean isGameCompleted() {
         return gameCompleted;
     }
