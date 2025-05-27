@@ -52,6 +52,14 @@ public class GameController {
                 case "s":
                     printRoomNumbers();
                     System.out.println("Enter new room nr (max: " + (kamers.size()) + "): ");
+                    String input = s.nextLine();
+                    try {
+                        int roomNumber = Integer.parseInt(input);
+                        switchRooms(roomNumber);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ongeldige invoer. Voer een nummer in.");
+                    }
+                    System.out.println("Enter new room nr (max: " + (kamers.size()) + "): ");
                     switchRooms(s.nextInt());
                     s.nextLine();
                     break;
