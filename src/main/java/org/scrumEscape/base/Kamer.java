@@ -12,7 +12,6 @@ public abstract class Kamer {
 	private int kamerId;
 	private int kamerNaam;
 	private boolean isAfgerond;
-	private boolean monsterSpawned;
 
 	// Spelers objecten
 	private int huidigeTaakIndex;
