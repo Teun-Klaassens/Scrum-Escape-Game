@@ -51,7 +51,7 @@ public class GameController {
                      break;
                 case "s":
                     printRoomNumbers();
-                    System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
+                    System.out.println("Enter new room nr (max: " + (kamers.size()) + "): ");
                     switchRooms(s.nextInt());
                     s.nextLine();
                     break;
