@@ -104,7 +104,7 @@ public class TIA extends Kamer {
         }
 
 
-        System.out.println("\nVraag 5: Wat betekent 'empiricisme' in de context van Scrum?");
+        System.out.println("\nVraag 5: Wat betekent 'empiricism' in de context van Scrum?");
         System.out.println("1) Dat alle beslissingen alleen door de managers worden genomen");
         System.out.println("2) Werken op basis van feiten, ervaring en bewijs in plaats van fictieve plannen");
         System.out.println("3) Dat alle werknemers even belangrijk zijn");
@@ -125,18 +125,18 @@ public class TIA extends Kamer {
     private void showSuccessResult() {
         System.out.println("\n==== GEFELICITEERD! ====");
         System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord!");
-        System.out.println("Je begrijpt de drie pijlers van empiricisme in Scrum");
+        System.out.println("Je begrijpt de drie pijlers van empiricism in Scrum");
         System.out.println("============================");
     }
     
     private void showFailureResult() {
         System.out.println("\n==== HELAAS ====");
         System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord, maar je had er minstens " + PASSING_SCORE + " nodig.");
-        System.out.println("Het begrip van de drie pijlers van empiricisme is essentieel voor Scrum:");
+        System.out.println("Het begrip van de drie pijlers van empiricism is essentieel voor Scrum:");
         System.out.println("- Transparency");
         System.out.println("- Inspection");
         System.out.println("- Adaptation ");
-        System.out.println("\nHet empiricisme-monster verschijnt! Je team verliest zich in chaos zonder deze fundamentele principes!");
+        System.out.println("\nHet empiricism-monster verschijnt! Je team verliest zich in chaos zonder deze fundamentele principes!");
         empiricismMonster.attack("TIA");
         System.out.println("\nProbeer het nog eens, en onthoud TIA: Transparency, Inspection, Adaptation!");
     }
