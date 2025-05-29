@@ -15,6 +15,8 @@ public class ScrumBord extends Kamer {
 
     public void start() {
 
+
+
     }
 
 
