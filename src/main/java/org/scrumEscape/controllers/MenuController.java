@@ -1,5 +1,9 @@
 package org.scrumEscape.controllers;
 
+import org.scrumEscape.base.Kamer;
+
+import java.util.ArrayList;
+
 public class MenuController {
 
 	public static void printWelcome() {
@@ -38,5 +42,25 @@ public class MenuController {
 		System.out.println("close (x) - Close the application");
 		System.out.println("commands (sc) - how all available commands");
 		System.out.println("==================================");
+	}
+
+	public static void printAvailableRooms(ArrayList<Kamer> kamers) {
+		System.out.println("==================================");
+		System.out.println("Available rooms:");
+		for (int i = 0; i < kamers.size(); i++) {
+			System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
+		}
+		System.out.println("==================================");
+	}
+
+	public static void kamerBehaald(Kamer kamer) {
+		System.out.println("==================================");
+		System.out.println("Congratulations! You have completed the " + kamer.getClass().getSimpleName() + " room.");
+		System.out.println("==================================");
+	}
+
+	public static void MovingToRoom(Kamer kamer) {
+		System.out.println("==================================");
+		System.out.println("Moving to " + kamer.getClass().getSimpleName() + " room...");
 	}
 }
