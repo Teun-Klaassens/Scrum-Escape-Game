@@ -2,8 +2,8 @@ package org.scrumEscape.base;
 
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.hints.HintFactory;
-import org.scrumEscape.classes.Taak.MultiChoice;
-import org.scrumEscape.classes.Taak.Puzzel;
+import org.scrumEscape.classes.taak.MultiChoice;
+import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
@@ -19,7 +19,7 @@ public abstract class Kamer {
 	private Monster monster;
 	private boolean behaald;
 
-	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver){
+	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver) {
 		this.kamerNaam = kamerNaam;
 		this.monster = monster;
 		this.gameObserver = gameObserver;
@@ -34,44 +34,45 @@ public abstract class Kamer {
 			System.out.println("=================================================");
 			return;
 		}
- 		toonIntro();
+		toonIntro();
 		toonBeschrijving();
 		toonVoortgang();
 		toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, true);
 	}
-	public final void toonVoortgang(){
+
+	public final void toonVoortgang() {
 		System.out.println("=================================================");
-		System.out.println("Je hebt momenteel " + (this.huidigeTaak+1) + " van de " + this.taken.size() + " vragen correct beantwoord.");
+		System.out.println("Je hebt momenteel " + (this.huidigeTaak + 1) + " van de " + this.taken.size() + " vragen correct beantwoord.");
 		System.out.println("=================================================");
 	}
+
 	public final void valideerAntwoord(String text) {
-		if(text == null || text.isBlank()) return;
+		if (text == null || text.isBlank()) return;
 		int previousTaak = this.huidigeTaak;
 		TaakStrategie taak = taken.get(this.huidigeTaak);
 		boolean correct = taak.valideer(text);
 
 		// Check if the task is a puzzle and if it is completed
 		if ((taak instanceof Puzzel)) {
- 			if (correct) {
-				 Puzzel puzzel = (Puzzel) taak;
- 				 if(puzzel.isBehaald()) this.huidigeTaak++;
+			if (correct) {
+				Puzzel puzzel = (Puzzel) taak;
+				if (puzzel.isBehaald()) this.huidigeTaak++;
 			}
-		}
- 		else{
+		} else {
 			if (correct) this.huidigeTaak++;
 		}
 
-		 // After validating the answer
-		if(!correct) {
+		// After validating the answer
+		if (!correct) {
 			toonMonster();
 			toonMisluktBericht();
 			if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
- 		}else{
+		} else {
 			if (monster.isActive()) {
 				System.out.println("Je hebt de monster verslagen.");
 				monster.oplossen();
 			}
-			 updateSpeler();
+			updateSpeler();
 			if (this.huidigeTaak >= taken.size()) {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
@@ -86,6 +87,7 @@ public abstract class Kamer {
 
 	/**
 	 * Vraagt of de speler een hint wil en toont deze indien gewenst
+	 *
 	 * @param scanner De scanner voor gebruikersinvoer
 	 */
 	public void biedHintAan(Scanner scanner) {
@@ -100,6 +102,7 @@ public abstract class Kamer {
 
 	/**
 	 * Wordt aangeroepen wanneer een speler een fout antwoord geeft
+	 *
 	 * @param scanner De scanner voor gebruikersinvoer
 	 */
 	public void ongeldigAntwoordGegeven(Scanner scanner) {
@@ -107,29 +110,27 @@ public abstract class Kamer {
 		biedHintAan(scanner);
 	}
 
-	protected final void toonTaak(TaakStrategie taak,int positie, boolean toonOpdrachtHeader){
-		if(toonOpdrachtHeader){
+	protected final void toonTaak(TaakStrategie taak, int positie, boolean toonOpdrachtHeader) {
+		if (toonOpdrachtHeader) {
 			System.out.println("=================================================");
-			System.out.println("Opdracht " + (positie+1) + ":");
+			System.out.println("Opdracht " + (positie + 1) + ":");
 		}
 		taak.toon();
 
 		// Loop until the task is completed
-		while(!this.behaald) {
-			if(!gameObserver.getScanner().hasNext()) continue;
+		while (!this.behaald) {
+			if (!gameObserver.getScanner().hasNext()) continue;
 
-			if(taak instanceof MultiChoice) {
+			if (taak instanceof MultiChoice) {
 				// Handle multi-choice question
 				int choice = gameObserver.getScanner().nextInt();
 				gameObserver.getScanner().nextLine(); // Clear buffer
 				valideerAntwoord(String.valueOf(choice));
-			}
-			else if (taak instanceof Puzzel) {
+			} else if (taak instanceof Puzzel) {
 				// Handle puzzle question
 				String choice = gameObserver.getScanner().nextLine();
 				valideerAntwoord(choice);
-			}
-			else {
+			} else {
 				// Handle multi-choice question
 				String choice = gameObserver.getScanner().nextLine();
 				valideerAntwoord(String.valueOf(choice));
@@ -139,21 +140,26 @@ public abstract class Kamer {
 			//  gameObserver.getScanner().nextLine();
 		}
 	}
+
 	protected final int totalAantalTaken() {
 		return this.taken.size();
 	}
+
 	protected final GameObserver getGameObserver() {
 		return gameObserver;
 	}
 
- 	public abstract void toonIntro();
+	public abstract void toonIntro();
+
 	public abstract void toonBeschrijving();
+
 	protected abstract ArrayList<TaakStrategie> initialiseren();
 
-	protected void toonMisluktBericht(){
+	protected void toonMisluktBericht() {
 		// System.out.println("Je hebt de vraag niet correct beantwoord.");
 	}
-	protected void toonSuccesBericht(){
+
+	protected void toonSuccesBericht() {
 		// System.out.println("Je hebt de vraag correct beantwoord.");
 	}
 
@@ -161,6 +167,7 @@ public abstract class Kamer {
 		System.out.println("Monster is actief");
 		monster.toonImpediment();
 	}
+
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
 	}
