@@ -2,88 +2,58 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.taak.Puzzel;
+import org.scrumEscape.interfaces.GameObserver;
+import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Map;
 
 public class DailyScrum extends Kamer {
-    private final Monster mVertraging;
-    private ArrayList<String> teamleden;
-    private boolean isAfgerond;
-    private Scanner scanner;
 
-    public DailyScrum()  {
-        this.mVertraging = new Monster();
-        this.teamleden = new ArrayList<>();
-    }
+	public DailyScrum(GameObserver gameObserver) {
+		super("Daily Scrum", new Monster(), gameObserver);
+	}
 
-    @Override
-    public String getBeschrijving() {
-        return "Je krijgt een lijst teamleden en moet aangeven wie welke status-update zou geven. Een vergeten update roept het monster 'Vertraging' op.";
-    }
+	@Override
+	protected ArrayList<TaakStrategie> initialiseren() {
+		ArrayList<TaakStrategie> opdrachten = new ArrayList<>();
 
-    @Override
-    public void start() {
-        System.out.println("De Daily Scrum");
-        System.out.println("Je krijgt een lijst teamleden en moet aangeven wie welke status-update zou geven.");
-        System.out.println("Een vergeten update roept het monster 'Vertraging' op.\n");
+		// Maak puzzel opdracht
+		Puzzel puzzel1 = new Puzzel(
+				"Verbind de teamleden bij de juiste taken",
+				Map.ofEntries(
+						Map.entry("Teun:Scrum Master", "Ik heb een probleem met het opstarten"),
+						Map.entry("Roody:Developer", "Ik heb gisteren een taak afgerond"),
+						Map.entry("Kyran:Developer", "Ik heb een andere taak afgerond"),
+						Map.entry("Andre:Product Owner", "Ik heb het afsluiten gemaakt")
+				));
 
-        // Teamleden
-        teamleden.clear(); // Reset de lijst om dubbele toevoegingen te voorkomen
-        teamleden.add("teun");
-        teamleden.add("roody");
-        teamleden.add("kyran");
-        teamleden.add("andre");
+		opdrachten.add(puzzel1);
 
-        String[] updates = {
-                "Ik heb gisteren een taak afgerond.",
-                "Ik heb een andere taak afgerond.",
-                "Ik heb een probleem met het opstarten.",
-                "Ik heb het afsluiten gemaakt"
-        };
+		return opdrachten;
+	}
 
-        ArrayList<String> antwoorden = new ArrayList<>();
-        scanner = new Scanner(System.in);
+	@Override
+	public void toonIntro() {
+		System.out.println("De Daily Scrum");
+		System.out.println("Je krijgt een lijst teamleden en moet aangeven wie welke status-update zou geven.");
+		System.out.println("Een vergeten update roept het monster 'Vertraging' op.");
+		System.out.println(" ");
+	}
 
-        for (String update : updates) {
-            System.out.println("Wie zegt dit?");
-            System.out.println("\"" + update + "\"");
-            String naam = scanner.nextLine().toLowerCase();
-            
-            // Controleer direct of het antwoord correct is
-            if (!teamleden.contains(naam)) {
-                System.out.println("Die naam staat niet in de lijst teamleden.");
-                // Bied een hint aan als het antwoord niet correct is
-                ongeldigAntwoordGegeven(scanner);
-                // Vraag opnieuw
-                System.out.println("Wie zegt dit?");
-                System.out.println("\"" + update + "\"");
-                naam = scanner.nextLine().toLowerCase();
-            }
-            
-            antwoorden.add(naam);
-        }
+	@Override
+	public void toonBeschrijving() {
 
-        boolean vertraging = false;
+	}
 
-        for (String teamlid : teamleden) {
-            if (!antwoorden.contains(teamlid)) {
-                System.out.println(teamlid  + " heeft geen update gegeven!");
-                vertraging = true;
-            }
-        }
+	@Override
+	protected void toonMisluktBericht() {
+		super.toonMisluktBericht();
+	}
 
-        if (vertraging) {
-            System.out.println("Niet alle teamleden hebben een update gegeven tijdens de Daily Scrum!");
-            ongeldigAntwoordGegeven(scanner);
-            mVertraging.attack("dailyscrum");
-        } else {
-            isAfgerond = true;
-            System.out.println("Goed gedaan! Alle teamleden zijn aan het woord geweest.");
-        }
-    }
-    
-    public boolean isAfgerond() {
-        return isAfgerond;
-    }
+	@Override
+	protected void toonSuccesBericht() {
+		super.toonSuccesBericht();
+	}
 }
