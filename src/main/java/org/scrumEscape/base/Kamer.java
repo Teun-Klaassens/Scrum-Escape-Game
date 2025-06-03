@@ -13,11 +13,12 @@ import java.util.Scanner;
 public abstract class Kamer {
 	// Kamer objecten
 	private String kamerNaam;
-	private GameObserver gameObserver;
-	private ArrayList<TaakStrategie> taken = new ArrayList<>();
 	private int huidigeTaak;
-	private Monster monster;
 	private boolean behaald;
+
+	private ArrayList<TaakStrategie> taken = new ArrayList<>();
+	private GameObserver gameObserver;
+	private Monster monster;
 
 	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver) {
 		this.kamerNaam = kamerNaam;
