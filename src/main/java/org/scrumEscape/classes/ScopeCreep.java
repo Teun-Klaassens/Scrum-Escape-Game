@@ -7,6 +7,7 @@ package org.scrumEscape.classes;
      public void toonImpediment() {
          System.out.println("SCOPE CREEP is verschenen!");
      }
+
         public void oplossen() {
             System.out.println("Je hebt de scope creep verslagen!");
             isOpgelost = true;

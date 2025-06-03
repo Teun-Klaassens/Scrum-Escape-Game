@@ -7,7 +7,6 @@ public abstract class Monster {
 
     }
     public void oplossen(){
-
     }
 
 }

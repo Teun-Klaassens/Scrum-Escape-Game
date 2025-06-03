@@ -7,6 +7,7 @@ public class Vertraging extends Monster {
     public void toonImpediment() {
         System.out.println("VERTRAGING monster is verschenen!");
     }
+
     public void oplossen() {
         System.out.println("Je hebt het vertraging monster verslagen!");
         isOpgelost = true;
