@@ -7,6 +7,11 @@ public class SpelerDAO {
 
     public SpelerDAO(Connection conn) {
         this.conn = conn;
+        try {
+            this.conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveSpeler(Speler speler) throws SQLException {
