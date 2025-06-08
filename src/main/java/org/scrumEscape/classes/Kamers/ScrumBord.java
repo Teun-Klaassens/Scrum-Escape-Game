@@ -17,26 +17,6 @@ public class ScrumBord extends Kamer {
 	}
 
 	@Override
-	public void toonIntro() {
-		System.out.println("\n=== Welkom bij de Scrum Bord Kamer ===");
-		System.out.println("Je gaat een Scrum-bord inrichten met epics, user stories en taken rondom hintfunctionaliteit, objectinteractie en jokers.");
-		System.out.println("Druk op ENTER om te beginnen...");
-		Scanner scanner = this.getGameObserver().getScanner();
-		boolean entered = false;
-		while (!entered) {
-			String input = scanner.nextLine();
-			if (input.isEmpty()) {
-				entered = true;
-			}
-		}
-	}
-
-	@Override
-	public void toonBeschrijving() {
-		System.out.println("Test je kennis van het structureren van een Scrum-bord met behulp van meerkeuzevragen.");
-	}
-
-	@Override
 	protected ArrayList<TaakStrategie> initialiseren() {
 		ArrayList<TaakStrategie> taken = new ArrayList<>();
 
@@ -97,6 +77,27 @@ public class ScrumBord extends Kamer {
 
 		return taken;
 	}
+
+	@Override
+	public void toonIntro() {
+		System.out.println("\n=== Welkom bij de Scrum Bord Kamer ===");
+		System.out.println("Je gaat een Scrum-bord inrichten met epics, user stories en taken rondom hintfunctionaliteit, objectinteractie en jokers.");
+		System.out.println("Druk op ENTER om te beginnen...");
+		Scanner scanner = this.getGameObserver().getScanner();
+		boolean entered = false;
+		while (!entered) {
+			String input = scanner.nextLine();
+			if (input.isEmpty()) {
+				entered = true;
+			}
+		}
+	}
+
+	@Override
+	public void toonBeschrijving() {
+		System.out.println("Test je kennis van het structureren van een Scrum-bord met behulp van meerkeuzevragen.");
+	}
+
 
 	@Override
 	protected void toonSuccesBericht() {
