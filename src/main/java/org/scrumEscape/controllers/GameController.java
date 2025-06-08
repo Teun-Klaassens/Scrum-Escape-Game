@@ -29,7 +29,7 @@ public class GameController {
         this.isRunning = true;
         try {
             dbConnection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/scrumgame", "root", "1234");
+                    "jdbc:mysql://193.108.200.10/Scrum", "HHS_Admin", "Admin_HHS");
             spelerDAO = new SpelerDAO(dbConnection);
         } catch (Exception e) {
             e.printStackTrace();
