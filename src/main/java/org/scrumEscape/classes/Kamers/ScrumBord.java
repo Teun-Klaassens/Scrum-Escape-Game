@@ -101,7 +101,7 @@ public class ScrumBord extends Kamer {
 
 	@Override
 	protected void toonSuccesBericht() {
-		System.out.println("\nGefeliciteerd! Je hebt het Scrum-bord succesvol ingericht op basis van de SOLID-principes en user stories.");
+		System.out.println("\nGefeliciteerd! Je hebt het Scrum-bord succesvol ingericht.");
 	}
 
 	@Override
