@@ -12,6 +12,14 @@ import java.util.Scanner;
 
 public abstract class Kamer {
 	// Kamer objecten
+	private int kamerId;
+	private boolean isAfgerond;
+
+	// Spelers objecten
+	private int huidigeTaakIndex;
+	private int lastBehaaldTaakIndex;
+
+	// Kamer objecten
 	private String kamerNaam;
 	private GameObserver gameObserver;
 	private ArrayList<TaakStrategie> taken = new ArrayList<>();
@@ -135,9 +143,6 @@ public abstract class Kamer {
 				String choice = gameObserver.getScanner().nextLine();
 				valideerAntwoord(String.valueOf(choice));
 			}
-
-			// Clear the scanner buffer
-			//  gameObserver.getScanner().nextLine();
 		}
 	}
 
