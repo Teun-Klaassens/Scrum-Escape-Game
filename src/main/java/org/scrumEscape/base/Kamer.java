@@ -18,6 +18,7 @@ public abstract class Kamer {
 	private int huidigeTaak;
 	private Monster monster;
 	private boolean behaald;
+	protected Assistant assistant;
 
 	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver) {
 		this.kamerNaam = kamerNaam;
@@ -42,7 +43,7 @@ public abstract class Kamer {
 
 	public final void toonVoortgang() {
 		System.out.println("=================================================");
-		System.out.println("Je hebt momenteel " + (this.huidigeTaak + 1) + " van de " + this.taken.size() + " vragen correct beantwoord.");
+		System.out.println("Je hebt momenteel " + this.huidigeTaak + " van de " + this.taken.size() + " vragen correct beantwoord.");
 		System.out.println("=================================================");
 	}
 
@@ -52,7 +53,6 @@ public abstract class Kamer {
 		TaakStrategie taak = taken.get(this.huidigeTaak);
 		boolean correct = taak.valideer(text);
 
-		// Check if the task is a puzzle and if it is completed
 		if ((taak instanceof Puzzel)) {
 			if (correct) {
 				Puzzel puzzel = (Puzzel) taak;
@@ -62,11 +62,13 @@ public abstract class Kamer {
 			if (correct) this.huidigeTaak++;
 		}
 
-		// After validating the answer
 		if (!correct) {
 			toonMonster();
 			toonMisluktBericht();
 			if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
+			else if (this.getClass().getSimpleName().equals("TIA")) {
+				taak.toon();
+			}
 		} else {
 			if (monster.isActive()) {
 				System.out.println("Je hebt de monster verslagen.");
@@ -78,18 +80,20 @@ public abstract class Kamer {
 				System.out.println("Je hebt de kamer behaald.");
 				behaald = true;
 				gameObserver.onKamerBehaald(this);
-				gameObserver.nextKamer();
+				
+				if (!this.getClass().getSimpleName().equals("TIA")) {
+					gameObserver.nextKamer();
+				} else {
+					gameObserver.nextKamer();
+					return;
+				}
 			} else {
 				toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, previousTaak != this.huidigeTaak);
 			}
 		}
 	}
 
-	/**
-	 * Vraagt of de speler een hint wil en toont deze indien gewenst
-	 *
-	 * @param scanner De scanner voor gebruikersinvoer
-	 */
+
 	public void biedHintAan(Scanner scanner) {
 		System.out.println("Wil je een hint? (j/n)");
 		String antwoord = scanner.nextLine().trim().toLowerCase();
@@ -98,6 +102,22 @@ public abstract class Kamer {
 			String hint = HintFactory.getHintText(this.getClass().getSimpleName());
 			System.out.println("\n" + hint + "\n");
 		}
+	}
+
+
+	public boolean activateAssistant(Scanner scanner) {
+		if (assistant == null) {
+			System.out.println("Er is geen assistent beschikbaar in deze kamer.");
+			return false;
+		}
+		
+		System.out.println("\n=== " + assistant.getName() + " GEACTIVEERD ===");
+		System.out.println("\n🔍 HINT: " + assistant.getHint());
+		System.out.println("\n📚 EDUCATIEF HULPMIDDEL: " + assistant.getEducationalTool());
+		System.out.println("\n💪 MOTIVERENDE BOODSCHAP: " + assistant.getMotivationalMessage());
+		System.out.println("\nDruk op ENTER om door te gaan...");
+		scanner.nextLine();
+		return true;
 	}
 
 	/**
@@ -125,6 +145,16 @@ public abstract class Kamer {
 				// Handle multi-choice question
 				int choice = gameObserver.getScanner().nextInt();
 				gameObserver.getScanner().nextLine(); // Clear buffer
+				
+				// Check if the assistant option was selected
+				MultiChoice multiChoice = (MultiChoice) taak;
+				if (multiChoice.isAssistantRequest(String.valueOf(choice))) {
+					// Activate assistant and show question again
+					activateAssistant(gameObserver.getScanner());
+					taak.toon();
+					continue;
+				}
+				
 				valideerAntwoord(String.valueOf(choice));
 			} else if (taak instanceof Puzzel) {
 				// Handle puzzle question
