@@ -52,7 +52,16 @@ public class GameController {
             @Override
             public void nextKamer() {
                 currentRoomIndex++;
-                MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                if (currentRoomIndex < kamers.size()) {
+                    MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                } else {
+                    // All rooms completed
+                    System.out.println("\n==================================================");
+                    System.out.println("GEFELICITEERD! JE HEBT ALLE KAMERS VOLTOOID!");
+                    System.out.println("Je hebt bewezen dat je een echte Scrum Master bent!");
+                    System.out.println("==================================================\n");
+                    // Don't print menu here as it will be printed by switchRooms after TIA completion
+                }
             }
 
             @Override
@@ -115,9 +124,11 @@ public class GameController {
                     break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + "): ");
+                    System.out.println("Enter new room nr (max: " + kamers.size() + "): ");
                     try {
                         int roomNumber = Integer.parseInt(scanner.nextLine());
+                        // Adjust roomNumber to be 0-based for internal use
+                        roomNumber--; // Convert from 1-based user input to 0-based array index
                         switchRooms(roomNumber);
                     } catch (NumberFormatException e) {
                         System.out.println("Ongeldige invoer. Voer een nummer in.");
@@ -168,7 +179,8 @@ public class GameController {
     private void switchRooms(int newRoom) {
         if (newRoom >= 0 && newRoom < kamers.size()) {
             currentRoomIndex = newRoom;
-            System.out.println("You are in room " + currentRoomIndex);
+            // Display room number with 1-based indexing for user display
+            System.out.println("You are in room " + (currentRoomIndex + 1));
             kamers.get(currentRoomIndex).start();
             MenuController.printMenu();
         } else {
