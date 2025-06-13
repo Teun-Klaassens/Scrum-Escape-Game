@@ -40,7 +40,16 @@ public class GameController {
             @Override
             public void nextKamer() {
                 currentRoomIndex++;
-                MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                if (currentRoomIndex < kamers.size()) {
+                    MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                } else {
+                    // All rooms completed
+                    System.out.println("\n==================================================");
+                    System.out.println("GEFELICITEERD! JE HEBT ALLE KAMERS VOLTOOID!");
+                    System.out.println("Je hebt bewezen dat je een echte Scrum Master bent!");
+                    System.out.println("==================================================\n");
+                    // Don't print menu here as it will be printed by switchRooms after TIA completion
+                }
             }
 
             @Override
@@ -77,9 +86,17 @@ public class GameController {
                      break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
-                    switchRooms(scanner.nextInt());
-                    scanner.nextLine();
+                    System.out.println("Enter new room nr (max: " + kamers.size() + "): ");
+                    try {
+                        int roomNumber = scanner.nextInt();
+                        switchRooms(roomNumber);
+                    } catch (java.util.InputMismatchException e) {
+                        System.out.println("Fout: Je moet een geldig kamernummer invoeren (een getal).");
+                        scanner.nextLine();
+                    }
+                    if (scanner.hasNextLine()) {
+                        scanner.nextLine();
+                    }
                     break;
                 default:
                     System.out.println("Invalid command!");
