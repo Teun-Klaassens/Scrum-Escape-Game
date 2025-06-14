@@ -1,6 +1,8 @@
 package org.scrumEscape.controllers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
 import org.scrumEscape.interfaces.GameObserver;
@@ -15,6 +17,9 @@ public class GameController {
     private boolean isRunning;
     private boolean isPlaying;
     private int currentRoomIndex =0 ;
+    private String currentCommand = null;
+    private final HintJoker hintJoker;
+    private final KeyJoker keyJoker;
 
    // Game propertie
     private GameObserver gameObserver;
@@ -25,6 +30,8 @@ public class GameController {
         this.scanner = scanner;
         this.isRunning = true;
         this.isPlaying = false;
+        this.hintJoker = new HintJoker();
+        this.keyJoker = new KeyJoker();
 
         this.gameObserver = new GameObserver() {
             @Override
@@ -47,6 +54,25 @@ public class GameController {
             public Scanner getScanner() {
                 return scanner;
             }
+
+            @Override
+            public void kickToLobby() {
+                MenuController.printLobbyRoom(kamers);
+                currentCommand = "s";
+            }
+
+            @Override
+            public Speler getSpeler() {
+                return huidigeSpeler;
+            }
+            @Override
+            public HintJoker getHintJoker() {
+                return hintJoker;
+            }
+            @Override
+            public KeyJoker getKeyJoker() {
+                return keyJoker;
+            }
         };
      }
 
@@ -63,7 +89,15 @@ public class GameController {
          }
 
         while (isPlaying || isRunning) {
-            String nextCommand = scanner.nextLine().toLowerCase().trim(); // Added trim to avoid issue
+            String nextCommand;
+            if (currentCommand != null) {
+                nextCommand = currentCommand;
+                // Clear current command to avoid infinite loop
+                currentCommand = null;
+            }else {
+                nextCommand = scanner.nextLine().toLowerCase().trim();
+            }
+
             switch (nextCommand) {
                 case "x":
                     isPlaying = false;
@@ -77,7 +111,7 @@ public class GameController {
                      break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size()-1) + "): ");
+                    System.out.println("Enter new room nr (max: " + (kamers.size()) + "): ");
                     switchRooms(scanner.nextInt());
                     scanner.nextLine();
                     break;
@@ -120,4 +154,5 @@ public class GameController {
             System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
         }
     }
+
 }

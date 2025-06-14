@@ -12,6 +12,15 @@ public class MenuController {
 		System.out.println("==================================");
 	}
 
+	public static void printLobbyRoom(ArrayList<Kamer> kamers) {
+		System.out.println("==================================");
+		System.out.println("You are in the lobby room.");
+		/*System.out.println("Available rooms:");
+		for (int i = 0; i < kamers.size(); i++) {
+			System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
+		}*/
+	}
+
 	public static void gameStarting() {
 		System.out.println("==================================");
 		System.out.println("Scrum Escape game is starting...");

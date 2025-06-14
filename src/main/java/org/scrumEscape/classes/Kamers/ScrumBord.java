@@ -1,18 +1,24 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.BoardMonster;
+import org.scrumEscape.classes.Monster.Monster;
+import org.scrumEscape.classes.Monster.ScopeCreep;
 import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
-public class ScrumBord extends Kamer {
+public class ScrumBord extends Kamer implements HintJokerGebruiken {
 
 	public ScrumBord(GameObserver gameObserver) {
-		super("Scrum Bord", new Monster(), gameObserver);
+		super("Scrum Bord", new BoardMonster(), gameObserver);
 	}
 
 	@Override
@@ -38,6 +44,7 @@ public class ScrumBord extends Kamer {
 	public void toonIntro() {
 		System.out.println("== Welkom bij het Scrum Bord! ==");
 		System.out.println("Je krijgt een opdracht om een bord correct in te richten met taken, user stories en epics.");
+		System.out.println("Een incorrect anwoord roept het 'BOARD' monster op.");
 	}
 
 	@Override
@@ -53,5 +60,12 @@ public class ScrumBord extends Kamer {
 	@Override
 	protected void toonSuccesBericht() {
 		super.toonSuccesBericht();
+	}
+
+
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("ScrumBord");
+		System.out.println("\nHint: " + hint + "\n");
 	}
 }
