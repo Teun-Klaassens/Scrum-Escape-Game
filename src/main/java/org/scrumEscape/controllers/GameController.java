@@ -5,10 +5,12 @@ import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
+import org.scrumEscape.classes.SpelerDAO;
 import org.scrumEscape.interfaces.GameObserver;
 
-
-import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,9 +23,10 @@ public class GameController {
     private final HintJoker hintJoker;
     private final KeyJoker keyJoker;
 
-   // Game propertie
     private GameObserver gameObserver;
     private Speler huidigeSpeler;
+    private SpelerDAO spelerDAO;
+    private Connection dbConnection;
     private ArrayList<Kamer> kamers = new ArrayList<>();
 
     public GameController(Scanner scanner) {
@@ -32,6 +35,15 @@ public class GameController {
         this.isPlaying = false;
         this.hintJoker = new HintJoker();
         this.keyJoker = new KeyJoker();
+
+        try {
+            dbConnection = DriverManager.getConnection(
+                    "jdbc:mysql://193.108.200.20:3306/scrumgame?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
+                    "root", "hhs_admin");
+            spelerDAO = new SpelerDAO(dbConnection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.gameObserver = new GameObserver() {
             @Override
@@ -74,19 +86,43 @@ public class GameController {
                 return keyJoker;
             }
         };
-     }
+    }
 
     public void start() {
-         if(huidigeSpeler == null) {
-            System.out.println("Enter your unique player name: ");
-             while(huidigeSpeler == null) {
+        if (huidigeSpeler == null) {
+            System.out.println("Wil jij (1) een nieuw account aanmaken of (2) een bestaand account gebruiken? Typ 1 of 2 in:");
+            String keuze = scanner.nextLine().trim();
+
+            if (keuze.equals("2")) {
+                System.out.println("Typ jouw naam in:");
                 String naam = scanner.nextLine().trim();
-                if(naam.isEmpty())return;
+                loadSpeler(naam);
+                if (huidigeSpeler != null) {
+                    System.out.println("Welkom terug, " + naam + "!");
+                } else {
+                    System.out.println("Naam niet gevonden. Maak een account aan.");
+                    return;
+                }
+            } else if (keuze.equals("1")) {
+                System.out.println("Typ jouw naam in:");
+                String naam = scanner.nextLine().trim();
+                try {
+                    if (spelerDAO.loadSpeler(naam) != null) {
+                        System.out.println("Deze naam is al in gebruik. Kies een andere naam.");
+                        return;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 initializeSpeler(naam);
+            } else {
+                System.out.println("Dit is geen optie!");
+                return;
             }
-             MenuController.gameStarting();
-             isPlaying  = true;
-         }
+
+            MenuController.gameStarting();
+            isPlaying = true;
+        }
 
         while (isPlaying || isRunning) {
             String nextCommand;
@@ -100,20 +136,25 @@ public class GameController {
 
             switch (nextCommand) {
                 case "x":
+                    saveCurrentSpeler();
                     isPlaying = false;
                     isRunning = false;
                     break;
-                    ///////
-                case "sc" :
-                   MenuController.printMenu();
+                case "sc":
+                    MenuController.printMenu();
+                    break;
                 case "stop":
                     isPlaying = false;
-                     break;
+                    break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size()) + "): ");
-                    switchRooms(scanner.nextInt());
-                    scanner.nextLine();
+                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + "): ");
+                    try {
+                        int roomNumber = Integer.parseInt(scanner.nextLine());
+                        switchRooms(roomNumber);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ongeldige invoer. Voer een nummer in.");
+                    }
                     break;
                 default:
                     System.out.println("Invalid command!");
@@ -121,14 +162,34 @@ public class GameController {
         }
     }
 
-    private void initializeSpeler(String naam) {
-        huidigeSpeler = new Speler( naam);
-        System.out.println("Player " + naam + " has been created.");
-        kamers = new ArrayList<>();
-         initializeKamers();
+    public void saveCurrentSpeler() {
+        if (huidigeSpeler != null && spelerDAO != null) {
+            try {
+                spelerDAO.saveSpeler(huidigeSpeler);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void initializeKamers(){
+    public void loadSpeler(String naam) {
+        if (spelerDAO != null) {
+            try {
+                huidigeSpeler = spelerDAO.loadSpeler(naam);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initializeSpeler(String naam) {
+        huidigeSpeler = new Speler(naam);
+        System.out.println("Player " + naam + " has been created.");
+        kamers = new ArrayList<>();
+        initializeKamers();
+    }
+
+    private void initializeKamers() {
         kamers.add(new DailyScrum(gameObserver));
         kamers.add(new Retrospective(gameObserver));
         kamers.add(new ScrumBord(gameObserver));
@@ -138,10 +199,10 @@ public class GameController {
     }
 
     private void switchRooms(int newRoom) {
-        if (newRoom > 0 && newRoom <= kamers.size()) {
+        if (newRoom >= 0 && newRoom < kamers.size()) {
             currentRoomIndex = newRoom;
             System.out.println("You are in room " + currentRoomIndex);
-            kamers.get(currentRoomIndex -1).start();
+            kamers.get(currentRoomIndex).start();
             MenuController.printMenu();
         } else {
             System.out.println("Invalid room number. Please try again.");
@@ -151,8 +212,7 @@ public class GameController {
     private void printRoomNumbers() {
         System.out.println("Available rooms:");
         for (int i = 0; i < kamers.size(); i++) {
-            System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
+            System.out.println("Room " + i + ": " + kamers.get(i).getClass().getSimpleName());
         }
     }
-
 }
