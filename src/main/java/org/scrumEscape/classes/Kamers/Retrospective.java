@@ -1,17 +1,23 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.Monster;
+import org.scrumEscape.classes.Monster.RetroMonster;
+import org.scrumEscape.classes.Monster.ScopeCreep;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Retrospective extends Kamer {
+public class Retrospective extends Kamer implements HintJokerGebruiken {
 
 	public Retrospective(GameObserver gameObserver) {
-		super("Retrospective", new Monster(), gameObserver);
+		super("Retrospective", new RetroMonster(), gameObserver);
 	}
 
 	@Override
@@ -62,7 +68,8 @@ public class Retrospective extends Kamer {
 	@Override
 	public void toonIntro() {
 		System.out.println("=== Welkom bij de Sprint Retrospective! ===");
-		System.out.println("Analyseer de volgende situaties en kies het beste antwoord.\n");
+		System.out.println("Analyseer de volgende situaties en kies het beste antwoord.");
+		System.out.println("Een incorrect antwoord roept het 'RETRO' monster op.\n");
 	}
 
 	@Override
@@ -80,4 +87,12 @@ public class Retrospective extends Kamer {
 		super.toonSuccesBericht();
 	}
 
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Retrospective");
+		System.out.println("\nHint: " + hint + "\n");
+	}
+
+
 }
+

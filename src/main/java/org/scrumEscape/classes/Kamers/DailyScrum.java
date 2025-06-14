@@ -1,18 +1,23 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJokerGebruiken;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
-public class DailyScrum extends Kamer {
+public class DailyScrum extends Kamer implements HintJokerGebruiken, KeyJokerGebruiken {
 
 	public DailyScrum(GameObserver gameObserver) {
-		super("Daily Scrum", new Monster(), gameObserver);
+		super("Daily Scrum", new Vertraging(), gameObserver);
 	}
 
 	@Override
@@ -39,8 +44,10 @@ public class DailyScrum extends Kamer {
 		System.out.println("De Daily Scrum");
 		System.out.println("Je krijgt een lijst teamleden en moet aangeven wie welke status-update zou geven.");
 		System.out.println("Een vergeten update roept het monster 'Vertraging' op.");
+
 		System.out.println(" ");
 	}
+
 
 	@Override
 	public void toonBeschrijving() {
@@ -50,10 +57,24 @@ public class DailyScrum extends Kamer {
 	@Override
 	protected void toonMisluktBericht() {
 		super.toonMisluktBericht();
+
 	}
 
 	@Override
 	protected void toonSuccesBericht() {
 		super.toonSuccesBericht();
+	}
+
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Daily Scrum");
+		System.out.println("\nHint: " + hint + "\n");
+
+	}
+
+	@Override
+	public void useKeyJoker() {
+		getGameObserver().nextKamer();
+
 	}
 }

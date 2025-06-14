@@ -1,19 +1,25 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.Monster;
+import org.scrumEscape.classes.Monster.TIAMonster;
+import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class TIA extends Kamer {
+public class TIA extends Kamer implements HintJokerGebruiken {
 	private final int PASSING_SCORE = 3;
 	private final int TOTAL_QUESTIONS = 5;
 
 	public TIA(GameObserver gameObserver) {
-		super("TIA", new Monster(), gameObserver);
+		super("TIA", new TIAMonster(), gameObserver);
 	}
 
 	@Override
@@ -21,12 +27,13 @@ public class TIA extends Kamer {
 		System.out.println("\n==== WELKOM BIJ DE FINALE KAMER: TIA ====");
 		System.out.println("Dit is de laatste uitdaging. Toon je kennis van de onderdelen van Scrum");
 		System.out.println("Je moet minimaal " + PASSING_SCORE + " van de " + TOTAL_QUESTIONS + " vragen goed beantwoorden om deze kamer te voltooien.");
+		System.out.println("Een incorrect antwoord roept het 'TIA' monster op.");
 		System.out.println("\nDruk op ENTER om te beginnen...");
 	}
 
 	@Override
 	public void toonBeschrijving() {
-		System.out.println("In deze kamer het eindspel. Pas als je hier doorheen komt, heb je gewonnen! Zoek uit wat TIA is!");
+		System.out.println("In deze kamer is het eindspel. Zodra je deze kamer voltooit, heb je het spel uitgespeeld! Zoek uit wat TIA is!");
 	}
 
 	@Override
@@ -107,5 +114,11 @@ public class TIA extends Kamer {
 		// System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord!");
 		System.out.println("Je begrijpt de drie pijlers van empiricism in Scrum");
 		System.out.println("============================");
+	}
+
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("TIA");
+		System.out.println("\nHint: " + hint + "\n");
 	}
 }

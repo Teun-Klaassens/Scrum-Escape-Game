@@ -1,11 +1,16 @@
 package org.scrumEscape.base;
 
-import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.hints.HintFactory;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
+import org.scrumEscape.classes.Voorwerpen.KamerInfo;
+import org.scrumEscape.classes.Voorwerpen.KamerInfoStrings;
+import org.scrumEscape.classes.Voorwerpen.Zwaard;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,6 +31,8 @@ public abstract class Kamer {
 	private int huidigeTaak;
 	private Monster monster;
 	private boolean behaald;
+	private Zwaard zwaard = new Zwaard();
+	private boolean kickout = false;
 
 	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver) {
 		this.kamerNaam = kamerNaam;
@@ -42,7 +49,10 @@ public abstract class Kamer {
 			System.out.println("=================================================");
 			return;
 		}
+
+		kickout = false;
 		toonIntro();
+		toonKamerInfo();
 		toonBeschrijving();
 		toonVoortgang();
 		toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, true);
@@ -72,12 +82,36 @@ public abstract class Kamer {
 
 		// After validating the answer
 		if (!correct) {
-			toonMonster();
-			toonMisluktBericht();
-			if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
+			if(monster.isActief()){
+				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
+				Scanner scanner = gameObserver.getScanner();
+				System.out.println("Het monster heeft aangevallen! Wil je het zwaard gebruiken om het monster te doden? (j/n)");
+				String antwoord = scanner.nextLine().trim().toLowerCase();
+				if (antwoord.equals("j") || antwoord.equals("ja")) {
+					zwaard.attack(monster);
+					updateSpeler();
+						toonSuccesBericht();
+						System.out.println("Je hebt de kamer behaald.");
+						behaald = true;
+						gameObserver.nextKamer();
+
+				}
+				else{
+					System.out.println("Je hebt het zwaard niet gebruikt! Het monster heeft je aangevallen! ");
+					System.out.println("Je bent de kamer uit gestuurd!");
+					kickout = true;
+					gameObserver.kickToLobby();
+				}
+
+			}
+			else {
+				toonMisluktBericht();
+				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
+				monster.toonImpediment();
+				if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
+			}
 		} else {
-			if (monster.isActive()) {
-				System.out.println("Je hebt de monster verslagen.");
+			if (monster.isActief()) {
 				monster.oplossen();
 			}
 			updateSpeler();
@@ -126,7 +160,7 @@ public abstract class Kamer {
 		taak.toon();
 
 		// Loop until the task is completed
-		while (!this.behaald) {
+		while (!this.behaald && !kickout) {
 			if (!gameObserver.getScanner().hasNext()) continue;
 
 			if (taak instanceof MultiChoice) {
@@ -154,6 +188,23 @@ public abstract class Kamer {
 		return gameObserver;
 	}
 
+	protected void toonKamerInfo() {
+		System.out.println("Wil je het KamerInfo voorwerp gebruiken? Het geeft je informatie over de kamer! (ja/nee)");
+		System.out.println(" ");
+		gameObserver.getScanner().nextLine();
+		String antwoord = gameObserver.getScanner().nextLine().trim().toLowerCase();
+		if (antwoord.equals("ja") || antwoord.equals("j")) {
+			KamerInfo kamerInfo = new KamerInfo();
+			kamerInfo.showMessage(KamerInfoStrings.getInfo(this.kamerNaam));
+			System.out.println(" ");
+
+		}
+		else {
+			System.out.println("Geen KamerInfo gebruikt.");
+			System.out.println(" ");
+		}
+	}
+
 	public abstract void toonIntro();
 
 	public abstract void toonBeschrijving();
@@ -161,19 +212,37 @@ public abstract class Kamer {
 	protected abstract ArrayList<TaakStrategie> initialiseren();
 
 	protected void toonMisluktBericht() {
-		// System.out.println("Je hebt de vraag niet correct beantwoord.");
+		 System.out.println("Je hebt de vraag niet correct beantwoord.");
 	}
 
 	protected void toonSuccesBericht() {
 		// System.out.println("Je hebt de vraag correct beantwoord.");
 	}
 
-	private void toonMonster() {
-		System.out.println("Monster is actief");
-		monster.toonImpediment();
-	}
 
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
 	}
+
+	// In Kamer.java
+	public void vraagJokerGebruik(HintJoker hintJoker, KeyJoker keyJoker, Scanner scanner) {
+		System.out.println("Wil je een joker gebruiken? (ja/nee)");
+		String antwoord = scanner.nextLine().trim().toLowerCase();
+		if(!(antwoord.equals("ja") || antwoord.equals("j"))) {
+			System.out.println("Geen jokers gebruikt.");
+		}
+		else {
+
+			if (!hintJoker.isUsed()) {
+				hintJoker.offerUse(this, scanner);
+			}
+			if (!keyJoker.isUsed()) {
+				keyJoker.offerUse(this, scanner);
+				if (keyJoker.isUsed()) {
+					behaald = true;
+				}
+			}
+		}
+	}
+
 }
