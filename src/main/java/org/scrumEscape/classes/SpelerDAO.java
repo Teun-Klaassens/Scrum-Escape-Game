@@ -37,23 +37,25 @@ public class SpelerDAO {
         return null;
     }
 
-    public void voegProgressToe(String spelerNaam, String eventType, String eventValue) throws SQLException {
-        String spelerIdQuery = "SELECT id FROM speler WHERE naam = ?";
-        int spelerId = -1;
-
-        try (PreparedStatement stmt = conn.prepareStatement(spelerIdQuery)) {
-            stmt.setString(1, spelerNaam);
+    public int getSpelerId(String naam) throws SQLException {
+        String sql = "SELECT id FROM speler WHERE naam = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, naam);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    spelerId = rs.getInt("id");
+                    return rs.getInt("id");
                 } else {
-                    throw new SQLException("Speler niet gevonden: " + spelerNaam);
+                    throw new SQLException("Speler niet gevonden: " + naam);
                 }
             }
         }
+    }
 
-        String insertProgress = "INSERT INTO player_progress (player_id, event_type, event_value) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(insertProgress)) {
+    public void voegProgressToe(String spelerNaam, String eventType, String eventValue) throws SQLException {
+        int spelerId = getSpelerId(spelerNaam);
+
+        String sql = "INSERT INTO player_progress (player_id, event_type, event_value) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, spelerId);
             stmt.setString(2, eventType);
             stmt.setString(3, eventValue);
@@ -61,4 +63,3 @@ public class SpelerDAO {
         }
     }
 }
-

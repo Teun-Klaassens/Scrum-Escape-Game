@@ -5,6 +5,7 @@ import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.SpelerDAO;
 import org.scrumEscape.interfaces.GameObserver;
+import org.scrumEscape.services.status;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -112,6 +113,14 @@ public class GameController {
                 case "stop":
                     isPlaying = false;
                     break;
+                case "stats":
+                    if (huidigeSpeler != null && dbConnection != null) {
+                        status.toonVoortgang(huidigeSpeler.getNaam(), dbConnection, scanner);
+                        MenuController.printMenu();
+                    } else {
+                        System.out.println("Geen speler geladen.");
+                    }
+                    break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
                     System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' om terug te gaan naar het hoofdmenu");
@@ -170,13 +179,23 @@ public class GameController {
     }
 
     private void initializeKamers() {
-        kamers.add(new DailyScrum(gameObserver));
-        kamers.add(new Retrospective(gameObserver));
-        kamers.add(new ScrumBord(gameObserver));
-        kamers.add(new SprintPlanning(gameObserver));
-        kamers.add(new SprintReview(gameObserver));
-        kamers.add(new TIA(gameObserver));
+        kamers = new ArrayList<>();
+
+        for (Kamer kamer : new Kamer[]{
+                new DailyScrum(gameObserver),
+                new Retrospective(gameObserver),
+                new ScrumBord(gameObserver),
+                new SprintPlanning(gameObserver),
+                new SprintReview(gameObserver),
+                new TIA(gameObserver)
+        }) {
+            kamer.setSpeler(huidigeSpeler);
+            kamer.setConnection(dbConnection);
+            kamers.add(kamer);
+        }
     }
+
+
 
     private void switchRooms(int newRoom) {
         if (newRoom >= 0 && newRoom < kamers.size()) {
