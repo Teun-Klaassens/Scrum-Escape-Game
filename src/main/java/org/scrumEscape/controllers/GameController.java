@@ -116,19 +116,25 @@ public class GameController {
                     break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + "): ");
+                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") of type 'b' om terug te gaan naar het hoofdmenu");
+                    // FIXED/UPDATED: Speler kan terugkeren naar hoofdmenu via 'b'
                     while (true) {
-                        String input = scanner.nextLine();
+                        String input = scanner.nextLine().trim().toLowerCase();
+                        if (input.equals("b")) {
+                            System.out.println("Terug naar hoofdmenu.");
+                            MenuController.printMenu();
+                            break;
+                        }
                         try {
                             int roomNumber = Integer.parseInt(input);
                             if (roomNumber >= 0 && roomNumber < kamers.size()) {
                                 switchRooms(roomNumber);
                                 break;
                             } else {
-                                System.out.println("Invalid room number. Please try again.");
+                                System.out.println("Ongeldig kamernummer. Probeer het opnieuw.");
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("Ongeldige invoer. Voer een nummer in.");
+                            System.out.println("Ongeldige invoer. Voer een nummer in of 'b' om terug te gaan.");
                         }
                     }
                     break;
