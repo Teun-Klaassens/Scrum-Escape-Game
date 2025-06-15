@@ -34,6 +34,7 @@ public abstract class Kamer {
 		this.taken = initialiseren();
 	}
 
+
 	public final void start() {
 		if (behaald) {
 			System.out.println("=================================================");
