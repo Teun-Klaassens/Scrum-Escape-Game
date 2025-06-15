@@ -5,12 +5,16 @@ import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.SpelerDAO;
 import org.scrumEscape.interfaces.GameObserver;
+import org.scrumEscape.services.status;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.List;
+
 
 public class GameController {
     private Scanner scanner;
@@ -112,9 +116,17 @@ public class GameController {
                 case "stop":
                     isPlaying = false;
                     break;
+                case "stats":
+                    if (huidigeSpeler != null && dbConnection != null) {
+                        status.toonVoortgang(huidigeSpeler.getNaam(), dbConnection, scanner);
+                        MenuController.printMenu();
+                    } else {
+                        System.out.println("Geen speler geladen.");
+                    }
+                    break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' om terug te gaan naar het hoofdmenu");
+                    System.out.println("Typ een kamernummer (1 t/m " + kamers.size() + ") of 'b' om terug te gaan naar het hoofdmenu:");
                     while (true) {
                         String input = scanner.nextLine().trim().toLowerCase();
                         if (input.equals("b")) {
@@ -124,11 +136,10 @@ public class GameController {
                         }
                         try {
                             int roomNumber = Integer.parseInt(input);
-                            if (roomNumber >= 0 && roomNumber < kamers.size()) {
-                                switchRooms(roomNumber);
+                            if (switchRooms(roomNumber)) {
                                 break;
                             } else {
-                                System.out.println("Ongeldig kamernummer. Probeer het opnieuw.");
+                                System.out.println("Probeer nogmaals een kamer te kiezen of typ 'b' om terug te gaan.");
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("Ongeldige invoer. Voer een nummer in of 'b' om terug te gaan.");
@@ -170,29 +181,58 @@ public class GameController {
     }
 
     private void initializeKamers() {
-        kamers.add(new DailyScrum(gameObserver));
-        kamers.add(new Retrospective(gameObserver));
-        kamers.add(new ScrumBord(gameObserver));
-        kamers.add(new SprintPlanning(gameObserver));
-        kamers.add(new SprintReview(gameObserver));
-        kamers.add(new TIA(gameObserver));
-    }
+        kamers = new ArrayList<>();
 
-    private void switchRooms(int newRoom) {
-        if (newRoom >= 0 && newRoom < kamers.size()) {
-            currentRoomIndex = newRoom;
-            System.out.println("You are in room " + currentRoomIndex);
-            kamers.get(currentRoomIndex).start();
-            MenuController.printMenu();
-        } else {
-            System.out.println("Invalid room number. Please try again.");
+        for (Kamer kamer : new Kamer[]{
+                new DailyScrum(gameObserver),
+                new Retrospective(gameObserver),
+                new ScrumBord(gameObserver),
+                new SprintPlanning(gameObserver),
+                new SprintReview(gameObserver),
+                new TIA(gameObserver)
+        }) {
+            kamer.setSpeler(huidigeSpeler);
+            kamer.setConnection(dbConnection);
+            kamers.add(kamer);
         }
     }
+
+
+
+    private boolean switchRooms(int newRoom) {
+        int index = newRoom - 1;
+        if (index < 0 || index >= kamers.size()) {
+            System.out.println("Ongeldig kamernummer. Probeer het opnieuw.");
+            return false;
+        }
+
+        if (index == 5) { // Kamer 6 vergrendeld check
+            Set<String> voltooid = status.getVoltooideKamers(huidigeSpeler.getNaam(), dbConnection);
+            List<String> vereisteKamers = List.of("Daily Scrum", "Retrospective", "Scrum Bord", "Sprint Planning", "Sprint Review");
+            if (!voltooid.containsAll(vereisteKamers)) {
+                System.out.println("Kamer 6 is vergrendeld. Voltooi eerst alle andere kames.");
+                return false;
+            }
+        }
+
+        currentRoomIndex = index;
+        Kamer kamer = kamers.get(currentRoomIndex);
+        kamer.setSpeler(huidigeSpeler);
+        kamer.setConnection(dbConnection);
+        kamer.start();
+        MenuController.printMenu();
+        return true;
+    }
+
+
+
+
+
 
     private void printRoomNumbers() {
         System.out.println("Available rooms:");
         for (int i = 0; i < kamers.size(); i++) {
-            System.out.println("Room " + i + ": " + kamers.get(i).getClass().getSimpleName());
+            System.out.println("Kamer " + (i + 1) + ": " + kamers.get(i).getClass().getSimpleName());
         }
     }
 }

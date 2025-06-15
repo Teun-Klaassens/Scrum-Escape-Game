@@ -35,6 +35,7 @@ public class MenuController {
 		System.out.println("==================================");
 		System.out.println("Commando's:");
 		System.out.println("switch (s) - Wissel van kamer");
+		System.out.println("status (stats) - Toon je voortgang");
 		System.out.println("stop (x) - Sluit de applicatie");
 		System.out.println("commands (sc) - Toon alle beschikbare commando's");
 		System.out.println("==================================");
