@@ -63,7 +63,7 @@ public class GameController {
     }
 
     public void start() {
-        if (huidigeSpeler == null) {
+        while (huidigeSpeler == null) {
             System.out.println("Wil jij (1) een nieuw account aanmaken of (2) een bestaand account gebruiken? Typ 1 of 2 in:");
             String keuze = scanner.nextLine().trim();
 
@@ -76,7 +76,6 @@ public class GameController {
                     initializeKamers();
                 } else {
                     System.out.println("Naam niet gevonden. Maak een account aan.");
-                    return;
                 }
             } else if (keuze.equals("1")) {
                 System.out.println("Typ jouw naam in:");
@@ -84,20 +83,19 @@ public class GameController {
                 try {
                     if (spelerDAO.loadSpeler(naam) != null) {
                         System.out.println("Deze naam is al in gebruik. Kies een andere naam.");
-                        return;
+                    } else {
+                        initializeSpeler(naam);
                     }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                initializeSpeler(naam);
             } else {
                 System.out.println("Dit is geen optie!");
-                return;
             }
-
-            MenuController.gameStarting();
-            isPlaying = true;
         }
+
+        MenuController.gameStarting();
+        isPlaying = true;
 
         while (isPlaying || isRunning) {
             String nextCommand = scanner.nextLine().toLowerCase().trim();
@@ -116,8 +114,7 @@ public class GameController {
                     break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") of type 'b' om terug te gaan naar het hoofdmenu");
-                    // FIXED/UPDATED: Speler kan terugkeren naar hoofdmenu via 'b'
+                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' to go back to the main menu:");
                     while (true) {
                         String input = scanner.nextLine().trim().toLowerCase();
                         if (input.equals("b")) {
@@ -138,12 +135,12 @@ public class GameController {
                         }
                     }
                     break;
-
                 default:
-                    System.out.println("Invalid command!");
+                    System.out.println("Dit is geen optie!");
             }
         }
     }
+
 
     public void saveCurrentSpeler() {
         if (huidigeSpeler != null && spelerDAO != null) {
