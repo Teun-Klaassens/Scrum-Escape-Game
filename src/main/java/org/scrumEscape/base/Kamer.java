@@ -1,12 +1,16 @@
 package org.scrumEscape.base;
 
 import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Speler;
+import org.scrumEscape.classes.SpelerDAO;
 import org.scrumEscape.classes.hints.HintFactory;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,12 +24,16 @@ public abstract class Kamer {
 	private int lastBehaaldTaakIndex;
 
 	// Kamer objecten
-	private String kamerNaam;
+	protected String kamerNaam;
 	private GameObserver gameObserver;
 	private ArrayList<TaakStrategie> taken = new ArrayList<>();
 	private int huidigeTaak;
 	private Monster monster;
 	private boolean behaald;
+
+	protected Speler speler;
+	protected Connection conn;
+	protected SpelerDAO spelerDAO;
 
 	public Kamer(String kamerNaam, Monster monster, GameObserver gameObserver) {
 		this.kamerNaam = kamerNaam;
@@ -166,6 +174,11 @@ public abstract class Kamer {
 
 	protected void toonSuccesBericht() {
 		// System.out.println("Je hebt de vraag correct beantwoord.");
+		try {
+			spelerDAO.voegProgressToe(speler.getNaam(), "kamer_voltooid", kamerNaam);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void toonMonster() {
@@ -175,5 +188,14 @@ public abstract class Kamer {
 
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
+	}
+
+	public void setSpeler(Speler speler) {
+		this.speler = speler;
+	}
+
+	public void setConnection(Connection conn) {
+		this.conn = conn;
+		this.spelerDAO = new SpelerDAO(conn);
 	}
 }

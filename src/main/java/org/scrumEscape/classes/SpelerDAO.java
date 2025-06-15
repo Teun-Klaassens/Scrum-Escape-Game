@@ -36,4 +36,29 @@ public class SpelerDAO {
         }
         return null;
     }
+
+    public void voegProgressToe(String spelerNaam, String eventType, String eventValue) throws SQLException {
+        String spelerIdQuery = "SELECT id FROM speler WHERE naam = ?";
+        int spelerId = -1;
+
+        try (PreparedStatement stmt = conn.prepareStatement(spelerIdQuery)) {
+            stmt.setString(1, spelerNaam);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    spelerId = rs.getInt("id");
+                } else {
+                    throw new SQLException("Speler niet gevonden: " + spelerNaam);
+                }
+            }
+        }
+
+        String insertProgress = "INSERT INTO player_progress (player_id, event_type, event_value) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(insertProgress)) {
+            stmt.setInt(1, spelerId);
+            stmt.setString(2, eventType);
+            stmt.setString(3, eventValue);
+            stmt.executeUpdate();
+        }
+    }
 }
+
