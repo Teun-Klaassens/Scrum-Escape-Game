@@ -114,7 +114,7 @@ public class GameController {
                     break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' to go back to the main menu:");
+                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' om terug te gaan naar het hoofdmenu");
                     while (true) {
                         String input = scanner.nextLine().trim().toLowerCase();
                         if (input.equals("b")) {
