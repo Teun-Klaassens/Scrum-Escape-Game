@@ -63,7 +63,7 @@ public class GameController {
     }
 
     public void start() {
-        if (huidigeSpeler == null) {
+        while (huidigeSpeler == null) {
             System.out.println("Wil jij (1) een nieuw account aanmaken of (2) een bestaand account gebruiken? Typ 1 of 2 in:");
             String keuze = scanner.nextLine().trim();
 
@@ -73,9 +73,9 @@ public class GameController {
                 loadSpeler(naam);
                 if (huidigeSpeler != null) {
                     System.out.println("Welkom terug, " + naam + "!");
+                    initializeKamers();
                 } else {
                     System.out.println("Naam niet gevonden. Maak een account aan.");
-                    return;
                 }
             } else if (keuze.equals("1")) {
                 System.out.println("Typ jouw naam in:");
@@ -83,20 +83,19 @@ public class GameController {
                 try {
                     if (spelerDAO.loadSpeler(naam) != null) {
                         System.out.println("Deze naam is al in gebruik. Kies een andere naam.");
-                        return;
+                    } else {
+                        initializeSpeler(naam);
                     }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                initializeSpeler(naam);
             } else {
                 System.out.println("Dit is geen optie!");
-                return;
             }
-
-            MenuController.gameStarting();
-            isPlaying = true;
         }
+
+        MenuController.gameStarting();
+        isPlaying = true;
 
         while (isPlaying || isRunning) {
             String nextCommand = scanner.nextLine().toLowerCase().trim();
@@ -115,19 +114,33 @@ public class GameController {
                     break;
                 case "s":
                     MenuController.printAvailableRooms(kamers);
-                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + "): ");
-                    try {
-                        int roomNumber = Integer.parseInt(scanner.nextLine());
-                        switchRooms(roomNumber);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Ongeldige invoer. Voer een nummer in.");
+                    System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + ") or type 'b' om terug te gaan naar het hoofdmenu");
+                    while (true) {
+                        String input = scanner.nextLine().trim().toLowerCase();
+                        if (input.equals("b")) {
+                            System.out.println("Terug naar hoofdmenu.");
+                            MenuController.printMenu();
+                            break;
+                        }
+                        try {
+                            int roomNumber = Integer.parseInt(input);
+                            if (roomNumber >= 0 && roomNumber < kamers.size()) {
+                                switchRooms(roomNumber);
+                                break;
+                            } else {
+                                System.out.println("Ongeldig kamernummer. Probeer het opnieuw.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Ongeldige invoer. Voer een nummer in of 'b' om terug te gaan.");
+                        }
                     }
                     break;
                 default:
-                    System.out.println("Invalid command!");
+                    System.out.println("Dit is geen optie!");
             }
         }
     }
+
 
     public void saveCurrentSpeler() {
         if (huidigeSpeler != null && spelerDAO != null) {
