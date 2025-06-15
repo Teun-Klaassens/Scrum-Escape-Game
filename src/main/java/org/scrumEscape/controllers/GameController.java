@@ -73,6 +73,7 @@ public class GameController {
                 loadSpeler(naam);
                 if (huidigeSpeler != null) {
                     System.out.println("Welkom terug, " + naam + "!");
+                    initializeKamers();
                 } else {
                     System.out.println("Naam niet gevonden. Maak een account aan.");
                     return;
@@ -116,13 +117,22 @@ public class GameController {
                 case "s":
                     MenuController.printAvailableRooms(kamers);
                     System.out.println("Enter new room nr (max: " + (kamers.size() - 1) + "): ");
-                    try {
-                        int roomNumber = Integer.parseInt(scanner.nextLine());
-                        switchRooms(roomNumber);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Ongeldige invoer. Voer een nummer in.");
+                    while (true) {
+                        String input = scanner.nextLine();
+                        try {
+                            int roomNumber = Integer.parseInt(input);
+                            if (roomNumber >= 0 && roomNumber < kamers.size()) {
+                                switchRooms(roomNumber);
+                                break;
+                            } else {
+                                System.out.println("Invalid room number. Please try again.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Ongeldige invoer. Voer een nummer in.");
+                        }
                     }
                     break;
+
                 default:
                     System.out.println("Invalid command!");
             }
