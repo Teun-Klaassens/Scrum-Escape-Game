@@ -198,13 +198,16 @@ public class GameController {
 
 
     private void switchRooms(int newRoom) {
-        if (newRoom >= 0 && newRoom < kamers.size()) {
-            currentRoomIndex = newRoom;
-            System.out.println("You are in room " + currentRoomIndex);
-            kamers.get(currentRoomIndex).start();
+        int kamerIndex = newRoom - 1;
+        if (kamerIndex >= 0 && kamerIndex < kamers.size()) {
+            currentRoomIndex = kamerIndex;
+            Kamer kamer = kamers.get(currentRoomIndex);
+            kamer.setSpeler(huidigeSpeler);
+            kamer.setConnection(dbConnection);
+            kamer.start();
             MenuController.printMenu();
         } else {
-            System.out.println("Invalid room number. Please try again.");
+            System.out.println("Ongeldig kamernummer. Probeer het opnieuw.");
         }
     }
 

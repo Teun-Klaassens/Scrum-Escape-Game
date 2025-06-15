@@ -93,6 +93,7 @@ public abstract class Kamer {
 				toonSuccesBericht();
 				System.out.println("Je hebt de kamer behaald.");
 				behaald = true;
+				p_register();
 				gameObserver.onKamerBehaald(this);
 				gameObserver.nextKamer();
 			} else {
@@ -174,9 +175,17 @@ public abstract class Kamer {
 
 	protected void toonSuccesBericht() {
 		// System.out.println("Je hebt de vraag correct beantwoord.");
+	}
+
+	protected void p_register() {
 		try {
-			spelerDAO.voegProgressToe(speler.getNaam(), "kamer_voltooid", kamerNaam);
-		} catch (Exception e) {
+			if (spelerDAO == null && conn != null) {
+				spelerDAO = new SpelerDAO(conn);
+			}
+			if (spelerDAO != null && speler != null) {
+				spelerDAO.voegProgressToe(speler.getNaam(), "kamer_voltooid", kamerNaam);
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
