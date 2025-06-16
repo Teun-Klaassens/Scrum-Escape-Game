@@ -3,53 +3,62 @@ package org.scrumEscape.classes.Kamers;
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.base.Assistant;
 import org.scrumEscape.classes.Monster;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.Monster;
+import org.scrumEscape.classes.Monster.TIAMonster;
+import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class TIA extends Kamer {
+public class TIA extends Kamer implements HintJokerGebruiken {
 	private final int PASSING_SCORE = 4;
 	private final int TOTAL_QUESTIONS = 5;
 
 	public TIA(GameObserver gameObserver) {
-		super("TIA", new Monster(), gameObserver);
-		
+		super("TIA", new TIAMonster(), gameObserver);
+
 		String[] hints = {
 			"TIA staat voor Testing in Agile",
 			"Denk aan de verschillende testvormen binnen Scrum",
 			"In Scrum moet testen geïntegreerd worden in elke sprint"
 		};
-		
+
 		String[] educationalTools = {
 			"In Scrum is het belangrijk om 'Definition of Done' te hebben.",
 			"Test-Driven Development (TDD) is een populaire aanpak in Agile",
 			"Geautomatiseerde tests zijn essentieel."
 		};
-		
+
 		String[] motivationalMessages = {
 			"Je bent bij de laatste uitdaging!",
 			"Jouw kennis van Scrum is indrukwekkend!",
 			"Deze laatste uitdaging kun je zeker aan!"
 		};
-		
+
 		this.assistant = new   Assistant("SCRUM MASTER ASSISTENT", hints, educationalTools, motivationalMessages);
 	}
 
 	@Override
 	public void toonIntro() {
 		System.out.println("\n==== WELKOM BIJ DE FINALE KAMER: TIA ====");
+		System.out.println("Dit is de laatste uitdaging. Toon je kennis van de onderdelen van Scrum");
 		System.out.println("Je moet minimaal " + PASSING_SCORE + " van de " + TOTAL_QUESTIONS + " vragen goed beantwoorden om deze kamer te voltooien.");
 		System.out.println("\nTIP: Bij elke vraag kun je de SCRUM MASTER ASSISTENT activeren door de laatste optie te kiezen.");
 		System.out.println("De assistent geeft je een hint, educatief hulpmiddel en motiverende boodschap in één keer!");
+		System.out.println("Een incorrect antwoord roept het 'TIA' monster op.");
 		System.out.println("\nDruk op ENTER om te beginnen...");
 	}
 
 	@Override
 	public void toonBeschrijving() {
-		System.out.println("In deze kamer het eindspel. Pas als je hier doorheen komt, heb je gewonnen! Zoek uit wat TIA is!");
+		System.out.println("In deze kamer is het eindspel. Zodra je deze kamer voltooit, heb je het spel uitgespeeld! Zoek uit wat TIA is!");
 	}
 
 	@Override
@@ -66,7 +75,7 @@ public class TIA extends Kamer {
 		);
 		vraag1.addAssistantOption();
 		opdrachten.add(vraag1);
-	
+
 		// Vraag 2
 		ArrayList<String> keuzes2 = new ArrayList<>();
 		keuzes2.add("Alle teamleden hebben dezelfde fysieke werkplek");
@@ -78,7 +87,7 @@ public class TIA extends Kamer {
 		);
 		vraag2.addAssistantOption();
 		opdrachten.add(vraag2);
-	
+
 		// Vraag 3
 		ArrayList<String> keuzes3 = new ArrayList<>();
 		keuzes3.add("Alleen de Scrum Master");
@@ -90,7 +99,7 @@ public class TIA extends Kamer {
 		);
 		vraag3.addAssistantOption();
 		opdrachten.add(vraag3);
-	
+
 		// Vraag 4
 		ArrayList<String> keuzes4 = new ArrayList<>();
 		keuzes4.add("Het aanpassen van het proces om beter te worden dan gisteren");
@@ -102,7 +111,7 @@ public class TIA extends Kamer {
 		);
 		vraag4.addAssistantOption();
 		opdrachten.add(vraag4);
-	
+
 		// Vraag 5
 		ArrayList<String> keuzes5 = new ArrayList<>();
 		keuzes5.add("Dat alle beslissingen alleen door de managers worden genomen");
@@ -130,7 +139,7 @@ public class TIA extends Kamer {
 		System.out.println("- Adaptation ");
 		System.out.println("\nHet empiricism-monster verschijnt! Je team verliest zich in chaos zonder deze fundamentele principes!");
 		System.out.println("\nProbeer het nog eens, en onthoud TIA: Transparency, Inspection, Adaptation!");
-		
+
 		System.out.println("\n-------------------------------------------------");
 		System.out.println("Vraag wordt opnieuw getoond:");
 	}
@@ -142,5 +151,11 @@ public class TIA extends Kamer {
 		// System.out.println("Je hebt " + score + " van de " + TOTAL_QUESTIONS + " vragen correct beantwoord!");
 		System.out.println("Je begrijpt de drie pijlers van empiricism in Scrum");
 		System.out.println("============================");
+	}
+
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("TIA");
+		System.out.println("\nHint: " + hint + "\n");
 	}
 }

@@ -1,5 +1,7 @@
 package org.scrumEscape.classes;
 
+import org.scrumEscape.classes.Monster.Monster;
+
 public class ScopeCreep extends Monster {
     private String naam;
     private boolean monsterAlive = false;
