@@ -125,6 +125,7 @@ public class GameController {
                     }
                     break;
                 case "s":
+                    saveCurrentSpeler();
                     MenuController.printAvailableRooms(kamers);
                     System.out.println("Typ een kamernummer (1 t/m " + kamers.size() + ") of 'b' om terug te gaan naar het hoofdmenu:");
                     while (true) {
