@@ -6,7 +6,6 @@ import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.Monster.ReviewMonster;
 import org.scrumEscape.classes.Monster.ScopeCreep;
-import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
@@ -118,6 +117,7 @@ public class SprintReview extends Kamer implements HintJokerGebruiken, KeyJokerG
     @Override
     public void useKeyJoker() {
         getGameObserver().nextKamer();
+    }
       
     @Override
     protected void toonSuccesBericht() {
@@ -128,4 +128,4 @@ public class SprintReview extends Kamer implements HintJokerGebruiken, KeyJokerG
     protected void toonMisluktBericht() {
         System.out.println("\nDat was niet de juiste aanpak. verwerk Stakeholderfeedback correct!");
     }
-}
+};

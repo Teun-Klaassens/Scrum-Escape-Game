@@ -1,6 +1,8 @@
 package org.scrumEscape.classes;
 
-public class Vertraging extends Monster{
+import org.scrumEscape.classes.Monster.Monster;
+
+public class Vertraging extends Monster {
     private String naam;
     private boolean monsterAlive = false;
 
