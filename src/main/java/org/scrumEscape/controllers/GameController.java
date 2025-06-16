@@ -63,7 +63,16 @@ public class GameController {
             @Override
             public void nextKamer() {
                 currentRoomIndex++;
-                MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                if (currentRoomIndex < kamers.size()) {
+                    MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                } else {
+                    // All rooms completed
+                    System.out.println("\n==================================================");
+                    System.out.println("GEFELICITEERD! JE HEBT ALLE KAMERS VOLTOOID!");
+                    System.out.println("Je hebt bewezen dat je een echte Scrum Master bent!");
+                    System.out.println("==================================================\n");
+                    // Don't print menu here as it will be printed by switchRooms after TIA completion
+                }
             }
 
             @Override
@@ -106,6 +115,7 @@ public class GameController {
                     initializeKamers();
                 } else {
                     System.out.println("Naam niet gevonden. Maak een account aan.");
+                    return;
                 }
             } else if (keuze.equals("1")) {
                 System.out.println("Typ jouw naam in:");
@@ -119,8 +129,10 @@ public class GameController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                initializeSpeler(naam);
             } else {
                 System.out.println("Dit is geen optie!");
+                return;
             }
         }
 

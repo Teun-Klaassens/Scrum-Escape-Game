@@ -27,14 +27,14 @@ public class Retrospective extends Kamer implements HintJokerGebruiken {
 
 		// Vraag 1
 		ArrayList<String> keuzes1 = new ArrayList<>();
-		keuzes1.add("Wat is de beste les die het team hieruit kan trekken?");
+//		keuzes1.add("Wat is de beste les die het team hieruit kan trekken?");
 		keuzes1.add("Voortaan meer overuren maken om de verloren tijd in te halen");
 		keuzes1.add("Aan het begin van de sprint beter kijken naar taak-afhankelijkheden en de planning hierop aanpassen");
 		keuzes1.add("Minder afhankelijke taken oppakken in de volgende sprint");
 		opdrachten.add(new MultiChoice(
 				"Tijdens de laatste sprint heeft het team gemerkt dat er veel tijd verloren ging " +
 						"doordat teamleden op elkaar moesten wachten met afhankelijke taken.",
-				keuzes1, 3
+				keuzes1, 2
 		));
 
 
