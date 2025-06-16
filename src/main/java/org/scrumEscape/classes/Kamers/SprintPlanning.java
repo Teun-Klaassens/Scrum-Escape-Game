@@ -1,13 +1,7 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Jokers.HintJoker;
-import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
-import org.scrumEscape.classes.Jokers.KeyJoker;
-import org.scrumEscape.classes.Jokers.KeyJokerGebruiken;
-import org.scrumEscape.classes.Monster.Monster;
-import org.scrumEscape.classes.Monster.ScopeCreep;
-import org.scrumEscape.classes.Monster.Vertraging;
+import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
@@ -16,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class SprintPlanning extends Kamer implements HintJokerGebruiken {
+public class SprintPlanning extends Kamer {
 
 	public SprintPlanning(GameObserver gameObserver) {
-		super("Sprint Planning", new ScopeCreep(), gameObserver);
+		super("Sprint Planning", new Monster(), gameObserver);
 	}
 
 	@Override
@@ -94,7 +88,6 @@ public class SprintPlanning extends Kamer implements HintJokerGebruiken {
 		System.out.println("\n=== Welkom bij de Sprint Planning ===");
 		System.out.println("Je krijgt 5 meerkeuze vragen over Sprint Planning.");
 		System.out.println("Je moet minstens " + this.totalAantalTaken() + " vragen correct beantwoorden om de Scope Creep Monster te vermijden!");
-		System.out.println("Een incorrect antwoord roept het 'ScopeCreep' monster op.");
 		System.out.println("Druk op ENTER om te beginnen...");
 		Scanner scanner = this.getGameObserver().getScanner();
 		// Wacht op de gebruiker om te beginnen, bijvoorbeeld door op ENTER te drukken
@@ -109,7 +102,7 @@ public class SprintPlanning extends Kamer implements HintJokerGebruiken {
 
 	@Override
 	public void toonBeschrijving() {
-		System.out.println("Test je kennis van Sprint Planning met meerkeuze vragen.");
+		System.out.println("Test je kennis van Sprint Planning met meerkeuze vragen. Onvoldoende kennis triggert het monster 'Scope Creep'.");
 	}
 
 	@Override
@@ -120,13 +113,8 @@ public class SprintPlanning extends Kamer implements HintJokerGebruiken {
 
 	@Override
 	protected void toonMisluktBericht() {
-		System.out.println("Je kennis van Sprint Planning is onvoldoende!");
+		System.out.println("\nSCOPE CREEP MONSTER VERSCHIJNT!");
+		System.out.println("Je kennis van Sprint Planning is onvoldoende! Het Scope Creep Monster valt je aan.");
 		System.out.println("Het team heeft moeite om de sprint goed te plannen en wordt overweldigd door veranderende eisen!");
-	}
-
-	@Override
-	public void useHintJoker() {
-		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Sprint Planning");
-		System.out.println("\nHint: " + hint + "\n");
 	}
 }

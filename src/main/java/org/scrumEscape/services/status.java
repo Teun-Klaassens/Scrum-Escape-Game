@@ -61,5 +61,33 @@ public class status {
 
         return behaald;
     }
-    
+
+
+    public static boolean alleKamerGedaan(String spelerNaam, Connection conn) {
+        List<String> vereisteKamers = Arrays.asList(
+                "Daily Scrum",
+                "Retrospective",
+                "Scrum Bord",
+                "Sprint Planning",
+                "Sprint Review"
+        );
+        Set<String> behaald = new HashSet<>();
+
+        String sql = "SELECT event_value FROM player_progress " +
+                "JOIN speler ON speler.id = player_progress.player_id " +
+                "WHERE speler.naam = ? AND event_type = 'kamer_voltooid'";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, spelerNaam);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    behaald.add(rs.getString("event_value"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return behaald.containsAll(vereisteKamers);
+    }
 }

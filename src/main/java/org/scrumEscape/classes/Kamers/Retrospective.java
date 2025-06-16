@@ -1,23 +1,17 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
-import org.scrumEscape.classes.Jokers.HintJoker;
-import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
-import org.scrumEscape.classes.Jokers.KeyJoker;
-import org.scrumEscape.classes.Monster.Monster;
-import org.scrumEscape.classes.Monster.RetroMonster;
-import org.scrumEscape.classes.Monster.ScopeCreep;
+import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Retrospective extends Kamer implements HintJokerGebruiken {
+public class Retrospective extends Kamer {
 
 	public Retrospective(GameObserver gameObserver) {
-		super("Retrospective", new RetroMonster(), gameObserver);
+		super("Retrospective", new Monster(), gameObserver);
 	}
 
 	@Override
@@ -27,14 +21,14 @@ public class Retrospective extends Kamer implements HintJokerGebruiken {
 
 		// Vraag 1
 		ArrayList<String> keuzes1 = new ArrayList<>();
-//		keuzes1.add("Wat is de beste les die het team hieruit kan trekken?");
+		keuzes1.add("Wat is de beste les die het team hieruit kan trekken?");
 		keuzes1.add("Voortaan meer overuren maken om de verloren tijd in te halen");
 		keuzes1.add("Aan het begin van de sprint beter kijken naar taak-afhankelijkheden en de planning hierop aanpassen");
 		keuzes1.add("Minder afhankelijke taken oppakken in de volgende sprint");
 		opdrachten.add(new MultiChoice(
 				"Tijdens de laatste sprint heeft het team gemerkt dat er veel tijd verloren ging " +
 						"doordat teamleden op elkaar moesten wachten met afhankelijke taken.",
-				keuzes1, 2
+				keuzes1, 3
 		));
 
 
@@ -68,8 +62,7 @@ public class Retrospective extends Kamer implements HintJokerGebruiken {
 	@Override
 	public void toonIntro() {
 		System.out.println("=== Welkom bij de Sprint Retrospective! ===");
-		System.out.println("Analyseer de volgende situaties en kies het beste antwoord.");
-		System.out.println("Een incorrect antwoord roept het 'RETRO' monster op.\n");
+		System.out.println("Analyseer de volgende situaties en kies het beste antwoord.\n");
 	}
 
 	@Override
@@ -87,12 +80,4 @@ public class Retrospective extends Kamer implements HintJokerGebruiken {
 		super.toonSuccesBericht();
 	}
 
-	@Override
-	public void useHintJoker() {
-		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Retrospective");
-		System.out.println("\nHint: " + hint + "\n");
-	}
-
-
 }
-
