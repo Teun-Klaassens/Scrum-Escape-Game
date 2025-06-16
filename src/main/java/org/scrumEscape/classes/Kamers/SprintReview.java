@@ -118,7 +118,6 @@ public class SprintReview extends Kamer implements HintJokerGebruiken, KeyJokerG
     public void useKeyJoker() {
         getGameObserver().nextKamer();
     }
-      
     @Override
     protected void toonSuccesBericht() {
         System.out.println("\nGoed gedaan! Je hebt de feedback correct geïnterpreteerd en ingeschat.");
@@ -128,4 +127,4 @@ public class SprintReview extends Kamer implements HintJokerGebruiken, KeyJokerG
     protected void toonMisluktBericht() {
         System.out.println("\nDat was niet de juiste aanpak. verwerk Stakeholderfeedback correct!");
     }
-};
+}
