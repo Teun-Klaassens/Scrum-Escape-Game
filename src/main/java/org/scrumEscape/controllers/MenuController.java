@@ -8,7 +8,7 @@ public class MenuController {
 
 	public static void printWelcome() {
 		System.out.println("==================================");
-		System.out.println("Welcome to Scrum Escape!");
+		System.out.println("Welkom bij Scrum Escape!");
 		System.out.println("==================================");
 	}
 
@@ -23,7 +23,7 @@ public class MenuController {
 
 	public static void gameStarting() {
 		System.out.println("==================================");
-		System.out.println("Scrum Escape game is starting...");
+		System.out.println("Scrum Escape-spel wordt gestart...");
 		System.out.println("==================================");
 		printMenu();
 	}
@@ -34,42 +34,39 @@ public class MenuController {
 		System.out.println("==================================");
 	}
 
-	public  static void applicationClosing() {
+	public static void applicationClosing() {
 		System.out.println("==================================");
-		System.out.println("Scrum Escape is closing...");
+		System.out.println("Scrum Escape wordt afgesloten...");
 		System.out.println("==================================");
 	}
 
 	public static void printMenu() {
 		System.out.println("==================================");
-		System.out.println("Commands:");
-		System.out.println("switch (s) - Switch to another room");
-		System.out.println("stop ( )   - Exit the game");
-		System.out.println("help (h)   - Show this menu");
-		System.out.println("info (i)   - Show current room information");
-		System.out.println("rooms (r)  - Show all available rooms");
-		System.out.println("close (x) - Close the application");
-		System.out.println("commands (sc) - how all available commands");
+		System.out.println("Commando's:");
+		System.out.println("switch (s) - Wissel van kamer");
+		System.out.println("status (stats) - Toon je voortgang");
+		System.out.println("stop (x) - Sluit de applicatie");
+		System.out.println("commands (sc) - Toon alle beschikbare commando's");
 		System.out.println("==================================");
 	}
 
 	public static void printAvailableRooms(ArrayList<Kamer> kamers) {
 		System.out.println("==================================");
-		System.out.println("Available rooms:");
+		System.out.println("Beschikbare kamers:");
 		for (int i = 0; i < kamers.size(); i++) {
-			System.out.println("Room " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
+			System.out.println("Kamer " + (i+1) + ": " + kamers.get(i).getClass().getSimpleName());
 		}
 		System.out.println("==================================");
 	}
 
 	public static void kamerBehaald(Kamer kamer) {
 		System.out.println("==================================");
-		System.out.println("Congratulations! You have completed the " + kamer.getClass().getSimpleName() + " room.");
+		System.out.println("Gefeliciteerd! Je hebt de kamer " + kamer.getClass().getSimpleName() + " voltooid.");
 		System.out.println("==================================");
 	}
 
 	public static void MovingToRoom(Kamer kamer) {
 		System.out.println("==================================");
-		System.out.println("Moving to " + kamer.getClass().getSimpleName() + " room...");
+		System.out.println("Je gaat naar kamer: " + kamer.getClass().getSimpleName() + "...");
 	}
 }
