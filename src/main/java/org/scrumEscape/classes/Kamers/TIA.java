@@ -2,7 +2,6 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.base.Assistant;
-import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
 import org.scrumEscape.classes.Jokers.KeyJoker;
