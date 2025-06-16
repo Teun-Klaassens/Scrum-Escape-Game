@@ -51,9 +51,4 @@ public class DailyScrum extends Kamer {
 	protected void toonMisluktBericht() {
 		super.toonMisluktBericht();
 	}
-
-	@Override
-	protected void toonSuccesBericht() {
-		super.toonSuccesBericht();
-	}
 }
