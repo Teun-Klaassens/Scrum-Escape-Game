@@ -94,7 +94,7 @@ public abstract class Kamer {
 			if(monster.isActief()){
 				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
 				Scanner scanner = gameObserver.getScanner();
-				System.out.println("Het monster heeft aangevallen! Wil je het zwaard gebruiken om het monster te doden? (j/n)");
+				System.out.println("Het monster heeft aangevallen! Wil je het zwaard gebruiken om het monster te doden? (ja/nee)");
 				String antwoord = scanner.nextLine().trim().toLowerCase();
 				if (antwoord.equals("j") || antwoord.equals("ja")) {
 					zwaard.attack(monster);
@@ -252,20 +252,27 @@ public abstract class Kamer {
 
 	// In Kamer.java
 	public void vraagJokerGebruik(HintJoker hintJoker, KeyJoker keyJoker, Scanner scanner) {
-		System.out.println("Wil je een joker gebruiken? (ja/nee)");
-		String antwoord = scanner.nextLine().trim().toLowerCase();
-		if(!(antwoord.equals("ja") || antwoord.equals("j"))) {
-			System.out.println("Geen jokers gebruikt.");
+		boolean hintJokerAvailable = hintJoker != null && !hintJoker.isUsed();
+		boolean keyJokerAvailable = keyJoker != null && !keyJoker.isUsed();
+
+		if (!hintJokerAvailable && !keyJokerAvailable) {
+			System.out.println("Je hebt geen jokers meer over.");
 		}
 		else {
+			System.out.println("Wil je een joker gebruiken? (ja/nee)");
+			String antwoord = scanner.nextLine().trim().toLowerCase();
+			if (!(antwoord.equals("ja") || antwoord.equals("j"))) {
+				System.out.println("Geen jokers gebruikt.");
+			} else {
 
-			if (!hintJoker.isUsed()) {
-				hintJoker.offerUse(this, scanner);
-			}
-			if (!keyJoker.isUsed()) {
-				keyJoker.offerUse(this, scanner);
-				if (keyJoker.isUsed()) {
-					behaald = true;
+				if (!hintJoker.isUsed()) {
+					hintJoker.offerUse(this, scanner);
+				}
+				if (!keyJoker.isUsed()) {
+					keyJoker.offerUse(this, scanner);
+					if (keyJoker.isUsed()) {
+						behaald = true;
+					}
 				}
 			}
 		}
