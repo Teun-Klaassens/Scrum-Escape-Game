@@ -8,7 +8,6 @@ import org.scrumEscape.classes.Monster.BoardMonster;
 import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.Monster.ScopeCreep;
 import org.scrumEscape.classes.taak.Puzzel;
-import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;

@@ -201,7 +201,6 @@ public abstract class Kamer {
 	protected void toonKamerInfo() {
 		System.out.println("Wil je het KamerInfo voorwerp gebruiken? Het geeft je informatie over de kamer! (ja/nee)");
 		System.out.println(" ");
-		gameObserver.getScanner().nextLine();
 		String antwoord = gameObserver.getScanner().nextLine().trim().toLowerCase();
 		if (antwoord.equals("ja") || antwoord.equals("j")) {
 			KamerInfo kamerInfo = new KamerInfo();
