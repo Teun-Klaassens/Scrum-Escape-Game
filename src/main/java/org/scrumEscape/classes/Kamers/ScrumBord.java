@@ -1,19 +1,27 @@
 package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
+import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
+import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Monster.BoardMonster;
+import org.scrumEscape.classes.Monster.Monster;
+import org.scrumEscape.classes.Monster.ScopeCreep;
+import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.classes.Monster;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class ScrumBord extends Kamer {
+public class ScrumBord extends Kamer implements HintJokerGebruiken {
 
-	public ScrumBord(GameObserver observer) {
-		super("Scrum Bord", new Monster(), observer);
+	public ScrumBord(GameObserver gameObserver) {
+		super("Scrum Bord", new BoardMonster(), gameObserver);
 	}
 
 	@Override
@@ -80,9 +88,11 @@ public class ScrumBord extends Kamer {
 
 	@Override
 	public void toonIntro() {
+
 		System.out.println("\n=== Welkom bij de Scrum Bord Kamer ===");
 		System.out.println("Je gaat een Scrum-bord inrichten met epics, user stories en taken rondom hintfunctionaliteit, objectinteractie en jokers.");
 		System.out.println("Druk op ENTER om te beginnen...");
+		System.out.println("Een incorrect anwoord roept het 'BOARD' monster op.");
 		Scanner scanner = this.getGameObserver().getScanner();
 		boolean entered = false;
 		while (!entered) {
@@ -107,5 +117,12 @@ public class ScrumBord extends Kamer {
 	@Override
 	protected void toonMisluktBericht() {
 		System.out.println("\nDat klopt niet helemaal. Bekijk goed welke items logisch onder elkaar vallen en probeer het opnieuw.");
+	}
+
+
+	@Override
+	public void useHintJoker() {
+		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("ScrumBord");
+		System.out.println("\nHint: " + hint + "\n");
 	}
 }
