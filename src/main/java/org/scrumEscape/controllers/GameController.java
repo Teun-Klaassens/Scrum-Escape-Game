@@ -211,7 +211,7 @@ public class GameController {
             Set<String> voltooid = status.getVoltooideKamers(huidigeSpeler.getNaam(), dbConnection);
             List<String> vereisteKamers = List.of("Daily Scrum", "Retrospective", "Scrum Bord", "Sprint Planning", "Sprint Review");
             if (!voltooid.containsAll(vereisteKamers)) {
-                System.out.println("Kamer 6 is vergrendeld. Voltooi eerst alle andere kames.");
+                System.out.println("Kamer 6 is vergrendeld. Voltooi eerst alle andere kamers.");
                 return false;
             }
         }
