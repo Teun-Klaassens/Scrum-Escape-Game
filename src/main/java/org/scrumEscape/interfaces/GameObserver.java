@@ -4,6 +4,7 @@ import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Speler;
+import org.scrumEscape.classes.Voorwerpen.Zwaard;
 
 import java.util.Scanner;
 
@@ -17,4 +18,5 @@ public interface GameObserver {
 	HintJoker getHintJoker();
 	KeyJoker getKeyJoker();
 
+    Zwaard getZwaard();
 }

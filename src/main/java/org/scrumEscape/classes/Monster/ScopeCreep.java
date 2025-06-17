@@ -1,5 +1,7 @@
 package org.scrumEscape.classes.Monster;
 
+import org.scrumEscape.base.Kamer;
+
 public class ScopeCreep extends Monster {
     private boolean isOpgelost = false;
     private boolean isActief;
@@ -20,16 +22,11 @@ public class ScopeCreep extends Monster {
         isOpgelost = true;
     }
 
-    public boolean isActief() {
-        return isActief;
-    }
-    public boolean setActief() {
-        isActief = true;
-        return isActief;
+    public void attack(Kamer kamer) {
+        kamer.kickOutPlayer();
     }
 
-    public boolean setInactief() {
-        isActief = false;
+    public boolean isActief() {
         return isActief;
     }
 

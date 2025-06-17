@@ -1,5 +1,7 @@
 package org.scrumEscape.classes.Monster;
 
+import org.scrumEscape.base.Kamer;
+
 public abstract class Monster {
 	private boolean isActief;
 	private boolean isOpgelost;
@@ -13,13 +15,8 @@ public abstract class Monster {
 	public boolean isActief() {
 		return isActief;
 	}
-	public boolean setActief() {
-		isActief = true;
-		return isActief;
+
+	public void attack(Kamer kamer) {
 	}
 
-	public boolean setInactief() {
-		isActief = false;
-		return isActief;
-	}
 }
