@@ -56,8 +56,14 @@ public class GameController {
             @Override
             public void nextKamer() {
                 currentRoomIndex++;
-                MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                if (currentRoomIndex < kamers.size()) {
+                    MenuController.MovingToRoom(kamers.get(currentRoomIndex));
+                } else {
+                    System.out.println("Je hebt alle kamers voltooid!");
+                    isPlaying = false;
+                }
             }
+
 
             @Override
             public Scanner getScanner() {
@@ -223,17 +229,5 @@ public class GameController {
         kamer.start();
         MenuController.printMenu();
         return true;
-    }
-
-
-
-
-
-
-    private void printRoomNumbers() {
-        System.out.println("Available rooms:");
-        for (int i = 0; i < kamers.size(); i++) {
-            System.out.println("Kamer " + (i + 1) + ": " + kamers.get(i).getClass().getSimpleName());
-        }
     }
 }
