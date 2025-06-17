@@ -6,6 +6,7 @@ import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Kamers.*;
 import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.SpelerDAO;
+import org.scrumEscape.classes.Voorwerpen.Zwaard;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.services.status;
 
@@ -26,6 +27,8 @@ public class GameController {
     private String currentCommand = null;
     private final HintJoker hintJoker;
     private final KeyJoker keyJoker;
+    private Zwaard zwaard = new Zwaard();
+
 
     private GameObserver gameObserver;
     private Speler huidigeSpeler;
@@ -39,6 +42,7 @@ public class GameController {
         this.isPlaying = false;
         this.hintJoker = new HintJoker();
         this.keyJoker = new KeyJoker();
+        this.zwaard = new Zwaard();
 
         try {
             dbConnection = DriverManager.getConnection(
@@ -88,6 +92,10 @@ public class GameController {
             @Override
             public KeyJoker getKeyJoker() {
                 return keyJoker;
+            }
+            @Override
+            public Zwaard getZwaard() {
+                return zwaard;
             }
         };
     }
