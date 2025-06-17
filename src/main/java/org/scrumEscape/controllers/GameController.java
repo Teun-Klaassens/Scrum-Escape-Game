@@ -66,6 +66,7 @@ public class GameController {
                 if (currentRoomIndex < kamers.size()) {
                     MenuController.MovingToRoom(kamers.get(currentRoomIndex));
                 } else {
+                    isPlaying = false;
                     // All rooms completed
                     System.out.println("\n==================================================");
                     System.out.println("GEFELICITEERD! JE HEBT ALLE KAMERS VOLTOOID!");
@@ -74,6 +75,7 @@ public class GameController {
                     // Don't print menu here as it will be printed by switchRooms after TIA completion
                 }
             }
+
 
             @Override
             public Scanner getScanner() {
@@ -268,17 +270,5 @@ public class GameController {
         kamer.start();
         MenuController.printMenu();
         return true;
-    }
-
-
-
-
-
-
-    private void printRoomNumbers() {
-        System.out.println("Available rooms:");
-        for (int i = 0; i < kamers.size(); i++) {
-            System.out.println("Kamer " + (i + 1) + ": " + kamers.get(i).getClass().getSimpleName());
-        }
     }
 }
