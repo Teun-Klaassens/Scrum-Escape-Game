@@ -9,5 +9,6 @@ public abstract class Joker {
     }
 
     public abstract void useIn(Kamer kamer);
+
     public abstract void offerUse(Kamer kamer, java.util.Scanner scanner);
 }

@@ -93,6 +93,7 @@ public abstract class Kamer {
 		if (!correct) {
 			if(monster.isActief()){
 				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
+				if (behaald) return;
 				Scanner scanner = gameObserver.getScanner();
 				System.out.println("Het monster heeft aangevallen! Wil je het zwaard gebruiken om het monster te doden? (ja/nee)");
 				String antwoord = scanner.nextLine().trim().toLowerCase();
@@ -108,8 +109,7 @@ public abstract class Kamer {
 				else{
 					System.out.println("Je hebt het zwaard niet gebruikt! Het monster heeft je aangevallen! ");
 					System.out.println("Je bent de kamer uit gestuurd!");
-					kickout = true;
-					gameObserver.kickToLobby();
+					monster.attack(this);
 				}
 
 			}
@@ -241,10 +241,6 @@ public abstract class Kamer {
 		}
 	}
 
-	private void toonMonster() {
-		System.out.println("Monster is actief");
-		monster.toonImpediment();
-	}
 
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
@@ -285,5 +281,11 @@ public abstract class Kamer {
 	public void setConnection(Connection conn) {
 		this.conn = conn;
 		this.spelerDAO = new SpelerDAO(conn);
+	}
+
+	public void kickOutPlayer() {
+		kickout = true;
+		gameObserver.kickToLobby();
+
 	}
 }

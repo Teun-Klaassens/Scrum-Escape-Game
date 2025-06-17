@@ -1,5 +1,7 @@
 package org.scrumEscape.classes.Monster;
 
+import org.scrumEscape.base.Kamer;
+
 public class BoardMonster extends Monster {
     private boolean isOpgelost = false;
     private boolean isActief;
@@ -23,13 +25,8 @@ public class BoardMonster extends Monster {
     public boolean isActief() {
         return isActief;
     }
-    public boolean setActief() {
-        isActief = true;
-        return isActief;
-    }
 
-    public boolean setInactief() {
-        isActief = false;
-        return isActief;
+    public void attack(Kamer kamer) {
+        kamer.kickOutPlayer();
     }
 }
