@@ -1,5 +1,6 @@
 package org.scrumEscape.classes.taak;
 
+import org.scrumEscape.controllers.MenuController;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 public class Vraag implements TaakStrategie {
@@ -15,8 +16,10 @@ public class Vraag implements TaakStrategie {
 
 	@Override
 	public void toon() {
-		System.out.println(vraag);
+		System.out.println(MenuController.BOLD + MenuController.YELLOW);
+		System.out.println("❓ " + vraag);
 		System.out.println("Geef je antwoord:");
+		System.out.println(MenuController.RESET);
 	}
 
 	@Override
@@ -26,13 +29,17 @@ public class Vraag implements TaakStrategie {
 
 	@Override
 	public void ongeldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.WHITE + MenuController.BG_RED);
 		System.out.println("Dat is niet het juiste antwoord. Het correcte antwoord is: " + this.antwoord);
+		System.out.print(MenuController.RESET);
 		toon();
 	}
 
 	@Override
 	public void geldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.GREEN);
 		System.out.println("Dat is het juiste antwoord!");
+		System.out.print(MenuController.RESET);
 	}
 
 	@Override

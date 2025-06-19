@@ -5,14 +5,14 @@ import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.Speler;
 import org.scrumEscape.classes.SpelerDAO;
+import org.scrumEscape.classes.Voorwerpen.KamerInfo;
+import org.scrumEscape.classes.Voorwerpen.KamerInfoStrings;
 import org.scrumEscape.classes.hints.HintFactory;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.classes.taak.Puzzel;
+import org.scrumEscape.controllers.MenuController;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
-import org.scrumEscape.classes.Voorwerpen.KamerInfo;
-import org.scrumEscape.classes.Voorwerpen.KamerInfoStrings;
-import org.scrumEscape.classes.Voorwerpen.Zwaard;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -49,28 +49,59 @@ public abstract class Kamer {
 		this.taken = initialiseren();
 	}
 
-
 	public final void start() {
 		if (behaald) {
+			System.out.println(MenuController.BOLD + MenuController.BG_PURPLE + "=================================================");
 			System.out.println("=================================================");
 			System.out.println("Kamer: " + kamerNaam);
 			System.out.println("Is al behaald.!!");
 			System.out.println("=================================================");
+			System.out.println(MenuController.RESET);
 			return;
 		}
 
 		kickout = false;
+		MenuController.clearScreen();
+		System.out.print(MenuController.BOLD + MenuController.PURPLE);
+		System.out.print(
+				"╔════════════════════════════════════════════════════════════╗\n" +
+						"║                                                            ║\n" +
+						"║                       ████                                 ║\n" +
+						"║                      ██████                                ║\n" +
+						"║                     ████████                               ║\n" +
+						"║                    ██████████                              ║\n" +
+						"║                   ████████████                             ║\n" +
+						"║                   ██        ██                             ║\n" +
+						"║                   ██  ████  ██                             ║\n" +
+						"║                   ██  ████  ██                             ║\n" +
+						"║                   ██        ██                             ║\n" +
+						"║                   ██████████████                           ║\n" +
+						"║                                                            ║\n" +
+						"║  ██   ██  █████  ███    ███ ███████ ██████                 ║\n" +
+						"║  ██  ██  ██   ██ ████  ████ ██      ██   ██                ║\n" +
+						"║  █████   ███████ ██ ████ ██ █████   ██████                 ║\n" +
+						"║  ██  ██  ██   ██ ██  ██  ██ ██      ██   ██                ║\n" +
+						"║  ██   ██ ██   ██ ██      ██ ███████ ██   ██                ║\n" +
+						"║                                                            ║\n" +
+						"╚════════════════════════════════════════════════════════════╝\n"
+		);
+		System.out.println(MenuController.BOLD + MenuController.BG_PURPLE + MenuController.BLACK + "=================================================");
 		toonIntro();
+		System.out.println("=================================================");
+		System.out.print(MenuController.RESET);
+
 		toonKamerInfo();
 		toonBeschrijving();
 		toonVoortgang();
 		toonTaak(taken.get(this.huidigeTaak), this.huidigeTaak, true);
+
 	}
 
 	public final void toonVoortgang() {
-		System.out.println("=================================================");
+		System.out.println(MenuController.BOLD + MenuController.BG_PURPLE + MenuController.BLACK + "=================================================");
 		System.out.println("Je hebt momenteel " + this.huidigeTaak + " van de " + this.taken.size() + " vragen correct beantwoord.");
 		System.out.println("=================================================");
+		System.out.println(MenuController.RESET);
 	}
 
 	public final void valideerAntwoord(String text) {
@@ -91,8 +122,9 @@ public abstract class Kamer {
 
 		// After validating the answer
 		if (!correct) {
-			if(monster.isActief()){
-				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
+			biedHintAan(gameObserver.getScanner());
+			if (monster.isActief()) {
+				vraagJokerGebruik(this.getHintJoker(), this.getKeyJoker(), gameObserver.getScanner());
 				if (behaald) return;
 				Scanner scanner = gameObserver.getScanner();
 				if (!gameObserver.getZwaard().isUsed()) {
@@ -106,24 +138,25 @@ public abstract class Kamer {
 						behaald = true;
 						gameObserver.nextKamer();
 
-					}
-					else{
+					} else {
 						System.out.println("Je hebt het zwaard niet gebruikt! Het monster heeft je aangevallen! ");
 						System.out.println("Je bent de kamer uit gestuurd!");
 						monster.attack(this);
 					}
-				}
-				else{
+				} else {
+					System.out.print(MenuController.BOLD + MenuController.RED);
 					System.out.println("Het monster heeft je aangevallen! ");
 					System.out.println("Je bent de kamer uit gestuurd!");
+					System.out.print(MenuController.RESET);
 					monster.attack(this);
 				}
 
-			}
-			else {
+			} else {
 				toonMisluktBericht();
-				vraagJokerGebruik(gameObserver.getHintJoker(), gameObserver.getKeyJoker(), gameObserver.getScanner());
+				vraagJokerGebruik(this.getHintJoker(), this.getKeyJoker(), gameObserver.getScanner());
+				System.out.print(MenuController.BOLD + MenuController.RED);
 				monster.toonImpediment();
+				System.out.println(MenuController.RESET);
 				if ((taak instanceof Puzzel)) ((Puzzel) taak).toonHuidigeStuk();
 			}
 		} else {
@@ -150,7 +183,6 @@ public abstract class Kamer {
 		}
 	}
 
-
 	public void biedHintAan(Scanner scanner) {
 		System.out.println("Wil je een hint? (j/n)");
 		String antwoord = scanner.nextLine().trim().toLowerCase();
@@ -160,7 +192,6 @@ public abstract class Kamer {
 			System.out.println("\n" + hint + "\n");
 		}
 	}
-
 
 	public boolean activateAssistant(Scanner scanner) {
 		if (assistant == null) {
@@ -184,13 +215,19 @@ public abstract class Kamer {
 	 */
 	public void ongeldigAntwoordGegeven(Scanner scanner) {
 		System.out.println("Dat is helaas niet het juiste antwoord.");
-		biedHintAan(scanner);
 	}
 
 	protected final void toonTaak(TaakStrategie taak, int positie, boolean toonOpdrachtHeader) {
 		if (toonOpdrachtHeader) {
-			System.out.println("=================================================");
-			System.out.println("Opdracht " + (positie + 1) + ":");
+			System.out.print(MenuController.BOLD + MenuController.CYAN);
+			System.out.print(
+					"╔═══════════════════════════════════════════════╗\n" +
+							"║                                               ║\n" +
+							"║            📝 OPDRACHT " + (positie + 1) + " 📝                 ║\n" +
+							"║                                               ║\n" +
+							"╚═══════════════════════════════════════════════╝\n"
+			);
+			System.out.print(MenuController.RESET);
 		}
 		taak.toon();
 
@@ -234,16 +271,16 @@ public abstract class Kamer {
 	}
 
 	protected void toonKamerInfo() {
+		System.out.println(MenuController.BOLD + MenuController.YELLOW);
 		System.out.println("Wil je het KamerInfo voorwerp gebruiken? Het geeft je informatie over de kamer! (ja/nee)");
-		System.out.println(" ");
+		System.out.print(MenuController.RESET);
 		String antwoord = gameObserver.getScanner().nextLine().trim().toLowerCase();
 		if (antwoord.equals("ja") || antwoord.equals("j")) {
 			KamerInfo kamerInfo = new KamerInfo();
 			kamerInfo.showMessage(KamerInfoStrings.getInfo(this.kamerNaam));
 			System.out.println(" ");
 
-		}
-		else {
+		} else {
 			System.out.println("Geen KamerInfo gebruikt.");
 			System.out.println(" ");
 		}
@@ -256,7 +293,7 @@ public abstract class Kamer {
 	protected abstract ArrayList<TaakStrategie> initialiseren();
 
 	protected void toonMisluktBericht() {
-		 System.out.println("Je hebt de vraag niet correct beantwoord.");
+		System.out.println("Je hebt de vraag niet correct beantwoord.");
 	}
 
 	protected void toonSuccesBericht() {
@@ -276,7 +313,6 @@ public abstract class Kamer {
 		}
 	}
 
-
 	private void updateSpeler() {
 		gameObserver.onPlayerUpdate();
 	}
@@ -288,18 +324,17 @@ public abstract class Kamer {
 
 		if (!hintJokerAvailable && !keyJokerAvailable) {
 			System.out.println("Je hebt geen jokers meer over.");
-		}
-		else {
+		} else {
 			System.out.println("Wil je een joker gebruiken? (ja/nee)");
 			String antwoord = scanner.nextLine().trim().toLowerCase();
 			if (!(antwoord.equals("ja") || antwoord.equals("j"))) {
 				System.out.println("Geen jokers gebruikt.");
 			} else {
 
-				if (!hintJoker.isUsed()) {
+				if (hintJokerAvailable) {
 					hintJoker.offerUse(this, scanner);
 				}
-				if (!keyJoker.isUsed()) {
+				if (keyJokerAvailable) {
 					keyJoker.offerUse(this, scanner);
 					if (keyJoker.isUsed()) {
 						behaald = true;
@@ -323,4 +358,8 @@ public abstract class Kamer {
 		gameObserver.kickToLobby();
 
 	}
+
+	public abstract KeyJoker getKeyJoker();
+
+	public abstract HintJoker getHintJoker();
 }

@@ -2,17 +2,16 @@ package org.scrumEscape.classes.Kamers;
 
 import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Jokers.HintJoker;
+import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
 import org.scrumEscape.classes.Jokers.KeyJoker;
+import org.scrumEscape.classes.Jokers.KeyJokerGebruiken;
 import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
-import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
-import org.scrumEscape.classes.Jokers.KeyJokerGebruiken;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 
 public class DailyScrum extends Kamer implements HintJokerGebruiken, KeyJokerGebruiken {
 
@@ -69,7 +68,6 @@ public class DailyScrum extends Kamer implements HintJokerGebruiken, KeyJokerGeb
 	public void useHintJoker() {
 		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Daily Scrum");
 		System.out.println("\nHint: " + hint + "\n");
-
 	}
 
 	@Override
@@ -77,4 +75,15 @@ public class DailyScrum extends Kamer implements HintJokerGebruiken, KeyJokerGeb
 		getGameObserver().nextKamer();
 
 	}
+
+	@Override
+	public KeyJoker getKeyJoker() {
+		return this.getGameObserver().getKeyJoker();
+	}
+
+	@Override
+	public HintJoker getHintJoker() {
+		return this.getGameObserver().getHintJoker();
+	}
+
 }

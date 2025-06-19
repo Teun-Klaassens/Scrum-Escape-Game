@@ -5,15 +5,11 @@ import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
 import org.scrumEscape.classes.Jokers.KeyJoker;
 import org.scrumEscape.classes.Monster.BoardMonster;
-import org.scrumEscape.classes.Monster.Monster;
-import org.scrumEscape.classes.Monster.ScopeCreep;
-import org.scrumEscape.classes.taak.Puzzel;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -124,4 +120,16 @@ public class ScrumBord extends Kamer implements HintJokerGebruiken {
 		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("ScrumBord");
 		System.out.println("\nHint: " + hint + "\n");
 	}
+
+	@Override
+	public KeyJoker getKeyJoker() {
+		return null;
+	}
+
+	@Override
+	public HintJoker getHintJoker() {
+		return this.getGameObserver().getHintJoker();
+	}
+
+
 }

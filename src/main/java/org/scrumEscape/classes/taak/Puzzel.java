@@ -1,5 +1,6 @@
 package org.scrumEscape.classes.taak;
 
+import org.scrumEscape.controllers.MenuController;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.*;
@@ -33,20 +34,26 @@ public class Puzzel implements TaakStrategie {
 	public void toon() {
 		if (!started) {
 			// Hier print je de puzzelstukjes values
-			System.out.println("\nVerbind de volgende situaties bij de juiste ding:");
+			System.out.println(MenuController.BOLD + MenuController.BG_WHITE + MenuController.BLACK + "\uD83E\uDDE9 Verbind de volgende situaties bij de juiste ding: \uD83E\uDDE9");
+			System.out.print(MenuController.RESET);
+
 			ArrayList<String> values = new ArrayList<>(mapStukken.values());
 			java.util.Collections.shuffle(values);
+
+			System.out.println(MenuController.YELLOW);
 			for (String value : values) {
 				System.out.println(value);
 			}
+			System.out.println(MenuController.RESET);
 
 			// Hier print je de puzzelstukjes keys
-			System.out.println("\nOverige situatie:");
+			System.out.println(MenuController.BOLD + MenuController.BG_YELLOW + MenuController.BLACK + "Overige situatie:");
 			ArrayList<String> keys = new ArrayList<>(mapStukken.keySet());
 			java.util.Collections.shuffle(keys);
 			for (String key : keys) {
 				System.out.println(key);
 			}
+			System.out.print(MenuController.RESET);
 
 			started = true;
 		}
@@ -57,8 +64,9 @@ public class Puzzel implements TaakStrategie {
 
 	public void toonHuidigeStuk() {
 		String text = mapStukken.values().stream().toList().get(huidigeStuk).trim();
-		System.out.printf("\nSituatie %d: %s \nVul je antwoord in:", huidigeStuk + 1, text);
-		System.out.println("");
+		System.out.println(MenuController.BOLD + MenuController.GREEN);
+		System.out.printf("\n\uD83E\uDDE9 Situatie %d: %s %s\nVul je antwoord in:", huidigeStuk + 1, text, MenuController.RESET);
+		System.out.print(MenuController.RESET);
 	}
 
 	@Override
@@ -81,14 +89,18 @@ public class Puzzel implements TaakStrategie {
 
 	@Override
 	public void ongeldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.WHITE + MenuController.BG_RED);
 		System.out.println("Antwoord is fout.");
+		System.out.print(MenuController.RESET);
 	}
 
 	@Override
 	public void geldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.GREEN);
 		System.out.println("Antwoord is correct.");
-		System.out.println(" ");
+		System.out.println(MenuController.RESET);
 
+		System.out.println(MenuController.BOLD + MenuController.BG_GREEN + MenuController.BLACK);
 		System.out.println("==================================================");
 		System.out.println("Je hebt de situatie " + (huidigeStuk + 1) + " van de " + mapStukken.size() + " behaald.");
 		if (overigeStukken > 0)
@@ -96,6 +108,8 @@ public class Puzzel implements TaakStrategie {
 		else
 			System.out.println("Je hebt de puzzel behaald.");
 		System.out.println("==================================================");
+		System.out.print(MenuController.RESET);
+
 	}
 
 	@Override
