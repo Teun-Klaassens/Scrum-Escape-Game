@@ -1,5 +1,6 @@
 package org.scrumEscape.classes.taak;
 
+import org.scrumEscape.controllers.MenuController;
 import org.scrumEscape.interfaces.TaakStrategie;
 
 import java.util.ArrayList;
@@ -33,31 +34,39 @@ public class MultiChoice implements TaakStrategie {
 
 	@Override
 	public void toon() {
+		System.out.println(MenuController.BOLD + MenuController.YELLOW);
 		System.out.println(vraag);
-		System.out.println("\nKies het juiste antwoord:");
+		System.out.println(MenuController.RESET);
+
+
+		System.out.println(MenuController.BOLD + MenuController.BG_YELLOW + MenuController.BLACK);
+		System.out.println("╔═════════════════════════════════════════╗");
+		System.out.println("\n✅ Kies het juiste antwoord:");
 		for (int i = 0; i < keuzes.size(); i++) {
 			System.out.println("(" + (i + 1) + ")" + " : " + keuzes.get(i));
 		}
-		
+		System.out.println("╚═════════════════════════════════════════╝");
+		System.out.println(MenuController.RESET);
+
 		if (hasAssistantOption) {
 			int assistantOptionNumber = keuzes.size() + 1;
 			System.out.println("(" + assistantOptionNumber + ")" + " : " + ASSISTANT_OPTION);
 		}
 	}
-	
+
 	@Override
 	public boolean valideer(String antwoord) {
 		if (hasAssistantOption && String.valueOf(keuzes.size() + 1).equalsIgnoreCase(antwoord)) {
 			return false;
 		}
-		
+
 		if (String.valueOf(this.antwoord).equalsIgnoreCase(antwoord)) {
 			this.behaald = true;
 			return true;
 		}
 		return false;
 	}
-	
+
 
 	public boolean isAssistantRequest(String answer) {
 		return hasAssistantOption && String.valueOf(keuzes.size() + 1).equalsIgnoreCase(answer);
@@ -65,13 +74,17 @@ public class MultiChoice implements TaakStrategie {
 
 	@Override
 	public void ongeldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.BG_RED);
 		System.out.println("Helaas, dat is niet juist. Het juiste antwoord was: " + antwoord);
 		toon();
+		System.out.print(MenuController.RESET);
 	}
 
 	@Override
 	public void geldigAntwoord() {
+		System.out.print(MenuController.BOLD + MenuController.BG_GREEN);
 		System.out.println("Correct! Goed gedaan.");
+		System.out.print(MenuController.RESET);
 	}
 
 	@Override

@@ -1,20 +1,16 @@
 package org.scrumEscape.classes.Kamers;
 
-import org.scrumEscape.base.Kamer;
 import org.scrumEscape.base.Assistant;
+import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
 import org.scrumEscape.classes.Jokers.KeyJoker;
-import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.Monster.TIAMonster;
-import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
 
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class TIA extends Kamer implements HintJokerGebruiken {
 	private final int PASSING_SCORE = 4;
@@ -24,24 +20,24 @@ public class TIA extends Kamer implements HintJokerGebruiken {
 		super("TIA", new TIAMonster(), gameObserver);
 
 		String[] hints = {
-			"TIA staat voor Testing in Agile",
-			"Denk aan de verschillende testvormen binnen Scrum",
-			"In Scrum moet testen geïntegreerd worden in elke sprint"
+				"TIA staat voor Testing in Agile",
+				"Denk aan de verschillende testvormen binnen Scrum",
+				"In Scrum moet testen geïntegreerd worden in elke sprint"
 		};
 
 		String[] educationalTools = {
-			"In Scrum is het belangrijk om 'Definition of Done' te hebben.",
-			"Test-Driven Development (TDD) is een populaire aanpak in Agile",
-			"Geautomatiseerde tests zijn essentieel."
+				"In Scrum is het belangrijk om 'Definition of Done' te hebben.",
+				"Test-Driven Development (TDD) is een populaire aanpak in Agile",
+				"Geautomatiseerde tests zijn essentieel."
 		};
 
 		String[] motivationalMessages = {
-			"Je bent bij de laatste uitdaging!",
-			"Jouw kennis van Scrum is indrukwekkend!",
-			"Deze laatste uitdaging kun je zeker aan!"
+				"Je bent bij de laatste uitdaging!",
+				"Jouw kennis van Scrum is indrukwekkend!",
+				"Deze laatste uitdaging kun je zeker aan!"
 		};
 
-		this.assistant = new   Assistant("SCRUM MASTER ASSISTENT", hints, educationalTools, motivationalMessages);
+		this.assistant = new Assistant("SCRUM MASTER ASSISTENT", hints, educationalTools, motivationalMessages);
 	}
 
 	@Override
@@ -157,4 +153,15 @@ public class TIA extends Kamer implements HintJokerGebruiken {
 		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("TIA");
 		System.out.println("\nHint: " + hint + "\n");
 	}
+
+	@Override
+	public KeyJoker getKeyJoker() {
+		return null;
+	}
+
+	@Override
+	public HintJoker getHintJoker() {
+		return this.getGameObserver().getHintJoker();
+	}
+
 }

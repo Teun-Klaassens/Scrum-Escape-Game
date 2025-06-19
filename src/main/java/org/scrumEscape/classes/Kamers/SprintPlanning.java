@@ -4,10 +4,7 @@ import org.scrumEscape.base.Kamer;
 import org.scrumEscape.classes.Jokers.HintJoker;
 import org.scrumEscape.classes.Jokers.HintJokerGebruiken;
 import org.scrumEscape.classes.Jokers.KeyJoker;
-import org.scrumEscape.classes.Jokers.KeyJokerGebruiken;
-import org.scrumEscape.classes.Monster.Monster;
 import org.scrumEscape.classes.Monster.ScopeCreep;
-import org.scrumEscape.classes.Monster.Vertraging;
 import org.scrumEscape.classes.taak.MultiChoice;
 import org.scrumEscape.interfaces.GameObserver;
 import org.scrumEscape.interfaces.TaakStrategie;
@@ -129,4 +126,15 @@ public class SprintPlanning extends Kamer implements HintJokerGebruiken {
 		String hint = org.scrumEscape.classes.hints.JokerHints.getHint("Sprint Planning");
 		System.out.println("\nHint: " + hint + "\n");
 	}
+
+	@Override
+	public KeyJoker getKeyJoker() {
+		return null;
+	}
+
+	@Override
+	public HintJoker getHintJoker() {
+		return this.getGameObserver().getHintJoker();
+	}
+
 }
